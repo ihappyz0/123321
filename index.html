@@ -501,6 +501,14 @@ body.nav-open .nav-overlay{opacity:1}
   <section class="view" id="view-workout">
     <div class="bento">
       <div class="card col-2" style="grid-column:1 / -1">
+        <h3><span class="ico">📈</span> Статистика тренировок</h3>
+        <div class="divider"></div>
+        <div id="workoutStats"></div>
+        <div class="divider"></div>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗂 История тренировок</h4>
+        <div class="list" id="workoutList" style="max-height:180px"></div>
+      </div>
+      <div class="card col-2" style="grid-column:1 / -1">
         <h3><span class="ico">🏋️</span> Тренировка</h3>
         <div class="divider"></div>
         <div class="workout-split">
@@ -1501,10 +1509,7 @@ function renderWorkout() {
   $('#workoutStats').innerHTML =
     '<div class="kpi-row"><span class="kpi">' + week + '</span><span class="unit">за 7 дней</span></div>' +
     '<div class="bar"><i style="width:' + Math.min(100, Math.round(week / (S.profile.plan || 4) * 100)) + '%"></i></div>' +
-    '<div class="divider"></div>' +
-    '<div class="row"><span class="muted small">Всего тренировок</span><b>' + S.workouts.length + '</b></div>' +
-    '<div class="row"><span class="muted small">Суммарный объём</span><b>' + fmt(totalVolume()) + ' кг</b></div>' +
-    '<div class="row"><span class="muted small">Серия</span><b>' + computeStreak() + ' дн.</b></div>';
+    '';
 
   var hist = S.workouts.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 20);
   $('#workoutList').innerHTML = hist.length ? hist.map(function (w) {
