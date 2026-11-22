@@ -327,6 +327,16 @@ body.nav-open .nav-overlay{opacity:1}
 .plan-row-top b{color:var(--text);font-weight:800}
 .plan-row .bar{margin-top:0}
 
+/* --- Добавки: расписание приёма --- */
+.supp-timing{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:4px}
+.supp-block{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.supp-block b{display:block;font-size:12.5px;color:#c4b5fd;margin-bottom:8px;font-weight:800;letter-spacing:.2px}
+.supp-block ul{margin:0;padding:0;list-style:none}
+.supp-block li{font-size:11.5px;line-height:1.6;color:#dbe4f5;padding-left:14px;position:relative;margin-bottom:6px}
+.supp-block li:last-child{margin-bottom:0}
+.supp-block li::before{content:'▸';position:absolute;left:0;top:0;color:#2dd4bf;font-weight:800}
+.supp-block li b{display:inline;color:#e8eefc;font-weight:800;margin:0}
+
 /* --- Большая диаграмма прогресса питания --- */
 .food-progress{display:flex;flex-direction:column;align-items:center;gap:14px}
 .food-ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(from -90deg, #8b5cf6 0deg, #2dd4bf var(--p,0deg), #1b2540 var(--p,0deg));transition:background .5s ease;box-shadow:0 12px 32px rgba(139,92,246,.25)}
@@ -411,6 +421,50 @@ body.nav-open .nav-overlay{opacity:1}
 
   <section class="view" id="view-food">
     <div class="bento" id="foodHost"></div>
+
+    <div class="bento" style="margin-top:16px">
+      <div class="card col-2">
+        <h3><span class="ico">💊</span> Добавки на сегодня</h3>
+        <div class="chips-row" id="suppChips"></div>
+        <p class="kpi-sub" id="suppHint">Отмечайте приём — статистика пойдёт в достижения.</p>
+        <div class="divider"></div>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">⏱ Когда и сколько пить</h4>
+        <div class="supp-timing">
+          <div class="supp-block">
+            <b>До тренировки</b>
+            <ul>
+              <li><b>Креатин 5 г</b> — за 30–40 мин до старта (или в любое время дня, главное каждый день).</li>
+              <li><b>Кофеин 100–200 мг</b> — за 30 мин до тренировки, не позже 6 часов до сна.</li>
+              <li><b>BCAA 5–10 г</b> — за 15–20 мин до тренировки (если тренируетесь натощак).</li>
+              <li><b>Бета-аланин 3–5 г</b> — за 30 мин до тренировки (курсом, не разово).</li>
+            </ul>
+          </div>
+          <div class="supp-block">
+            <b>После тренировки</b>
+            <ul>
+              <li><b>Протеин 25–40 г</b> — в течение 30–60 мин после тренировки.</li>
+              <li><b>Креатин 5 г</b> — можно и после, если не пили до.</li>
+              <li><b>Углеводы 40–60 г</b> — вместе с протеином для восстановления гликогена.</li>
+              <li><b>Электролиты</b> — при обильном потоотделении, 500–700 мл воды.</li>
+            </ul>
+          </div>
+          <div class="supp-block">
+            <b>В течение дня</b>
+            <ul>
+              <li><b>Омега-3 1000–2000 мг</b> — с едой, содержащей жиры.</li>
+              <li><b>Витамин D3 1000–2000 МЕ</b> — утром или днём с едой.</li>
+              <li><b>Магний 200–400 мг</b> — вечером, за 1–2 часа до сна.</li>
+              <li><b>Витамин C 500 мг</b> — утром, вместе с завтраком.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="kpi-sub" style="margin-top:12px">Дозировки ориентировочные для здорового взрослого. При хронических заболеваниях и приёме лекарств — сначала к врачу.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico">📆</span> Дисциплина за неделю</h3>
+        <div class="chart" id="suppChart"></div>
+      </div>
+    </div>
   </section>
 
   <section class="view" id="view-workout">
@@ -615,19 +669,7 @@ body.nav-open .nav-overlay{opacity:1}
     </div>
   </section>
 
-  <section class="view" id="view-drinks">
-    <div class="bento">
-      <div class="card col-2">
-        <h3><span class="ico">💊</span> Добавки на сегодня</h3>
-        <div class="chips-row" id="suppChips"></div>
-        <p class="kpi-sub" id="suppHint">Отмечайте приём — статистика пойдёт в достижения.</p>
-      </div>
-      <div class="card">
-        <h3><span class="ico">📆</span> Дисциплина за неделю</h3>
-        <div class="chart" id="suppChart"></div>
-      </div>
-    </div>
-  </section>
+
 
   <section class="view" id="view-video">
     <div class="banner">
