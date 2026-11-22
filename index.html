@@ -479,7 +479,7 @@ body.nav-open .nav-overlay{opacity:1}
 
   <section class="view" id="view-workout">
     <div class="bento">
-      <div class="card col-2">
+      <div class="card col-2" style="grid-column:1 / -1">
         <h3><span class="ico">🏋️</span> Новая тренировка</h3>
         <div class="field" style="position:relative">
           <label>Упражнение</label>
@@ -499,14 +499,14 @@ body.nav-open .nav-overlay{opacity:1}
           <button class="btn primary" onclick="saveWorkout()">Сохранить тренировку</button>
         </div>
       </div>
-      <div class="card">
+      <div class="card" style="grid-column:span 1">
         <h3><span class="ico">📈</span> Статистика</h3>
         <div id="workoutStats"></div>
         <div class="divider"></div>
         <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗂 История</h4>
         <div class="list" id="workoutList"></div>
       </div>
-      <div class="card col-2">
+      <div class="card" style="grid-column:1 / -1">
         <div class="rec-top">
           <h3 class="rec-title-clean">Карта восстановления</h3>
           <span class="rec-sub">За последние 7 дней</span>
