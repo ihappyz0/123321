@@ -631,7 +631,15 @@ body.nav-open .nav-overlay{opacity:1}
           <span><i class="rec-dot" style="background:#6366f1"></i> Запланировано</span>
         </div>
 
-        <div class="rec-list" id="recList" style="display:grid"></div></search>
+        <div class="rec-list" id="recList" style="display:grid;grid-template-columns:repeat(2,1fr)"></div></search>
+</patch_file>
+
+<patch_file path="index.html">
+<search>var recReady = false;
+var recWeekOffset = 0;
+var recTab = 'sets';
+var recTab2 = 'done';</search>
+<replace>var recWeekOffset = 0;</search>
 </patch_file>
 
 <patch_file path="index.html">
@@ -1767,9 +1775,6 @@ function renderRecovery() {
 
 
 
-
-  var t1 = document.getElementById('recTabs');
-  if (t1) $$('#recTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec === recTab); });
 
   /* раскраска SVG-карты */
   $$('#recBody .body-part').forEach(function (el) {
