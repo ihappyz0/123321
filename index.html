@@ -9,11 +9,11 @@
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="GymMind" />
 <meta name="format-detection" content="telephone=no" />
-<meta name="description" content="GymMind — съедено за день: блюда, фото-распознавание, сканер штрих-кода, авто-расчёт калорий." />
+<meta name="description" content="GymMind — дневник питания: блюда, фото-распознавание, сканер штрих-кода, авто-расчёт калорий." />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
-<title>GymMind — съедено за день</title>
+<title>GymMind — дневник питания</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -48,7 +48,15 @@ p{margin:0}
 .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--tile2);border:1px solid var(--line);white-space:nowrap}
 .chip.grad{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(45,212,191,.22));border-color:rgba(139,92,246,.4)}
+.tabs-bar{position:sticky;top:66px;z-index:35;backdrop-filter:blur(18px);background:rgba(11,15,25,.72);border-bottom:1px solid var(--line)}
+.tabs-inner{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab{padding:9px 16px;border-radius:11px;border:1px solid var(--line);background:var(--tile2);color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.2s;flex:0 0 auto}
+.tab.on{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(45,212,191,.22));color:#e8eefc;border-color:rgba(139,92,246,.55);box-shadow:0 6px 18px rgba(139,92,246,.22)}
+.tab:hover{color:var(--text)}
 main{padding:18px 0 10px}
+.view{display:none}
+.view.on{display:block}
 .bento{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .col-2{grid-column:span 2}
 @media(max-width:760px){.col-2{grid-column:span 1}}
@@ -169,9 +177,9 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
-      <div class="logo">🍽</div>
+      <div class="logo">💪</div>
       <div>
-        <h1>Съедено за день</h1>
+        <h1>GymMind</h1>
         <p id="greeting">Дневник питания</p>
       </div>
     </div>
@@ -182,138 +190,151 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   </div>
 </header>
 
-<main class="wrap">
-  <div class="bento">
-
-    <!-- KPI ЗА ДЕНЬ -->
-    <div class="card col-2">
-      <h3><span class="ico">🔥</span> Итог дня</h3>
-      <div class="kpi-row">
-        <span class="kpi" id="kpiKcal">0</span>
-        <span class="unit" id="kpiGoal">/ 2 400 ккал</span>
-      </div>
-      <div class="bar"><i id="kcalBar"></i></div>
-      <p class="kpi-sub" id="kpiLeft">Добавьте первое блюдо — счётчик запустится.</p>
-      <div class="macro">
-        <div class="m"><div class="lbl">Белки</div><div class="val" id="macroP">0 / 0 г</div></div>
-        <div class="m"><div class="lbl">Жиры</div><div class="val" id="macroF">0 / 0 г</div></div>
-        <div class="m"><div class="lbl">Углеводы</div><div class="val" id="macroC">0 / 0 г</div></div>
-      </div>
-      <div class="divider"></div>
-      <div class="chips-row" id="mealStats"></div>
-    </div>
-
-    <!-- НОРМА -->
-    <div class="card">
-      <h3><span class="ico">🎯</span> Норма</h3>
-      <div class="grid2">
-        <div class="field"><label>Вес, кг</label><input id="pWeight" type="number" inputmode="decimal" /></div>
-        <div class="field"><label>Рост, см</label><input id="pHeight" type="number" inputmode="numeric" /></div>
-      </div>
-      <div class="grid2">
-        <div class="field"><label>Возраст</label><input id="pAge" type="number" inputmode="numeric" /></div>
-        <div class="field"><label>Пол</label>
-          <select id="pSex"><option value="m">Мужской</option><option value="f">Женский</option></select>
-        </div>
-      </div>
-      <div class="field"><label>Цель</label>
-        <select id="pGoal"><option>Масса</option><option>Сушка</option><option>Поддержание</option></select>
-      </div>
-      <button class="btn teal full" onclick="saveProfile()">Пересчитать норму</button>
-      <p class="note">Калории считаются автоматически по весу продукта: ккал = ккал/100 г × вес / 100.</p>
-    </div>
-
-    <!-- ВЫБОР БЛЮДА -->
-    <div class="card col-2">
-      <h3><span class="ico">🥗</span> Выбрать блюдо</h3>
-      <div class="field">
-        <label>Блюдо или продукт</label>
-        <select id="dishSelect"></select>
-      </div>
-      <div class="grid3">
-        <div class="field"><label>Вес, г</label><input id="dishWeight" type="number" inputmode="decimal" value="100" /></div>
-        <div class="field" style="grid-column:span 2"><label>Приём пищи</label><select id="basketMeal"></select></div>
-      </div>
-      <div class="preview-box" id="dishPreview"></div>
-      <div class="btn-row">
-        <button class="btn primary" onclick="addFromSelect()">Добавить в блюдо</button>
-      </div>
-      <p class="note">Калории и БЖУ подставляются автоматически под указанный вес — считать вручную не нужно.</p>
-    </div>
-
-    <!-- ФОТО -->
-    <div class="card">
-      <h3><span class="ico">📷</span> Добавить по фото</h3>
-      <label class="upload">
-        <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(event)" />
-        <span class="u-ico">⬆️</span>
-        <b>Загрузить фото блюда</b>
-        <p>Снимок с камеры или из галереи</p>
-      </label>
-      <img class="photo-preview" id="photoPreview" alt="Превью блюда" />
-      <div id="photoResult"></div>
-      <p class="note">Распознавание работает офлайн: анализируется цвет и имя файла, затем предлагаются блюда из базы — проверьте и укажите вес.</p>
-    </div>
-
-    <!-- ШТРИХ-КОД -->
-    <div class="card">
-      <h3><span class="ico">🔳</span> Сканер штрих-кода</h3>
-      <button class="btn teal full" onclick="startScan()">📷 Сканировать камерой</button>
-      <div class="divider"></div>
-      <div class="field">
-        <label>Или введите цифры вручную</label>
-        <div style="display:flex;gap:8px">
-          <input id="barcodeInput" inputmode="numeric" placeholder="4601234567890" />
-          <button class="btn sm" onclick="lookupBarcode($('#barcodeInput').value)">Найти</button>
-        </div>
-      </div>
-      <div class="bc-card" id="bcCard"></div>
-      <p class="note">База продуктов хранится на устройстве. Неизвестный код можно добавить вручную — он запомнится.</p>
-    </div>
-
-    <!-- РУЧНОЙ ВВОД -->
-    <div class="card">
-      <h3><span class="ico">✍️</span> Внести своё</h3>
-      <div class="field"><label>Название</label><input id="mName" placeholder="Домашний салат" /></div>
-      <div class="grid2">
-        <div class="field"><label>Ккал на 100 г</label><input id="mKcal" type="number" inputmode="decimal" placeholder="120" /></div>
-        <div class="field"><label>Вес, г</label><input id="mWeight" type="number" inputmode="decimal" value="100" /></div>
-      </div>
-      <div class="grid3">
-        <div class="field"><label>Белки /100</label><input id="mP" type="number" inputmode="decimal" placeholder="0" /></div>
-        <div class="field"><label>Жиры /100</label><input id="mF" type="number" inputmode="decimal" placeholder="0" /></div>
-        <div class="field"><label>Углеводы /100</label><input id="mC" type="number" inputmode="decimal" placeholder="0" /></div>
-      </div>
-      <div class="preview-box" id="mPreview"></div>
-      <div class="btn-row">
-        <button class="btn primary" onclick="addManual()">Добавить в блюдо</button>
-      </div>
-    </div>
-
-    <!-- ТЕКУЩЕЕ БЛЮДО -->
-    <div class="card col-2">
-      <h3><span class="ico">🧺</span> Текущее блюдо <span class="tag teal" id="basketCount">0 позиций</span></h3>
-      <div class="field"><label>Название блюда</label><input id="dishName" placeholder="Обед: курица с рисом" /></div>
-      <div class="list" id="basketList"></div>
-      <div class="divider"></div>
-      <div class="row" style="border:none;padding:0">
-        <span class="muted small">Всего в блюде</span>
-        <span id="basketTotal" style="font-size:14px;font-weight:800;color:#5eead4">0 г · 0 ккал</span>
-      </div>
-      <div class="btn-row">
-        <button class="btn primary" onclick="commitBasket()">Записать в день</button>
-        <button class="btn ghost" onclick="clearBasket()">Очистить</button>
-      </div>
-      <p class="note">Вес задаётся для каждой позиции отдельно — итог по всему блюду считается автоматически.</p>
-    </div>
-
-    <!-- СЪЕДЕНО СЕГОДНЯ -->
-    <div class="card col-2">
-      <h3><span class="ico">📒</span> Съедено сегодня</h3>
-      <div class="list" id="dayList"></div>
-    </div>
-
+<nav class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab on" data-tab="food" type="button">🍽 Питание</button>
+    <button class="tab" data-tab="video" type="button">🎬 Видео-уроки</button>
   </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="view on" id="view-food" data-view="food">
+    <div class="bento">
+
+      <!-- KPI ЗА ДЕНЬ -->
+      <div class="card col-2">
+        <h3><span class="ico">🔥</span> Съедено за день</h3>
+        <div class="kpi-row">
+          <span class="kpi" id="kpiKcal">0</span>
+          <span class="unit" id="kpiGoal">/ 2 400 ккал</span>
+        </div>
+        <div class="bar"><i id="kcalBar"></i></div>
+        <p class="kpi-sub" id="kpiLeft">Добавьте первое блюдо — счётчик запустится.</p>
+        <div class="macro">
+          <div class="m"><div class="lbl">Белки</div><div class="val" id="macroP">0 / 0 г</div></div>
+          <div class="m"><div class="lbl">Жиры</div><div class="val" id="macroF">0 / 0 г</div></div>
+          <div class="m"><div class="lbl">Углеводы</div><div class="val" id="macroC">0 / 0 г</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="chips-row" id="mealStats"></div>
+      </div>
+
+      <!-- НОРМА -->
+      <div class="card">
+        <h3><span class="ico">🎯</span> Норма</h3>
+        <div class="grid2">
+          <div class="field"><label>Вес, кг</label><input id="pWeight" type="number" inputmode="decimal" /></div>
+          <div class="field"><label>Рост, см</label><input id="pHeight" type="number" inputmode="numeric" /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Возраст</label><input id="pAge" type="number" inputmode="numeric" /></div>
+          <div class="field"><label>Пол</label>
+            <select id="pSex"><option value="m">Мужской</option><option value="f">Женский</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Цель</label>
+          <select id="pGoal"><option>Масса</option><option>Сушка</option><option>Поддержание</option></select>
+        </div>
+        <button class="btn teal full" onclick="saveProfile()">Пересчитать норму</button>
+        <p class="note">Калории считаются автоматически по весу продукта: ккал = ккал/100 г × вес / 100.</p>
+      </div>
+
+      <!-- ВЫБОР БЛЮДА -->
+      <div class="card col-2">
+        <h3><span class="ico">🥗</span> Выбрать блюдо</h3>
+        <div class="field">
+          <label>Блюдо или продукт</label>
+          <select id="dishSelect"></select>
+        </div>
+        <div class="grid3">
+          <div class="field"><label>Вес, г</label><input id="dishWeight" type="number" inputmode="decimal" value="100" /></div>
+          <div class="field" style="grid-column:span 2"><label>Приём пищи</label><select id="basketMeal"></select></div>
+        </div>
+        <div class="preview-box" id="dishPreview"></div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="addFromSelect()">Добавить в блюдо</button>
+        </div>
+        <p class="note">Калории и БЖУ подставляются автоматически под указанный вес — считать вручную не нужно.</p>
+      </div>
+
+      <!-- ФОТО -->
+      <div class="card">
+        <h3><span class="ico">📷</span> Добавить по фото</h3>
+        <label class="upload">
+          <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(event)" />
+          <span class="u-ico">⬆️</span>
+          <b>Загрузить фото блюда</b>
+          <p>Снимок с камеры или из галереи</p>
+        </label>
+        <img class="photo-preview" id="photoPreview" alt="Превью блюда" />
+        <div id="photoResult"></div>
+        <p class="note">Распознавание работает офлайн: анализируется цвет и имя файла, затем предлагаются блюда из базы — проверьте и укажите вес.</p>
+      </div>
+
+      <!-- ШТРИХ-КОД -->
+      <div class="card">
+        <h3><span class="ico">🔳</span> Сканер штрих-кода</h3>
+        <button class="btn teal full" onclick="startScan()">📷 Сканировать камерой</button>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Или введите цифры вручную</label>
+          <div style="display:flex;gap:8px">
+            <input id="barcodeInput" inputmode="numeric" placeholder="4601234567890" />
+            <button class="btn sm" onclick="lookupBarcode($('#barcodeInput').value)">Найти</button>
+          </div>
+        </div>
+        <div class="bc-card" id="bcCard"></div>
+        <p class="note">База продуктов хранится на устройстве. Неизвестный код можно добавить вручную — он запомнится.</p>
+      </div>
+
+      <!-- РУЧНОЙ ВВОД -->
+      <div class="card">
+        <h3><span class="ico">✍️</span> Внести своё</h3>
+        <div class="field"><label>Название</label><input id="mName" placeholder="Домашний салат" /></div>
+        <div class="grid2">
+          <div class="field"><label>Ккал на 100 г</label><input id="mKcal" type="number" inputmode="decimal" placeholder="120" /></div>
+          <div class="field"><label>Вес, г</label><input id="mWeight" type="number" inputmode="decimal" value="100" /></div>
+        </div>
+        <div class="grid3">
+          <div class="field"><label>Белки /100</label><input id="mP" type="number" inputmode="decimal" placeholder="0" /></div>
+          <div class="field"><label>Жиры /100</label><input id="mF" type="number" inputmode="decimal" placeholder="0" /></div>
+          <div class="field"><label>Углеводы /100</label><input id="mC" type="number" inputmode="decimal" placeholder="0" /></div>
+        </div>
+        <div class="preview-box" id="mPreview"></div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="addManual()">Добавить в блюдо</button>
+        </div>
+      </div>
+
+      <!-- ТЕКУЩЕЕ БЛЮДО -->
+      <div class="card col-2">
+        <h3><span class="ico">🧺</span> Текущее блюдо <span class="tag teal" id="basketCount">0 позиций</span></h3>
+        <div class="field"><label>Название блюда</label><input id="dishName" placeholder="Обед: курица с рисом" /></div>
+        <div class="list" id="basketList"></div>
+        <div class="divider"></div>
+        <div class="row" style="border:none;padding:0">
+          <span class="muted small">Всего в блюде</span>
+          <span id="basketTotal" style="font-size:14px;font-weight:800;color:#5eead4">0 г · 0 ккал</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="commitBasket()">Записать в день</button>
+          <button class="btn ghost" onclick="clearBasket()">Очистить</button>
+        </div>
+        <p class="note">Вес задаётся для каждой позиции отдельно — итог по всему блюду считается автоматически.</p>
+      </div>
+
+      <!-- СЪЕДЕНО СЕГОДНЯ -->
+      <div class="card col-2">
+        <h3><span class="ico">📒</span> Съедено сегодня</h3>
+        <div class="list" id="dayList"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="view" id="view-video" data-view="video"></section>
+
 </main>
 
 <div class="toast" id="toast"></div>
@@ -1045,6 +1066,16 @@ function renderAll() {
   renderProfile();
 }
 
+/* ---------- переключение вкладок ---------- */
+$$('.tab').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var tab = btn.getAttribute('data-tab');
+    $$('.tab').forEach(function (b) { b.classList.toggle('on', b === btn); });
+    $$('.view').forEach(function (v) { v.classList.toggle('on', v.id === 'view-' + tab); });
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+  });
+});
+
 /* ---------- инициализация ---------- */
 fillMealSelect();
 fillDishSelect();
@@ -1062,5 +1093,7 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clos
 
 })();
 </script>
+
+<script src="video-library.js"></script>
 </body>
 </html>
