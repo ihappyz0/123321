@@ -1,0 +1,89 @@
+﻿3: (function () {
+5:   if (window.__gmnBooted) return;
+6:   window.__gmnBooted = true;
+242:   function injectCSS() {
+250:   function esc(x) {
+251:     return String(x).replace(/[&<>"']/g, function (c) {
+256:   function toast(msg) {
+257:     if (typeof window.toast === 'function') return window.toast(msg);
+263:     toast._t = setTimeout(function () { t.classList.remove('show'); }, 2400);
+267:   function readLog() {
+268:     try { var a = JSON.parse(localStorage.getItem(LS_LOG) || '[]'); return Array.isArray(a) ? a : []; }
+271:   function writeLog(list) {
+272:     try { localStorage.setItem(LS_LOG, JSON.stringify(list.slice(-60))); } catch (e) {}
+274:   function todayKey() { return new Date().toISOString().slice(0, 10); }
+275:   function isToday(item) { return (item.day || '') === todayKey(); }
+278:   function findNutritionView() {
+306:   function listFor(meal) {
+307:     return RECIPES.filter(function (r) { return r.m === meal; });
+310:   function cardHTML(r) {
+329:   function renderRecipes() {
+333:     grid.innerHTML = list.slice(0, state.shown).map(cardHTML).join('');
+337:       more.innerHTML = '<button type="button" class="btn" id="gn-more-btn">Показать ещё (' + (list.length - state.shown) + ')</button>';
+338:       document.getElementById('gn-more-btn').addEventListener('click', function () {
+343:       more.innerHTML = '<button type="button" class="btn ghost sm" id="gn-less-btn">Свернуть</button>';
+344:       document.getElementById('gn-less-btn').addEventListener('click', function () {
+349:       more.innerHTML = '';
+353:   function renderChips() {
+356:     box.innerHTML = MEALS.map(function (m) {
+359:     box.querySelectorAll('button').forEach(function (b) {
+360:       b.addEventListener('click', function () {
+370:   function openRecipe(idx) {
+375:     var ings = r.i.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+376:     var steps = r.s.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+378:     modal.innerHTML = ''
+406:     document.getElementById('gn-add-recipe').addEventListener('click', function () {
+411:     modal.addEventListener('click', function (ev) { if (ev.target === modal) closeModal(); }, { once: true });
+414:   function closeModal() {
+416:     if (modal) { modal.classList.remove('on'); modal.innerHTML = ''; }
+421:   function addEntry(entry) {
+433:   function renderLog() {
+438:     if (sumEl) sumEl.textContent = today.reduce(function (s, x) { return s + (Number(x.kcal) || 0); }, 0) + ' ккал';
+440:       box.innerHTML = '<div class="empty" style="padding:16px">Пока пусто. Добавь блюдо из рецепта, по фото или через штрихкод.</div>';
+443:     box.innerHTML = today.map(function (x) {
+455:     box.querySelectorAll('[data-del]').forEach(function (b) {
+456:       b.addEventListener('click', function () {
+458:         writeLog(readLog().filter(function (x) { return x.id !== id; }));
+466:   function shrinkPhoto(file, cb) {
+468:     reader.onload = function () {
+470:       img.onload = function () {
+480:       img.onerror = function () { cb(''); };
+483:     reader.onerror = function () { cb(''); };
+490:   function stopScan() {
+493:       scanStream.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} });
+498:   function openScanner() {
+501:     modal.innerHTML = ''
+519:     document.getElementById('gn-bc-find').addEventListener('click', function () {
+527:       document.getElementById('gn-scan-box').innerHTML = '<div class="empty">Камера недоступна. Введи штрихкод вручную.</div>';
+531:       .then(function (stream) {
+534:         video.play().catch(function () {});
+536:         var det = new window.BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128'] });
+537:         scanTimer = setInterval(function () {
+538:           det.detect(video).then(function (codes) {
+546:           }).catch(function () {});
+549:       .catch(function () {
+550:         document.getElementById('gn-scan-box').innerHTML = '<div class="empty">Нет доступа к камере. Введи штрихкод вручную.</div>';
+554:   function lookupBarcode(code) {
+556:     try { cache = JSON.parse(localStorage.getItem(LS_BC) || '{}'); } catch (e) { cache = {}; }
+570:       .then(function (r) { return r.json(); })
+571:       .then(function (data) {
+588:         try { localStorage.setItem(LS_BC, JSON.stringify(cache)); } catch (e) {}
+591:       .catch(function () {
+597:   function fillFromProduct(product) {
+619:       if (photoBox) photoBox.innerHTML = '<div class="gn-thumb-item"><img src="' + product.photo + '" alt=""></div>';
+626:   function sectionHTML() {
+682:   function bind() {
+685:       grid.addEventListener('click', function (ev) {
+694:       photoInput.addEventListener('change', function () {
+697:         shrinkPhoto(file, function (data) {
+702:             box.innerHTML = data
+712:       save.addEventListener('click', function () {
+728:         ['gn-name', 'gn-kcal', 'gn-grams', 'gn-p', 'gn-f', 'gn-c'].forEach(function (id) {
+734:         if (prev) prev.innerHTML = '';
+744:   function mount() {
+753:     wrap.innerHTML = sectionHTML();
+764:   function boot() {
+769:     document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 60); });
+775:   document.addEventListener('click', function (ev) {
+778:     setTimeout(function () {
+784:   window.GymMindNutrition = {
