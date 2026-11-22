@@ -1867,9 +1867,15 @@ var SPLITS = [
     ex: ['Отжимания от пола', 'Приседания с гантелью (габлет)', 'Выпады с гантелями', 'Планка', 'Подъём ног лёжа'] }
 ];
 var splitCurrent = 'fullbody';
+var splitVariant = 0;
 
 window.pickSplit = function (id) {
   splitCurrent = id;
+  splitVariant = 0;
+  renderSplit();
+};
+window.pickSplitVariant = function (i) {
+  splitVariant = i;
   renderSplit();
 };
 
@@ -2070,6 +2076,7 @@ window.removeWorkout = function (id) {
 };
 
 function renderWorkout() {
+  renderSplit();
   var chips = $('#groupChips');
   if (!chips.dataset.built) {
     chips.innerHTML = GROUPS.map(function (g) {
