@@ -279,40 +279,69 @@ body.nav-open .nav-overlay{opacity:1}
 .ex-tag.auto{background:rgba(45,212,191,.14);color:#5eead4;border-color:rgba(45,212,191,.3)}
 .del{width:32px;height:32px;border-radius:9px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.3);color:#fca5a5;font-size:14px;cursor:pointer;display:grid;place-items:center;font-family:inherit}
 
-/* --- Карта восстановления (стиль скриншота) --- */
-.rec-tabs{display:flex;gap:6px;background:#0f1728;border:1px solid var(--line);border-radius:13px;padding:4px;margin-bottom:9px}
-.rec-tabs button{flex:1;padding:9px 8px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;white-space:nowrap}
-.rec-tabs button.on{background:#2a3346;color:#e8eefc}
-.rec-tabs2 button.on{background:#2a3346;color:#e8eefc}
-.rec-weeknav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 4px}
-.rec-weeknav b{font-size:13px;font-weight:800;color:#e8eefc}
-.rec-arrow{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;font-family:inherit;line-height:1}
-.rec-arrow:hover{color:#e8eefc;background:rgba(255,255,255,.05)}
-.rec-body{display:flex;justify-content:center;padding:6px 0 2px}
-.rec-svg{width:100%;max-width:330px;height:auto;max-height:300px;display:block}
-.rec-legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:4px 0 10px}
-.rec-legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-.rec-dot{width:10px;height:10px;border-radius:3px;display:block}
-.rec-desc{font-size:11.5px;line-height:1.55;color:var(--muted);margin:0 0 12px}
-.rec-list{display:flex;flex-direction:column}
-.rec-row{display:grid;grid-template-columns:1fr 96px auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer}
-.rec-row:last-child{border-bottom:none}
-.rec-row .rn{font-weight:600;color:#e8eefc;line-height:1.3}
-.rec-row .rv{font-weight:600;color:var(--muted);white-space:nowrap;text-align:right;font-size:12px}
-.rec-track{position:relative;height:6px;border-radius:99px;background:#1b2436;overflow:hidden}
-.rec-track .fill{position:absolute;top:0;left:0;height:100%;border-radius:99px;background:#8b9ab5;transition:width .4s ease}
-.rec-row.st-trained .fill{background:#f87171}
-.rec-row.st-recovering .fill{background:#fbbf24}
-.rec-row.st-ready .fill{background:#8b9ab5}
-.rec-row.st-trained .rv{color:#fca5a5}
-.rec-row.st-recovering .rv{color:#fcd34d}
-@media(max-width:480px){.rec-row{grid-template-columns:1fr 70px auto;font-size:12px;gap:9px}.rec-row .rv{font-size:11px}}
-.rec-more{display:block;width:100%;margin-top:10px;padding:10px;border:none;background:transparent;color:#c4b5fd;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
-.rec-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;padding-top:10px;border-top:1px solid var(--line)}
-.rec-legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-.rec-lg{width:10px;height:10px;border-radius:3px;background:#3a4d75;display:block}
-.rec-lg2{width:2px;height:11px;background:#e8eefc;display:block}
-.rec-ranges{margin-top:12px;padding:9px 14px;border-radius:11px;border:1px solid var(--line);background:transparent;color:#c4b5fd;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+/* --- Карта восстановления (премиум-стиль) --- */
+.rec-card{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.rec-head-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.rec-title{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:#f1f5f9;letter-spacing:-.2px}
+.rec-title svg{width:18px;height:18px;color:#5eead4;flex:0 0 auto}
+.rec-weeknav{display:flex;align-items:center;gap:8px}
+.rec-weeknav b{font-size:12px;font-weight:600;color:#94a3b8;font-variant-numeric:tabular-nums}
+.rec-arrow{width:28px;height:28px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#94a3b8;font-size:14px;cursor:pointer;font-family:inherit;line-height:1;display:grid;place-items:center;transition:.15s}
+.rec-arrow:hover{color:#f1f5f9;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)}
+
+/* segmented control */
+.rec-tabs{display:flex;gap:2px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:3px;margin-bottom:16px}
+.rec-tabs button{flex:1;padding:7px 10px;border-radius:8px;border:none;background:transparent;color:#94a3b8;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s ease;white-space:nowrap}
+.rec-tabs button:hover{color:#cbd5e1}
+.rec-tabs button.on{background:rgba(94,234,212,.14);color:#5eead4;box-shadow:0 0 0 1px rgba(94,234,212,.2) inset}
+
+/* body map */
+.rec-body{display:flex;justify-content:center;gap:18px;padding:8px 0 4px;position:relative}
+.rec-figure{flex:1;max-width:180px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.rec-figure-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#64748b}
+.rec-svg{width:100%;height:auto;max-height:340px;display:block}
+.rec-svg .body-part{fill:#1e293b;stroke:#334155;stroke-width:.8;transition:fill .2s ease,stroke .2s ease;cursor:pointer}
+.rec-svg .body-part:hover{fill:#334155;stroke:#475569}
+.rec-svg .body-part.st-trained{fill:#ef4444;stroke:#fca5a5}
+.rec-svg .body-part.st-recovering{fill:#f59e0b;stroke:#fcd34d}
+.rec-svg .body-part.st-ready{fill:#10b981;stroke:#6ee7b7}
+.rec-svg .body-part.st-new{fill:#1e293b;stroke:#334155}
+.rec-svg .body-part.active{stroke:#f472b6;stroke-width:2}
+
+/* tooltip */
+.rec-tooltip{position:absolute;pointer-events:none;background:#0f172a;border:1px solid rgba(94,234,212,.35);border-radius:10px;padding:8px 11px;font-size:11.5px;color:#f1f5f9;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:10;opacity:0;transform:translateY(-4px);transition:opacity .15s,transform .15s;white-space:nowrap}
+.rec-tooltip.show{opacity:1;transform:translateY(0)}
+.rec-tooltip b{color:#5eead4;font-weight:700}
+.rec-tooltip .tt-num{font-variant-numeric:tabular-nums;color:#cbd5e1;margin-left:4px}
+
+/* legend */
+.rec-legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:12px 0 4px}
+.rec-legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8;font-weight:500}
+.rec-dot{width:9px;height:9px;border-radius:3px;display:block}
+
+/* muscle list grid */
+.rec-list-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)}
+.rec-list-head b{font-size:12px;font-weight:700;color:#f1f5f9;letter-spacing:.2px}
+.rec-list-head span{font-size:10.5px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+.rec-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:520px){.rec-list{grid-template-columns:1fr}}
+.rec-item{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 12px;transition:.18s;cursor:pointer}
+.rec-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.rec-item-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.rec-item .rn{font-size:12px;font-weight:600;color:#e2e8f0;line-height:1.3}
+.rec-item .rv{font-size:11.5px;font-weight:700;color:#94a3b8;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rec-item .rv b{color:#f1f5f9;font-weight:800}
+.rec-item.st-trained .rv b{color:#fca5a5}
+.rec-item.st-recovering .rv b{color:#fcd34d}
+.rec-item.st-ready .rv b{color:#6ee7b7}
+.rec-track{position:relative;height:5px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.rec-track .fill{position:absolute;top:0;left:0;height:100%;border-radius:99px;background:#64748b;transition:width .4s ease}
+.rec-item.st-trained .fill{background:linear-gradient(90deg,#ef4444,#f87171)}
+.rec-item.st-recovering .fill{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.rec-item.st-ready .fill{background:linear-gradient(90deg,#10b981,#34d399)}
+.rec-item.st-new .fill{background:#334155}
+.rec-more{display:block;width:100%;margin-top:12px;padding:10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:10px;color:#c4b5fd;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}
+.rec-more:hover{background:rgba(255,255,255,.06);color:#e9d5ff}
 
 /* --- План дня (обзор) --- */
 .plan-card{margin-bottom:16px}
