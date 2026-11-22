@@ -582,6 +582,8 @@ body.nav-open .nav-overlay{opacity:1}
               <path class="body-base" d="M110,20 C122,20 127,29 127,42 C127,54 121,64 116,67 L118,78 C130,82 152,84 160,94 C166,104 166,126 164,146 L172,196 L182,226 C184,234 180,248 174,250 C169,250 165,240 164,230 L154,194 L146,144 L144,174 L142,202 C148,224 148,266 140,302 L138,318 C142,338 140,368 134,386 L140,396 C134,400 120,400 116,396 L118,382 C115,358 114,332 114,316 L112,246 L108,246 L106,316 C106,332 105,358 102,382 L104,396 C100,400 86,400 80,396 L86,386 C80,368 78,338 82,318 L80,302 C72,266 72,224 78,202 L76,174 L74,144 L66,194 L56,230 C55,240 51,250 46,250 C40,248 36,234 38,226 L48,196 L56,146 C54,126 54,104 60,94 C68,84 90,82 102,78 L104,67 C99,64 93,54 93,42 C93,29 98,20 110,20 Z"/>
               <ellipse class="body-part" data-m="frontdelt" cx="64" cy="102" rx="13" ry="12"/>
               <ellipse class="body-part" data-m="frontdelt" cx="156" cy="102" rx="13" ry="12"/>
+              <ellipse class="body-part" data-m="middelt" cx="50" cy="108" rx="7" ry="9"/>
+              <ellipse class="body-part" data-m="middelt" cx="170" cy="108" rx="7" ry="9"/>
               <path class="body-part" data-m="chest" d="M78,112 C88,106 104,106 108,114 L108,138 C100,144 84,144 78,136 Z"/>
               <path class="body-part" data-m="chest" d="M142,112 C132,106 116,106 112,114 L112,138 C120,144 136,144 142,136 Z"/>
               <ellipse class="body-part" data-m="biceps" cx="58" cy="140" rx="9" ry="20"/>
@@ -699,9 +701,12 @@ body.nav-open .nav-overlay{opacity:1}
               <ellipse class="body-part" data-m="traps" cx="330" cy="92" rx="26" ry="12"/>
               <ellipse class="body-part" data-m="reardelt" cx="284" cy="102" rx="13" ry="12"/>
               <ellipse class="body-part" data-m="reardelt" cx="376" cy="102" rx="13" ry="12"/>
+              <ellipse class="body-part" data-m="middelt" cx="270" cy="108" rx="7" ry="9"/>
+              <ellipse class="body-part" data-m="middelt" cx="390" cy="108" rx="7" ry="9"/>
               <path class="body-part" data-m="upperback" d="M300,108 C312,104 348,104 360,108 L358,140 C346,146 314,146 302,140 Z"/>
               <path class="body-part" data-m="lats" d="M298,142 L316,142 L314,186 L296,180 Z"/>
               <path class="body-part" data-m="lats" d="M362,142 L344,142 L346,186 L364,180 Z"/>
+              <path class="body-part" data-m="lowerback" d="M314,148 L346,148 L344,196 L316,196 Z"/>
               <ellipse class="body-part" data-m="triceps" cx="278" cy="140" rx="9" ry="20"/>
               <ellipse class="body-part" data-m="triceps" cx="382" cy="140" rx="9" ry="20"/>
               <ellipse class="body-part" data-m="forearms" cx="272" cy="186" rx="8" ry="22"/>
@@ -1946,9 +1951,9 @@ var REC_GROUPS = [
   { k: 'lats', n: 'Широчайшие', lo: 10, hi: 20 },
   { k: 'upperback', n: 'Ромбовидные', lo: 6, hi: 16 },
   { k: 'traps', n: 'Трапеции', lo: 6, hi: 16 },
-
+  { k: 'lowerback', n: 'Разгибатели спины', lo: 4, hi: 12 },
   { k: 'quads', n: 'Квадрицепс', lo: 8, hi: 18 },
-
+  { k: 'middelt', n: 'Плечи', lo: 8, hi: 20 },
   { k: 'biceps', n: 'Бицепс', lo: 8, hi: 18 },
   { k: 'triceps', n: 'Трицепс', lo: 6, hi: 16 },
   { k: 'abs', n: 'Пресс', lo: 6, hi: 16 },
