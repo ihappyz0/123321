@@ -2306,7 +2306,7 @@ function bindMuscleHover() {
     el.addEventListener('click', function (e) {
       e.stopPropagation();
       recSetActive(k);
-      openMuscleExercises(k);
+      recShowTip(k, e);
     });
     el.addEventListener('touchstart', function (e) {
       var t = e.touches[0];
@@ -2318,7 +2318,7 @@ function bindMuscleHover() {
     var k = el.dataset.m;
     el.addEventListener('mouseenter', function () { recSetActive(k); });
     el.addEventListener('mouseleave', function () { recSetActive(null); });
-    el.addEventListener('click', function (e) { e.stopPropagation(); openMuscleExercises(k); });
+    el.addEventListener('click', function (e) { e.stopPropagation(); recSetActive(k); });
   });
 }
 
