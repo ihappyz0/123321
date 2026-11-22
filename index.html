@@ -1449,7 +1449,7 @@ var REC_GROUPS = [
   { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
-var recMore = false;
+var recMore = true;
 var recWeekOffset = 0;
 var recTab = 'sets';
 var recTab2 = 'done';
@@ -1560,7 +1560,7 @@ function renderRecovery() {
   }).join('');
 
   var more = document.getElementById('recMore');
-  if (more) more.textContent = recMore ? 'Показать меньше ⌃' : 'Показать ещё ⌄';
+  if (more) more.textContent = recMore ? 'Скрыть лишние мышцы ⌃' : 'Показать все мышцы (19)';
 
   var t1 = document.getElementById('recTabs');
   if (t1) $$('#recTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec === recTab); });
