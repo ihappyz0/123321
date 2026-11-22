@@ -1421,9 +1421,6 @@ function renderOverview() {
     '<div class="card">' +
       '<h3><span class="ico">📅</span> Калории за 7 дней</h3>' + weekFoodChart() +
     '</div>' +
-    '<div class="card">' +
-      '<h3><span class="ico">🎬</span> Видео-урок дня</h3>' + lessonOfDayCard() +
-    '</div>' +
     '';
 
   var b = $('#bannerTitle'), bt = $('#bannerText');
@@ -1449,8 +1446,15 @@ function weekFoodChart() {
 function lessonOfDayCard() {
   var idx = new Date().getDate() % LESSONS.length;
   var l = LESSONS[idx];
+  var url = lessonUrl(l.id);
+  var media = url
+    ? '<div class="vframe" style="margin-bottom:10px"><iframe src="' + embed(url) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>'
+    : '<div class="vframe" style="aspect-ratio:16/9;margin-bottom:10px">' +
+        '<div><div style="font-size:30px;margin-bottom:6px">' + l.ico + '</div><b style="font-size:12.5px">Видео не прикреплено</b><br>' +
+        'Прикрепите ссылку в разделе «Видео-уроки».</div></div>';
   return '<b style="font-size:13.5px;display:block;margin-bottom:6px">' + l.ico + ' ' + l.title + '</b>' +
-    '<p class="kpi-sub" style="margin-top:0">' + l.cat + ' · ' + l.level + ' · ' + l.dur + '</p>' +
+    '<p class="kpi-sub" style="margin-top:0;margin-bottom:10px">' + l.cat + ' · ' + l.level + ' · ' + l.dur + '</p>' +
+    media +
     '<div class="btn-row"><button class="btn sm primary" onclick="openLesson(\'' + l.id + '\')">Смотреть</button>' +
     '<button class="btn sm ghost" onclick="switchView(\'video\')">Все уроки</button></div>';
 }
