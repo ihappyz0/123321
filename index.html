@@ -2042,6 +2042,15 @@ function autoWorkoutTitle(exs, groups) {
 
 window.finishWorkout = function () { return window.saveWorkout(); };
 
+window.cancelWorkout = function () {
+  var rows = $('#exRows');
+  if (rows) rows.innerHTML = '';
+  pickedGroups = {};
+  $$('.gchip[data-m]').forEach(function (el) { el.classList.remove('on'); });
+  addExRow();
+  toast('Тренировка отменена');
+};
+
 window.saveWorkout = function () {
   var titleEl = $('#wTitle');
   var durEl = $('#wDur');
