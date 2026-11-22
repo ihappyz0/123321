@@ -512,7 +512,7 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="rec-summary" id="recSummary"></div>
 
         <div class="rec-list" id="recList"></div>
-        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Показать все мышцы (19)</button>
+        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Скрыть лишние мышцы ⌃</button>
 
         <div class="rec-legend">
           <span><i class="rec-dot" style="background:#2dd4bf"></i> Целевой диапазон</span>
@@ -1477,7 +1477,7 @@ var REC_GROUPS = [
   { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
-var recMore = false; /* список мышц свёрнут, открывается кнопкой */
+var recMore = true; /* список мышц раскрыт по умолчанию */
 var recWeekOffset = 0;
 var recTab = 'sets';
 var recTab2 = 'done';
