@@ -12,6 +12,7 @@
 <meta name="description" content="GymMind — ИИ-тренер, дневник тренировок, питание, видео-уроки и анализ техники." />
 <link rel="manifest" href="manifest.webmanifest" />
 <script src="video-library.js" defer></script>
+<script src="diet-mode-sync.js" defer></script>
 <script src="diet-modes.js" defer></script>
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
@@ -341,48 +342,23 @@ body.nav-open .nav-overlay{opacity:1}
       </div>
       <div class="divider"></div>
       <div id="planRingRows"></div>
+      <div class="divider"></div>
+      <div class="kpi-row"><span class="kpi amber" id="waterKpiOverview">0</span><span class="unit" id="waterUnitOverview">/ 2600 мл</span></div>
+      <div class="bar amber"><i id="waterBarOverview"></i></div>
+      <p class="kpi-sub" id="waterHintOverview">Норма рассчитана по весу: 35 мл на кг.</p>
+      <div class="btn-row">
+        <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
+        <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
+        <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
+        <button class="btn sm ghost" onclick="resetWater()">↺ Сброс</button>
+      </div>
     </div>
 
     <div class="bento" id="overviewGrid"></div>
   </section>
 
   <section class="view" id="view-food">
-    <div class="bento" style="margin-bottom:16px">
-      <div class="card col-2">
-        <h3><span class="ico">📈</span> Прогресс питания и вода</h3>
-        <div class="food-progress">
-          <div class="food-ring" id="foodRing" style="--p:0deg">
-            <div class="food-ring-inner">
-              <div class="pct" id="foodRingPct">0%</div>
-              <div class="lbl">плана дня</div>
-            </div>
-          </div>
-          <div class="food-legend" id="foodLegend"></div>
-        </div>
-        <div class="divider"></div>
-        <div class="kpi-row"><span class="kpi amber" id="waterKpi">0</span><span class="unit" id="waterUnit">/ 2600 мл</span></div>
-        <div class="bar amber"><i id="waterBar"></i></div>
-        <p class="kpi-sub" id="waterHint">Норма рассчитана по весу: 35 мл на кг.</p>
-        <div class="btn-row">
-          <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
-          <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
-          <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
-          <button class="btn sm ghost" onclick="resetWater()">↺ Сброс</button>
-        </div>
-        <div class="divider"></div>
-        <div class="chart" id="waterChart"></div>
-      </div>
-    </div>
     <div class="bento" id="foodHost"></div>
-    <div class="bento" style="margin-top:16px">
-      <div class="card">
-        <h3><span class="ico">🎯</span> Советы по воде</h3>
-        <div class="advice">
-          <h4>Как пить ровнее</h4>
-          <ul id="waterTips"></ul>
-        </div>
-      </div>
-    </div>
   </section>
 
   <section class="view" id="view-workout">
@@ -617,17 +593,39 @@ function load() {
 function save() { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
 
 /* ---------- расчёты ---------- */
+/* Единый источник истины для режима питания — localStorage['gm_diet_mode'].
+   Его пишет diet-modes.js (кнопки режима) и diet-mode-sync.js (смена цели в профиле).
+   Все нормы (калории, БЖУ, вода) считаются по выбранному режиму, а не по profile.goal. */
+var DIET_MODES = {
+  bulk:     { adj: 1.15, prot: 1.8, fat: 1.0, base: 3000 },
+  cut:      { adj: 0.80, prot: 2.0, fat: 0.9, base: 1900 },
+  shred:    { adj: 0.75, prot: 2.2, fat: 0.8, base: 1700 },
+  maintain: { adj: 1.00, prot: 1.6, fat: 1.0, base: 2300 }
+};
+var MODE_TO_GOAL = { bulk: 'Масса', cut: 'Похудение', shred: 'Сушка', maintain: 'Поддержание' };
+var GOAL_TO_MODE = { 'Масса': 'bulk', 'Похудение': 'cut', 'Сушка': 'shred', 'Поддержание': 'maintain' };
+
+function currentMode() {
+  try {
+    var v = localStorage.getItem('gm_diet_mode');
+    if (v && DIET_MODES[v]) return v;
+  } catch (e) {}
+  return GOAL_TO_MODE[S.profile.goal] || 'maintain';
+}
+function modeGoal(mode) { return MODE_TO_GOAL[mode] || 'Поддержание'; }
+
 function kcalGoal() {
   var p = S.profile;
+  var m = DIET_MODES[currentMode()] || DIET_MODES.maintain;
   var bmr = 10 * p.weight + 6.25 * p.height - 5 * p.age + (p.sex === 'm' ? 5 : -161);
-  var adj = p.goal === 'Масса' ? 300 : (p.goal === 'Сушка' ? -450 : 0);
-  return Math.round(bmr * 1.5 + adj);
+  return Math.round(bmr * 1.5 * m.adj / 10) * 10;
 }
 function macroGoal() {
   var p = S.profile, k = kcalGoal();
-  var prot = Math.round(p.weight * 1.8);
-  var fat = Math.round(p.weight * 0.9);
-  var carb = Math.max(0, Math.round((k - prot * 4 - fat * 9) / 4));
+  var m = DIET_MODES[currentMode()] || DIET_MODES.maintain;
+  var prot = Math.round(p.weight * m.prot);
+  var fat = Math.round(p.weight * m.fat);
+  var carb = Math.max(30, Math.round((k - prot * 4 - fat * 9) / 4));
   return { p: prot, f: fat, c: carb, kcal: k };
 }
 function waterGoal() { return Math.round(S.profile.weight * 35); }
@@ -745,16 +743,21 @@ window.resetWater = function () {
 
 function renderWater() {
   var g = waterGoal(), v = waterToday();
-  var kpi = $('#waterKpi');
-  if (kpi) kpi.textContent = fmt(v);
-  var unit = $('#waterUnit');
-  if (unit) unit.textContent = '/ ' + fmt(g) + ' мл';
-  var bar = $('#waterBar');
-  if (bar) bar.style.width = Math.min(100, Math.round(v / g * 100)) + '%';
-  var hint = $('#waterHint');
-  if (hint) hint.textContent = v >= g
+  var pct = Math.min(100, Math.round(v / g * 100));
+  var hintText = v >= g
     ? 'Норма выполнена — отличная работа!'
     : 'Норма рассчитана по весу: 35 мл на кг. Осталось ' + fmt(g - v) + ' мл.';
+
+  ['', 'Overview'].forEach(function (suffix) {
+    var kpi = $('#waterKpi' + suffix);
+    if (kpi) kpi.textContent = fmt(v);
+    var unit = $('#waterUnit' + suffix);
+    if (unit) unit.textContent = '/ ' + fmt(g) + ' мл';
+    var bar = $('#waterBar' + suffix);
+    if (bar) bar.style.width = pct + '%';
+    var hint = $('#waterHint' + suffix);
+    if (hint) hint.textContent = hintText;
+  });
 
   var days = [];
   for (var i = 6; i >= 0; i--) {
@@ -1291,7 +1294,12 @@ window.saveProfile = function () {
   S.profile.sex = $('#pSex').value;
   S.profile.goal = $('#pGoal').value;
   S.profile.plan = +$('#pPlan').value || 4;
-  save(); toast('Профиль сохранён'); renderAll();
+  save();
+  /* цель профиля = режим питания: пишем в единый ключ и рассылаем событие */
+  var m = GOAL_TO_MODE[S.profile.goal];
+  if (m && window.GymMindMode) window.GymMindMode.set(m);
+  else { try { localStorage.setItem('gm_diet_mode', m || 'maintain'); } catch (e) {} }
+  toast('Профиль сохранён'); renderAll();
 };
 
 function renderProgress() {
@@ -1381,8 +1389,6 @@ function renderOverview() {
   $('#goalChip').textContent = S.profile.goal;
   $('#greeting').textContent = (S.profile.name || 'Атлет') + ' · ' + S.profile.goal;
 
-  var kcalPct = Math.min(100, Math.round(t.kcal / g.kcal * 100));
-  var waterPct = Math.min(100, Math.round(ml / wg * 100));
   var weekPct = Math.min(100, Math.round(week / plan * 100));
 
   $('#overviewGrid').innerHTML =
@@ -1467,6 +1473,12 @@ document.addEventListener('click', function (e) {
 });
 $('#navOverlay').addEventListener('click', closeNav);
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+/* режим питания сменился в «Питании» или в профиле — пересчитываем весь Обзор */
+document.addEventListener('gm:mode', function () {
+  planSig = '';
+  renderAll();
+});
 
 renderAll();
 })();
