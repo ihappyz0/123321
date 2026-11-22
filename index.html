@@ -1641,12 +1641,30 @@ function renderMuscles() {
 
 /* ---------- Добавки ---------- */
 var SUPPS = [
-  { id: 'creatine', n: 'Креатин 5 г', ico: '⚗️' },
-  { id: 'protein', n: 'Протеин', ico: '🥛' },
-  { id: 'omega', n: 'Омега-3', ico: '🐟' },
-  { id: 'd3', n: 'Витамин D3', ico: '☀️' },
-  { id: 'mag', n: 'Магний', ico: '🌙' },
-  { id: 'c', n: 'Витамин C', ico: '🍊' }
+  { id: 'creatine', n: 'Креатин 5 г', ico: '⚗️',
+    why: 'Повышает силовую выносливость и ускоряет набор мышц. Работает только при ежедневном приёме — накапливается в мышцах за 2–4 недели.',
+    dose: '5 г в день, в любое время. В дни тренировок — за 30–40 мин до или сразу после.',
+    when: 'Ежедневно' },
+  { id: 'protein', n: 'Протеин', ico: '🥛',
+    why: 'Закрывает суточную норму белка, когда не хватает еды. Даёт материал для роста и восстановления мышц.',
+    dose: '25–40 г (1 порция) — обычно 1–2 раза в день.',
+    when: 'После тренировки / между приёмами' },
+  { id: 'omega', n: 'Омега-3', ico: '🐟',
+    why: 'Снижает воспаление после нагрузок, поддерживает сердце, суставы и мозг. Улучшает чувствительность к инсулину.',
+    dose: '1000–2000 мг EPA+DHA в день, обязательно с едой, содержащей жиры.',
+    when: 'С приёмом пищи' },
+  { id: 'd3', n: 'Витамин D3', ico: '☀️',
+    why: 'Нужен для усвоения кальция, здоровья костей и нормальной работы тестостерона. Часто в дефиците зимой.',
+    dose: '1000–2000 МЕ в день, лучше утром или днём с едой.',
+    when: 'Утром / днём' },
+  { id: 'mag', n: 'Магний', ico: '🌙',
+    why: 'Снимает судороги, расслабляет мышцы, улучшает качество сна и снижает нервное напряжение.',
+    dose: '200–400 мг вечером, за 1–2 часа до сна.',
+    when: 'Вечером' },
+  { id: 'c', n: 'Витамин C', ico: '🍊',
+    why: 'Антиоксидант, поддерживает иммунитет и синтез коллагена — помогает связкам и сухожилиям восстанавливаться.',
+    dose: '500 мг утром вместе с завтраком.',
+    when: 'Утром' }
 ];
 window.toggleSupp = function (id) {
   var d = iso();
@@ -1657,10 +1675,32 @@ window.toggleSupp = function (id) {
   save(); renderSupps(); renderAch();
 };
 
+window.showSuppInfo = function (id) {
+  var s = SUPPS.filter(function (x) { return x.id === id; })[0];
+  if (!s) return;
+  var taken = (S.supps[iso()] || []).indexOf(id) >= 0;
+  openModal(
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px">' +
+      '<div><h3 style="font-size:16px;margin-bottom:4px">' + s.ico + ' ' + s.n + '</h3>' +
+      '<p class="kpi-sub" style="margin:0">' + s.when + '</p></div>' +
+      '<button class="btn sm ghost" onclick="closeModal()">✕</button>' +
+    '</div>' +
+    '<h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">Зачем это нужно</h4>' +
+    '<p style="font-size:12.5px;line-height:1.65;color:#dbe4f5;margin-bottom:14px">' + s.why + '</p>' +
+    '<h4 style="font-size:13px;color:#fcd34d;margin-bottom:8px">Сколько и когда</h4>' +
+    '<p style="font-size:12.5px;line-height:1.65;color:#dbe4f5;margin-bottom:14px">' + s.dose + '</p>' +
+    '<div class="btn-row">' +
+      '<button class="btn ' + (taken ? 'ghost' : 'primary') + ' full" onclick="toggleSupp(\'' + id + '\');closeModal();">' +
+        (taken ? 'Снять отметку приёма' : '✓ Отметить приём сегодня') +
+      '</button>' +
+    '</div>'
+  );
+};
+
 function renderSupps() {
   var arr = S.supps[iso()] || [];
   $('#suppChips').innerHTML = SUPPS.map(function (s) {
-    return '<button class="gchip' + (arr.indexOf(s.id) >= 0 ? ' on' : '') + '" onclick="toggleSupp(\'' + s.id + '\')">' + s.ico + ' ' + s.n + '</button>';
+    return '<button class="gchip' + (arr.indexOf(s.id) >= 0 ? ' on' : '') + '" onclick="showSuppInfo(\'' + s.id + '\')">' + s.ico + ' ' + s.n + '</button>';
   }).join('');
   $('#suppHint').textContent = 'Принято сегодня: ' + arr.length + ' из ' + SUPPS.length + '.';
 
