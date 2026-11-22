@@ -1317,8 +1317,10 @@ document.addEventListener('click', function (e) {
 });
 
 window.saveWorkout = function () {
-  var title = $('#wTitle').value.trim() || 'Тренировка';
-  var dur = +$('#wDur').value || 60;
+  var titleEl = $('#wTitle');
+  var durEl = $('#wDur');
+  var title = titleEl ? titleEl.value.trim() : 'Тренировка';
+  var dur = durEl ? (+durEl.value || 60) : 60;
   var groups = Object.keys(pickedGroups).filter(function (k) { return pickedGroups[k]; });
   var exs = $$('#exRows .exf').map(function (r) {
     return {
