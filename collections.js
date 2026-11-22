@@ -532,6 +532,7 @@
   /* GIF-анимации техники. Основной источник — fitnessprogramer.com,
      резерв — musclewiki.com (публичные CDN с анимациями упражнений). */
   var EX_GIF = {
+    /* --- Базовые (уже были) --- */
     'Приседания со штангой': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
     'Жим штанги лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
     'Становая тяга': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
@@ -552,7 +553,55 @@
     'Суставная гимнастика': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Arm-Circles.gif',
     'Динамическая растяжка': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Swing.gif',
     'Кошка-корова': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cat-Cow.gif',
-    'Растяжка после': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Hamstring-Stretch.gif'
+    'Растяжка после': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Hamstring-Stretch.gif',
+
+    /* --- Из WORKOUT_PLANS --- */
+    'Тяга верхнего блока': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif',
+    'Жим гантелей сидя': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
+    'Подъём на бицепс штангой': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Curl.gif',
+    'Французский жим': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/EZ-Bar-Skull-Crusher.gif',
+    'Разгибание на блоке': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Pushdown.gif',
+    'Подъём ног лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Raise.gif',
+    'Тяга резинки к поясу': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Band-Bent-Over-Row.gif',
+    'Разведения резинки': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Band-Pull-Apart.gif',
+    'Приседания с резинкой': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Band-Squat.gif',
+    'Ходьба на дорожке': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Walking-on-Treadmill.gif',
+    'Прыжки на скакалке двойные': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Double-Under.gif',
+    'Гребной тренажёр': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Rowing-Machine.gif',
+    'Вращения плечами': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Shoulder-Circles.gif',
+    'Вращения локтями': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Elbow-Circles.gif',
+    'Вращения кистями': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Wrist-Circles.gif',
+    'Вращения тазом': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Circles.gif',
+    'Махи ногами': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Swing.gif',
+    'Выпады с поворотом': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lunge-with-Twist.gif',
+    'Круги руками': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Arm-Circles.gif',
+    'Наклоны корпуса': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Side-Bend.gif',
+    'Растяжка квадрицепса': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Quad-Stretch.gif',
+    'Растяжка бицепса бедра': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Hamstring-Stretch.gif',
+    'Растяжка груди': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Doorway-Chest-Stretch.gif',
+    'Растяжка спины': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Childs-Pose.gif',
+
+    /* --- Из EX_LIB (дополнительно) --- */
+    'Жим гантелей лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Bench-Press.gif',
+    'Разведения гантелей лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Fly.gif',
+    'Жим в тренажёре «Хаммер»': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Chest-Press.gif',
+    'Тяга гантели одной рукой': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/One-Arm-Dumbbell-Row.gif',
+    'Тяга нижнего блока': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif',
+    'Гиперэкстензия': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hyperextension.gif',
+    'Жим ногами': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+    'Румынская тяга': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Romanian-Deadlift.gif',
+    'Болгарский сплит-присед': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bulgarian-Split-Squat.gif',
+    'Разгибание ног в тренажёре': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Extension.gif',
+    'Сгибание ног лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Curl.gif',
+    'Подъём на носки': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Calf-Raise.gif',
+    'Махи гантелями в стороны': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif',
+    'Тяга к подбородку': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Upright-Row.gif',
+    'Подъём гантелей на бицепс': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif',
+    'Молотковые сгибания': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif',
+    'Брусья на трицепс': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dips.gif',
+    'Подъём ног в висе': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
+    'Dead Bug': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dead-Bug.gif',
+    'Бег на дорожке': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Running-on-Treadmill.gif'
   };
 
   var EX_GUIDE = {
@@ -703,7 +752,8 @@
       var tip = g.tip || 'Следи за техникой и не гонись за весом в первых подходах.';
       var steps = (g.steps || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var gifHtml = gif
-        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\'" />' +
+        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" ' +
+            'onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src=\'https://media.musclewiki.com/media/uploads/placeholder.gif\';}else{this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\';}" />' +
           '<span class="gmc-gif-ph" style="display:none">' + (g.ico || '🏋️') + '</span>'
         : '<span class="gmc-gif-ph">' + (g.ico || '🏋️') + '</span>';
       return '<li class="gmc-ex" data-gmc-ex="' + i + '">' +
