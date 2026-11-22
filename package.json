@@ -1,0 +1,27 @@
+{
+  "name": "gymmind",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GymMind — ИИ-тренер и дневник зала. Обёртка для iOS и Android на Capacitor.",
+  "scripts": {
+    "web": "node scripts/build-web.mjs",
+    "add:android": "npx cap add android",
+    "add:ios": "npx cap add ios",
+    "assets": "npx @capacitor/assets generate --iconBackgroundColor \"#0b0f19\" --iconBackgroundColorDark \"#0b0f19\" --splashBackgroundColor \"#0b0f19\" --splashBackgroundColorDark \"#0b0f19\"",
+    "sync": "npm run web && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "ios": "npm run sync && npx cap open ios",
+    "android:apk": "npm run sync && cd android && gradlew.bat assembleDebug",
+    "ios:run": "npm run sync && cd ios/App && pod install && open App.xcworkspace"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/ios": "^6.1.2"
+  }
+}
