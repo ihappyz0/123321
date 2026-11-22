@@ -1742,6 +1742,80 @@ function renderSupps() {
   $('#suppChart').innerHTML = days.map(function (x) {
     return '<div class="c"><i style="height:' + Math.max(3, Math.round(x.v / max * 100)) + '%"></i><span>' + x.lbl + '</span></div>';
   }).join('');
+
+  renderSuppPersonal();
+  renderSuppTiming();
+}
+
+/* персональные дозы по весу/росту/возрасту и текущему режиму питания */
+function suppDoses() {
+  var p = S.profile;
+  var w = +p.weight || 75, h = +p.height || 178, a = +p.age || 25;
+  var mode = currentMode();
+  var bmr = 10 * w + 6.25 * h - 5 * a + (p.sex === 'm' ? 5 : -161);
+  var tdee = Math.round(bmr * 1.5);
+  var prot = Math.round(w * (DIET_MODES[mode] || DIET_MODES.maintain).prot);
+  var creatine = Math.round(Math.min(10, Math.max(3, w * 0.05)) * 10) / 10;
+  var proteinShake = Math.max(20, Math.min(50, Math.round((prot - 90) / 2 / 5) * 5));
+  var omega = Math.round(Math.min(3000, Math.max(1000, w * 20)) / 100) * 100;
+  var d3 = a >= 50 ? 2000 : 1500;
+  var mag = Math.round(Math.min(400, Math.max(200, w * 4)) / 50) * 50;
+  var vitC = Math.round(Math.min(1000, Math.max(200, w * 6)) / 50) * 50;
+  var waterMl = Math.round(w * 35);
+  return {
+    mode: mode, modeName: (DIET_MODES[mode] ? modeGoal(mode) : 'Поддержание'),
+    tdee: tdee, prot: prot, water: waterMl,
+    creatine: creatine, protein: proteinShake, omega: omega, d3: d3, mag: mag, c: vitC
+  };
+}
+
+function renderSuppPersonal() {
+  var host = $('#suppPersonal');
+  if (!host) return;
+  var d = suppDoses();
+  var rows = [
+    { ico: '⚗️', n: 'Креатин', v: d.creatine + ' г / день', why: '≈ 0,05 г на кг веса (' + S.profile.weight + ' кг)' },
+    { ico: '🥛', n: 'Протеин', v: d.protein + ' г / порция', why: 'добор до ' + d.prot + ' г белка в день (режим «' + d.modeName + '»)' },
+    { ico: '🐟', n: 'Омега-3', v: d.omega + ' мг EPA+DHA', why: '≈ 20 мг на кг веса' },
+    { ico: '☀️', n: 'Витамин D3', v: d.d3 + ' МЕ', why: 'возраст ' + S.profile.age + ' лет' },
+    { ico: '🌙', n: 'Магний', v: d.mag + ' мг', why: '≈ 4 мг на кг веса' },
+    { ico: '🍊', n: 'Витамин C', v: d.c + ' мг', why: '≈ 6 мг на кг веса' }
+  ];
+  host.innerHTML = rows.map(function (r) {
+    return '<div class="row"><div><b>' + r.ico + ' ' + r.n + '</b><div class="tiny muted">' + r.why + '</div></div>' +
+      '<span class="tag teal">' + r.v + '</span></div>';
+  }).join('');
+}
+
+function renderSuppTiming() {
+  var host = $('#suppTiming');
+  if (!host) return;
+  var d = suppDoses();
+  var blocks = [
+    { t: '🌅 Утро (натощак / завтрак)', items: [
+      'Витамин C — <b>' + d.c + ' мг</b> с завтраком',
+      'Витамин D3 — <b>' + d.d3 + ' МЕ</b> с едой, содержащей жиры',
+      'Омега-3 — <b>' + d.omega + ' мг</b> с завтраком или обедом'
+    ] },
+    { t: '🏋️ До / после тренировки', items: [
+      'Креатин — <b>' + d.creatine + ' г</b> в любое время, главное каждый день',
+      'Протеин — <b>' + d.protein + ' г</b> в течение 30–60 мин после тренировки'
+    ] },
+    { t: '🌙 Вечер (за 1–2 ч до сна)', items: [
+      'Магний — <b>' + d.mag + ' мг</b> — расслабляет и улучшает сон',
+      'Омега-3 (вторая порция) — <b>' + Math.round(d.omega / 2) + ' мг</b> с ужином'
+    ] },
+    { t: '💧 Вода в течение дня', items: [
+      'Всего <b>' + fmt(d.water) + ' мл</b> — норма по весу',
+      'За 20 мин до тренировки — 250–300 мл',
+      'Во время тренировки — по 150 мл каждые 15 минут'
+    ] }
+  ];
+  host.innerHTML = blocks.map(function (b) {
+    return '<div class="supp-block"><b>' + b.t + '</b><ul>' +
+      b.items.map(function (i) { return '<li>' + i + '</li>'; }).join('') +
+      '</ul></div>';
+  }).join('');
 }
 
 /* ---------- Видео-уроки ---------- */
