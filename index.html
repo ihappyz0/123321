@@ -1822,8 +1822,8 @@ function bindMuscleHover() {
     el.addEventListener('mouseleave', function () { recSetActive(null); recHideTip(); });
     el.addEventListener('click', function (e) {
       e.stopPropagation();
-      if (recActiveMuscle === k) { recSetActive(null); recHideTip(); }
-      else { recSetActive(k); recShowTip(k, e); }
+      recSetActive(k);
+      openMuscleExercises(k);
     });
     el.addEventListener('touchstart', function (e) {
       var t = e.touches[0];
@@ -1835,10 +1835,74 @@ function bindMuscleHover() {
     var k = el.dataset.m;
     el.addEventListener('mouseenter', function () { recSetActive(k); });
     el.addEventListener('mouseleave', function () { recSetActive(null); });
+    el.addEventListener('click', function (e) { e.stopPropagation(); openMuscleExercises(k); });
   });
 }
 
 
+
+/* ---------- Модалка: упражнения на мышцу ---------- */
+window.openMuscleExercises = function (key) {
+  var name = recMuscleName(key);
+  var keys = [key].concat(REC_ALIASES[key] || []);
+  var exMap = {};
+  S.workouts.forEach(function (w) {
+    (w.exercises || []).forEach(function (e) {
+      var mg = exMuscles({ name: e.name, groups: w.groups || [] });
+      if (!mg.some(function (m) { return keys.indexOf(m) >= 0; })) return;
+      var nm = e.name || 'Упражнение';
+      if (!exMap[nm]) exMap[nm] = { name: nm, sets: 0, reps: 0, weight: 0, last: '' };
+      exMap[nm].sets += +e.sets || 0;
+      exMap[nm].reps += +e.reps || 0;
+      if (+e.weight > exMap[nm].weight) exMap[nm].weight = +e.weight || 0;
+      if (!exMap[nm].last || w.date > exMap[nm].last) exMap[nm].last = w.date;
+    });
+  });
+  var hist = Object.keys(exMap).map(function (k) { return exMap[k]; })
+    .sort(function (a, b) { return a.last < b.last ? 1 : -1; });
+
+  var lib = EX_LIB.filter(function (ex) {
+    return ex.g.some(function (g) { return keys.indexOf(g) >= 0; });
+  }).sort(function (a, b) { return b.eff - a.eff; }).slice(0, 12);
+
+  var histHtml = hist.length ? hist.map(function (e) {
+    return '<div class="ex-row"><div><div class="n">' + esc(e.name) + '</div>' +
+      '<div class="d">' + e.last + ' · ' + e.sets + ' подх. · ' + e.reps + ' повт.' + (e.weight ? ' · до ' + e.weight + ' кг' : '') + '</div></div>' +
+      '<span class="w">' + e.sets + '×</span></div>';
+  }).join('') : '<div class="empty">Вы ещё не тренировали эту мышцу — начните с базовых упражнений ниже.</div>';
+
+  var libHtml = lib.length ? lib.map(function (ex) {
+    var eff = exEffLabel(ex.eff);
+    var groups = ex.g.map(function (g) { return GROUP_NAMES[g] || g; }).join(' · ');
+    return '<div class="ex-row" style="cursor:pointer" onclick="closeModal();exPick(' + EX_LIB.indexOf(ex) + ')">' +
+      '<div><div class="n">' + ex.ico + ' ' + esc(ex.n) + '</div>' +
+      '<div class="d">' + (groups || 'Кардио') + ' · ' + ex.sets + '×' + ex.reps + '</div></div>' +
+      '<span class="ex-s-eff ' + eff.cls + '">' + eff.txt + '</span></div>';
+  }).join('') : '<div class="empty">Нет подходящих упражнений в каталоге.</div>';
+
+  var st = recStatus(key);
+  var sets = recSetsFor(key);
+  var ago = recDaysAgo(key);
+  var agoTxt = ago === null ? 'нет данных' : (ago === 0 ? 'сегодня' : ago + ' дн. назад');
+
+  openModal(
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px">' +
+      '<div><h3 style="font-size:16px;margin-bottom:6px">💪 ' + esc(name) + '</h3>' +
+      '<div class="chips-row">' +
+        '<span class="tag ' + (st.cls === 'st-trained' ? 'red' : st.cls === 'st-recovering' ? 'amber' : st.cls === 'st-ready' ? 'green' : '') + '">' + st.txt + '</span>' +
+        '<span class="tag teal">' + sets + ' подх. за неделю</span>' +
+        '<span class="tag">' + agoTxt + '</span>' +
+      '</div></div>' +
+      '<button class="btn sm ghost" onclick="closeModal()">✕</button>' +
+    '</div>' +
+    '<h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">📋 Уже делали на эту мышцу</h4>' +
+    '<div class="list" style="max-height:220px">' + histHtml + '</div>' +
+    '<div class="divider"></div>' +
+    '<h4 style="font-size:13px;color:#fcd34d;margin-bottom:8px">🏋️ Рекомендуемые упражнения</h4>' +
+    '<p class="kpi-sub" style="margin:0 0 8px">Нажмите на упражнение — оно добавится в тренировку.</p>' +
+    '<div class="list" style="max-height:280px">' + libHtml + '</div>'
+  );
+};
 
 /* ---------- Мышцы ---------- */
 function renderMuscles() {
