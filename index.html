@@ -559,6 +559,8 @@ body.nav-open .nav-overlay{opacity:1}
               .muscle-map .body-part.st-recovering:hover{fill:#fbbf24}
               .muscle-map .body-part.st-ready:hover{fill:#34d399}
               .muscle-map .body-part.st-new:hover{fill:#475569}
+              .muscle-map .body-part.active{stroke:#f472b6;stroke-width:2.4;filter:drop-shadow(0 0 6px rgba(244,114,182,.7))}
+              .muscle-map .body-part.pinned{stroke:#f472b6;stroke-width:2.6;filter:drop-shadow(0 0 8px rgba(244,114,182,.85))}
               .muscle-map .label{fill:#64748b;font-family:system-ui,sans-serif;font-size:11px;text-anchor:middle;letter-spacing:.08em;text-transform:uppercase}
             </style>
 
@@ -633,7 +635,7 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="divider"></div>
         <div class="advice">
           <h4>Что тренировать дальше</h4>
-          <ul id="muscleTips"></ul>
+          <ul id="muscleTipsMain"></ul>
         </div>
       </div>
     </div>
@@ -1747,6 +1749,76 @@ function renderRecovery() {
     el.classList.remove('st-trained', 'st-recovering', 'st-ready', 'st-new');
     el.classList.add(recStatus(k).cls);
   });
+  bindMuscleHover();
+}
+
+/* подсветка мышцы при наведении/нажатии + подпись названия */
+var recActiveMuscle = null;
+function recMuscleName(k) {
+  var g = REC_GROUPS.filter(function (x) { return x.k === k; })[0];
+  return g ? g.n : k;
+}
+function recShowTip(k, evt) {
+  var tip = document.getElementById('recTooltip');
+  var body = document.getElementById('recBody');
+  if (!tip || !body) return;
+  var st = recStatus(k);
+  var sets = recSetsFor(k);
+  var ago = recDaysAgo(k);
+  var agoTxt = ago === null ? 'нет данных' : (ago === 0 ? 'сегодня' : ago + ' дн. назад');
+  tip.innerHTML = '<b>' + recMuscleName(k) + '</b><span class="tt-num">' + sets + ' подх. · ' + st.txt + ' · ' + agoTxt + '</span>';
+  tip.classList.add('show');
+  if (evt) {
+    var r = body.getBoundingClientRect();
+    var x = evt.clientX - r.left;
+    var y = evt.clientY - r.top;
+    tip.style.left = Math.max(6, Math.min(r.width - 150, x - 60)) + 'px';
+    tip.style.top = Math.max(4, y - 46) + 'px';
+    tip.style.transform = '';
+  } else {
+    tip.style.left = '50%';
+    tip.style.top = '8px';
+    tip.style.transform = 'translateX(-50%)';
+  }
+}
+function recHideTip() {
+  var tip = document.getElementById('recTooltip');
+  if (tip) { tip.classList.remove('show'); tip.style.transform = ''; }
+}
+function recSetActive(k) {
+  recActiveMuscle = k;
+  $$('#recBody .body-part').forEach(function (el) {
+    el.classList.toggle('active', el.dataset.m === k);
+  });
+  $$('#recList .rec-item').forEach(function (el) {
+    el.style.borderColor = el.dataset.m === k ? 'rgba(244,114,182,.6)' : '';
+  });
+}
+function bindMuscleHover() {
+  var body = document.getElementById('recBody');
+  if (!body || body.dataset.hoverBound) return;
+  body.dataset.hoverBound = '1';
+  $$('#recBody .body-part').forEach(function (el) {
+    var k = el.dataset.m;
+    el.addEventListener('mouseenter', function (e) { recSetActive(k); recShowTip(k, e); });
+    el.addEventListener('mousemove', function (e) { recShowTip(k, e); });
+    el.addEventListener('mouseleave', function () { recSetActive(null); recHideTip(); });
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (recActiveMuscle === k) { recSetActive(null); recHideTip(); }
+      else { recSetActive(k); recShowTip(k, e); }
+    });
+    el.addEventListener('touchstart', function (e) {
+      var t = e.touches[0];
+      recSetActive(k);
+      recShowTip(k, { clientX: t.clientX, clientY: t.clientY });
+    }, { passive: true });
+  });
+  $$('#recList .rec-item').forEach(function (el) {
+    var k = el.dataset.m;
+    el.addEventListener('mouseenter', function () { recSetActive(k); });
+    el.addEventListener('mouseleave', function () { recSetActive(null); });
+  });
 }
 
 
@@ -1773,7 +1845,8 @@ function renderMuscles() {
   if (tired.length) tips.push('Восстанавливаются: ' + tired.join(', ') + '. Дайте им 24–48 часов.');
   if (ready.length) tips.push('Готовы к нагрузке: ' + ready.join(', ') + '.');
   if (!tips.length) tips.push('Отметьте тренировку — карта восстановления заполнится автоматически.');
-  $('#muscleTips').innerHTML = tips.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+  var mt = $('#muscleTipsMain');
+  if (mt) mt.innerHTML = tips.map(function (t) { return '<li>' + t + '</li>'; }).join('');
 }
 
 /* ---------- Добавки ---------- */
