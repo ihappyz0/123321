@@ -837,10 +837,8 @@ function renderPlanRing(force) {
   var rows = $('#planRingRows');
   if (rows) {
     rows.innerHTML = items.map(function (i) {
-      var p = i.g ? Math.round(i.v / i.g * 100) : 0;
-      var tag = p >= 100 ? 'green' : p >= 50 ? 'teal' : p > 0 ? 'amber' : '';
       return '<div class="row"><span class="muted small">' + i.n + '</span>' +
-        '<span class="tag ' + tag + '">' + p + '%</span></div>';
+        '<b>' + fmt(i.v) + ' / ' + fmt(i.g) + ' ' + i.u + '</b></div>';
     }).join('');
   }
 }
