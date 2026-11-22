@@ -627,12 +627,12 @@ body.nav-open .nav-overlay{opacity:1}
           <span><i class="rec-dot" style="background:#334155"></i> Нет данных</span>
         </div>
 
-        <div class="rec-list" id="recList"></div>
-
         <div class="rec-legend">
           <span><i class="rec-dot" style="background:#2dd4bf"></i> Целевой диапазон</span>
           <span><i class="rec-dot" style="background:#6366f1"></i> Запланировано</span>
         </div>
+
+        <div class="rec-list" id="recList"></div>
 
         <div class="divider"></div>
         <div class="advice">
@@ -1632,7 +1632,6 @@ var REC_GROUPS = [
   { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
-var recMore = true; /* показываем все мышцы сразу */
 var recReady = false;
 var recWeekOffset = 0;
 var recTab = 'sets';
@@ -1717,7 +1716,6 @@ function recStatus(key) {
 }
 
 window.shiftRecWeek = function (n) { recWeekOffset += n; renderRecovery(); };
-window.toggleRecMore = function () { recMore = !recMore; renderRecovery(); };
 
 function renderRecovery() {
   var list = document.getElementById('recList');
