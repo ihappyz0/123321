@@ -341,7 +341,15 @@ body.nav-open .nav-overlay{opacity:1}
         </div>
       </div>
       <div class="divider"></div>
-      <div class="btn-row"></search>
+      <div class="btn-row">
+        <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
+        <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
+        <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
+        <button class="btn sm ghost" onclick="resetWater()">↺ Сброс</button>
+      </div>
+      <div class="divider"></div>
+      <div id="coachAdviceHost"></div>
+    </div></search>
         <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
         <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
         <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
@@ -835,6 +843,18 @@ function renderPlanRing(force) {
       return '<div class="row"><span class="muted small">' + i.n + '</span>' +
         '<b>' + fmt(i.v) + ' / ' + fmt(i.g) + ' ' + i.u + '</b></div>';
     }).join('');
+  }
+
+  var adviceHost = $('#coachAdviceHost');
+  if (adviceHost) {
+    var g2 = macroGoal(), t2 = sumFood(todayFood());
+    var week2 = 0;
+    for (var wi = 0; wi < 7; wi++) {
+      var wd = new Date(); wd.setDate(wd.getDate() - wi);
+      var wk = iso(wd);
+      week2 += S.workouts.filter(function (w) { return w.date === wk; }).length;
+    }
+    adviceHost.innerHTML = coachAdvice(t2, g2, week2, S.profile.plan || 4);
   }
 }
 window.renderPlanRing = renderPlanRing;
