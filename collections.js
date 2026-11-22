@@ -391,8 +391,17 @@
       '.gmc-ex.open .gmc-ex-body{display:block}' +
       '.gmc-ex-media{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}' +
       '@media(max-width:480px){.gmc-ex-media{grid-template-columns:1fr}}' +
-      '.gmc-ex-gif{aspect-ratio:4/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(45,212,191,.2));display:grid;place-items:center;position:relative}' +
-      '.gmc-ex-gif img{width:100%;height:100%;object-fit:cover;display:block}' +
+      '.gmc-ex-gif{aspect-ratio:4/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(45,212,191,.2));display:grid;place-items:center;position:relative;cursor:zoom-in}' +
+      '.gmc-ex-gif img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease}' +
+      '.gmc-ex-gif:hover img{transform:scale(1.04)}' +
+      '.gmc-ex-gif::after{content:"⤢";position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:7px;background:rgba(5,8,14,.72);color:#5eead4;font-size:12px;display:grid;place-items:center;opacity:0;transition:opacity .2s;pointer-events:none}' +
+      '.gmc-ex-gif:hover::after{opacity:1}' +
+      '.gmc-gif-full{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,12,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}' +
+      '.gmc-gif-full.open{display:flex}' +
+      '.gmc-gif-full img{max-width:min(96vw,900px);max-height:86vh;width:auto;height:auto;border-radius:16px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 90px rgba(0,0,0,.7);object-fit:contain;background:#0b0f19}' +
+      '.gmc-gif-full .gmc-gif-full-cap{position:absolute;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);font-size:12.5px;font-weight:700;color:#e8eefc;background:rgba(20,27,45,.9);border:1px solid rgba(255,255,255,.12);padding:8px 16px;border-radius:999px;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}' +
+      '.gmc-gif-full .gmc-gif-full-close{position:absolute;right:14px;top:calc(14px + env(safe-area-inset-top));width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(20,27,45,.9);color:#e8eefc;font-size:16px;cursor:pointer;font-family:inherit;display:grid;place-items:center}' +
+      '.gmc-gif-full .gmc-gif-full-close:hover{background:rgba(139,92,246,.35)}' +
       '.gmc-ex-gif .gmc-gif-ph{font-size:34px;opacity:.85}' +
       '.gmc-ex-gif .gmc-gif-lbl{position:absolute;left:6px;bottom:6px;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;background:rgba(5,8,14,.8);color:#5eead4;text-transform:uppercase;letter-spacing:.4px}' +
       '.gmc-ex-video{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid rgba(248,113,113,.35);background:rgba(248,113,113,.1);color:#fca5a5;font-size:11.5px;font-weight:800;text-decoration:none;transition:.2s;padding:10px;text-align:center}' +
@@ -858,7 +867,7 @@
       var tip = g.tip || 'Следи за техникой и не гонись за весом в первых подходах.';
       var steps = (g.steps || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var gifHtml = gif
-        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" ' +
+        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" data-gmc-zoom="' + esc(gif) + '" data-gmc-zoom-name="' + esc(n) + '" ' +
             'onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src=\'https://media.musclewiki.com/media/uploads/placeholder.gif\';}else{this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\';}" />' +
           '<span class="gmc-gif-ph" style="display:none">' + (g.ico || '🏋️') + '</span>'
         : '<span class="gmc-gif-ph">' + (g.ico || '🏋️') + '</span>';
@@ -947,7 +956,53 @@
     }, 200);
   }
 
+  /* ==================== ПОЛНОЭКРАННЫЙ ПРОСМОТР GIF ==================== */
+  function openGifFull(src, name) {
+    var old = document.getElementById('gmcGifFull');
+    if (old) old.parentNode.removeChild(old);
+    var box = document.createElement('div');
+    box.id = 'gmcGifFull';
+    box.className = 'gmc-gif-full open';
+    box.innerHTML =
+      '<button class="gmc-gif-full-close" data-gmc-gifclose="1" aria-label="Закрыть">✕</button>' +
+      '<img src="' + esc(src) + '" alt="' + esc(name || '') + '" />' +
+      (name ? '<div class="gmc-gif-full-cap">' + esc(name) + '</div>' : '');
+    document.body.appendChild(box);
+    box.addEventListener('click', function (e) {
+      if (e.target === box || e.target.getAttribute('data-gmc-gifclose')) {
+        box.classList.remove('open');
+        setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 180);
+      }
+    });
+  }
+  function closeGifFull() {
+    var box = document.getElementById('gmcGifFull');
+    if (!box) return;
+    box.classList.remove('open');
+    setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 180);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' && e.key !== 'Esc') return;
+    var gifBox = document.getElementById('gmcGifFull');
+    if (gifBox) { closeGifFull(); return; }
+    var wModal = document.getElementById('gmcWorkoutModal');
+    if (wModal) {
+      wModal.classList.remove('open');
+      setTimeout(function () { if (wModal.parentNode) wModal.parentNode.removeChild(wModal); }, 200);
+    }
+  });
+
   document.addEventListener('click', function (e) {
+    /* полноэкранный GIF */
+    var zoom = e.target.closest ? e.target.closest('[data-gmc-zoom]') : null;
+    if (zoom) {
+      e.preventDefault();
+      e.stopPropagation();
+      openGifFull(zoom.getAttribute('data-gmc-zoom'), zoom.getAttribute('data-gmc-zoom-name'));
+      return;
+    }
+    /* клик по карточке тренировки */
     var item = e.target.closest ? e.target.closest('[data-gmc-workout]') : null;
     if (!item) return;
     openWorkoutModal(item.getAttribute('data-gmc-workout'), +item.getAttribute('data-gmc-idx'));
