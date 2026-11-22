@@ -512,6 +512,72 @@ body.nav-open .nav-overlay{opacity:1}
           <span class="rec-sub">За последние 7 дней</span>
         </div>
 
+        <div style="margin:14px 0 18px;padding:14px;background:#0f1728;border:1px solid var(--line);border-radius:16px;overflow-x:auto">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 720" width="100%" style="max-width:500px;height:auto;display:block;margin:0 auto">
+            <defs>
+              <style>
+                .anat-title { font: bold 20px sans-serif; fill: #e8eefc; }
+                .anat-label { font: bold 13px sans-serif; fill: #e8eefc; }
+                .anat-sublabel { font: 11px sans-serif; fill: #8b9ab5; }
+                .anat-outline { fill: #1b2740; stroke: #3a4d75; stroke-width: 2.5; stroke-linejoin: round; }
+                .anat-guide { stroke: #64748b; stroke-width: 1.2; stroke-dasharray: 3,3; fill: none; }
+                .anat-dot { fill: #5eead4; }
+              </style>
+            </defs>
+
+            <rect width="500" height="720" rx="12" fill="#0b0f19" stroke="#1f2a44" stroke-width="1.5"/>
+            <text x="250" y="38" text-anchor="middle" class="anat-title">Анатомия человека (схема)</text>
+
+            <g id="body-silhouette">
+              <circle cx="210" cy="115" r="36" class="anat-outline"/>
+              <rect x="198" y="148" width="24" height="24" rx="6" class="anat-outline"/>
+              <path d="M155 175 Q210 165 265 175 L252 365 L168 365 Z" class="anat-outline"/>
+              <path d="M265 178 L302 275 L290 365 L272 365 L280 280 L252 198 Z" class="anat-outline"/>
+              <path d="M155 178 L118 275 L130 365 L148 365 L140 280 L168 198 Z" class="anat-outline"/>
+              <path d="M168 365 L162 535 L154 670 L180 670 L188 535 L202 365 Z" class="anat-outline"/>
+              <path d="M218 365 L232 535 L240 670 L266 670 L258 535 L252 365 Z" class="anat-outline"/>
+            </g>
+
+            <g id="organs">
+              <ellipse cx="210" cy="106" rx="22" ry="15" fill="#fda4af" stroke="#be123c" stroke-width="1.5"/>
+              <path d="M196 192 C182 192, 174 212, 176 242 C178 254, 194 254, 204 246 L204 198 Z" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+              <path d="M224 192 C238 192, 246 212, 244 242 C242 254, 226 254, 216 246 L216 198 Z" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
+              <path d="M214 218 C214 210, 226 210, 226 220 C226 229, 214 236, 214 236 C214 236, 202 229, 202 220 C202 210, 214 210, 214 218 Z" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/>
+              <path d="M178 254 Q205 248 228 258 Q215 274 182 268 Z" fill="#d97706" stroke="#78350f" stroke-width="1.5"/>
+              <path d="M216 262 Q236 262 234 282 Q232 294 216 288 Q210 276 216 262 Z" fill="#fbbf24" stroke="#92400e" stroke-width="1.5"/>
+              <rect x="182" y="294" width="56" height="46" rx="14" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+              <path d="M190 306 H230 M190 318 H230 M190 330 H222" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
+            </g>
+
+            <g id="callouts">
+              <line x1="232" y1="106" x2="315" y2="106" class="anat-guide"/>
+              <circle cx="232" cy="106" r="3" class="anat-dot"/>
+              <text x="322" y="103" class="anat-label">Головной мозг</text>
+              <text x="322" y="118" class="anat-sublabel">Нервная система</text>
+
+              <line x1="244" y1="205" x2="315" y2="175" class="anat-guide"/>
+              <circle cx="244" cy="205" r="3" class="anat-dot"/>
+              <text x="322" y="172" class="anat-label">Лёгкие</text>
+              <text x="322" y="187" class="anat-sublabel">Дыхательная система</text>
+
+              <line x1="224" y1="224" x2="315" y2="224" class="anat-guide"/>
+              <circle cx="224" cy="224" r="3" class="anat-dot"/>
+              <text x="322" y="221" class="anat-label">Сердце</text>
+              <text x="322" y="236" class="anat-sublabel">Сердечно-сосудистая</text>
+
+              <line x1="234" y1="272" x2="315" y2="272" class="anat-guide"/>
+              <circle cx="234" cy="272" r="3" class="anat-dot"/>
+              <text x="322" y="269" class="anat-label">Печень и желудок</text>
+              <text x="322" y="284" class="anat-sublabel">Пищеварение и обмен веществ</text>
+
+              <line x1="238" y1="317" x2="315" y2="322" class="anat-guide"/>
+              <circle cx="238" cy="317" r="3" class="anat-dot"/>
+              <text x="322" y="319" class="anat-label">Кишечник</text>
+              <text x="322" y="334" class="anat-sublabel">Всасывание питательных веществ</text>
+            </g>
+          </svg>
+        </div>
+
         <div class="rec-summary" id="recSummary"></div>
 
         <div class="rec-list" id="recList"></div>
