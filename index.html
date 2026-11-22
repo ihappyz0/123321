@@ -1429,19 +1429,19 @@ function renderCalendar() {
 
 /* ---------- Карта восстановления (скриншот-стиль) ---------- */
 var REC_GROUPS = [
-  { k: 'hams', n: 'Бицепс бедра', lo: 6, hi: 16 },
-  { k: 'quads', n: 'Квадрицепс', lo: 8, hi: 18 },
-  { k: 'glutes', n: 'Ягодицы', lo: 4, hi: 16 },
   { k: 'chest', n: 'Грудь', lo: 10, hi: 20 },
-  { k: 'calves', n: 'Икры', lo: 8, hi: 16 },
-  { k: 'lats', n: 'Широчайшие', lo: 10, hi: 20 },
-  { k: 'upperback', n: 'Верх спины', lo: 6, hi: 16 },
-  { k: 'triceps', n: 'Трицепс', lo: 6, hi: 16 },
+  { k: 'lats', n: 'Спина', lo: 10, hi: 20 },
+  { k: 'quads', n: 'Ноги', lo: 8, hi: 18 },
+  { k: 'middelt', n: 'Плечи', lo: 8, hi: 20 },
   { k: 'biceps', n: 'Бицепс', lo: 8, hi: 18 },
-  { k: 'frontdelt', n: 'Передние дельты', lo: 4, hi: 12 },
-  { k: 'middelt', n: 'Средние дельты', lo: 8, hi: 20 },
-  { k: 'reardelt', n: 'Задние дельты', lo: 6, hi: 16 },
+  { k: 'triceps', n: 'Трицепс', lo: 6, hi: 16 },
   { k: 'abs', n: 'Пресс', lo: 6, hi: 16 },
+  { k: 'glutes', n: 'Ягодицы', lo: 4, hi: 16 },
+  { k: 'hams', n: 'Бицепс бедра', lo: 6, hi: 16 },
+  { k: 'calves', n: 'Икры', lo: 8, hi: 16 },
+  { k: 'upperback', n: 'Верх спины', lo: 6, hi: 16 },
+  { k: 'frontdelt', n: 'Передние дельты', lo: 4, hi: 12 },
+  { k: 'reardelt', n: 'Задние дельты', lo: 6, hi: 16 },
   { k: 'adductors', n: 'Приводящие', lo: 0, hi: 0 },
   { k: 'forearms', n: 'Предплечья', lo: 0, hi: 0 },
   { k: 'traps', n: 'Трапеции', lo: 0, hi: 0 },
@@ -1449,7 +1449,7 @@ var REC_GROUPS = [
   { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
-var recMore = true;
+var recMore = true; /* список мышц открыт по умолчанию */
 var recWeekOffset = 0;
 var recTab = 'sets';
 var recTab2 = 'done';
