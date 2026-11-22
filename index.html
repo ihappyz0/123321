@@ -1402,9 +1402,7 @@ function renderOverview() {
     '<div class="card">' +
       '<h3><span class="ico">🎬</span> Видео-урок дня</h3>' + lessonOfDayCard() +
     '</div>' +
-    '<div class="card">' +
-      '<h3><span class="ico">🧠</span> Совет тренера</h3>' + coachAdvice(t, g, week, plan) +
-    '</div>';
+    '';
 
   var b = $('#bannerTitle'), bt = $('#bannerText');
   if (!S.workouts.length) { b.textContent = 'Стартуем!'; bt.textContent = 'Запишите первую тренировку и заполните питание — дальше приложение подстроится.'; }
