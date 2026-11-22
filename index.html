@@ -279,6 +279,39 @@ body.nav-open .nav-overlay{opacity:1}
 .ex-tag.auto{background:rgba(45,212,191,.14);color:#5eead4;border-color:rgba(45,212,191,.3)}
 .del{width:32px;height:32px;border-radius:9px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.3);color:#fca5a5;font-size:14px;cursor:pointer;display:grid;place-items:center;font-family:inherit}
 
+/* --- Карта восстановления (стиль скриншота) --- */
+.rec-tabs{display:flex;gap:6px;background:#0f1728;border:1px solid var(--line);border-radius:13px;padding:4px;margin-bottom:9px}
+.rec-tabs button{flex:1;padding:9px 8px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;white-space:nowrap}
+.rec-tabs button.on{background:#2a3346;color:#e8eefc}
+.rec-tabs2 button.on{background:#2a3346;color:#e8eefc}
+.rec-tabs2 button[data-rec2="week"]{color:#34d399;font-weight:800}
+.rec-weeknav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 4px}
+.rec-weeknav b{font-size:13px;font-weight:800;color:#e8eefc}
+.rec-arrow{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;font-family:inherit;line-height:1}
+.rec-arrow:hover{color:#e8eefc;background:rgba(255,255,255,.05)}
+.rec-body{display:flex;justify-content:center;padding:6px 0 2px}
+.rec-svg{width:100%;max-width:330px;height:auto;max-height:300px;display:block}
+.rec-scale{display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:10.5px;color:var(--muted);margin:2px 0 10px}
+.rec-sq{width:11px;height:11px;border-radius:3px;background:#3f5a2e;display:block}
+.rec-sq:nth-child(3){background:#4a6b34}
+.rec-sq:nth-child(4){background:#5b8340}
+.rec-sq:nth-child(5){background:#6f9c4c}
+.rec-list{display:flex;flex-direction:column}
+.rec-row{display:grid;grid-template-columns:1fr 110px auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.rec-row:last-child{border-bottom:none}
+.rec-row .rn{font-weight:600;color:#e8eefc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rec-row .rv{font-weight:700;color:#e8eefc;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.rec-track{position:relative;height:7px;border-radius:99px;background:#1b2436;overflow:visible}
+.rec-track .rng{position:absolute;top:0;height:100%;border-radius:99px;background:#5b8340}
+.rec-track .mark{position:absolute;top:-3px;width:2px;height:13px;background:#e8eefc;border-radius:2px;transform:translateX(-1px)}
+@media(max-width:480px){.rec-row{grid-template-columns:1fr 80px auto;font-size:12px}.rec-row .rv{font-size:11.5px}}
+.rec-more{display:block;width:100%;margin-top:10px;padding:10px;border:none;background:transparent;color:#34d399;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.rec-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;padding-top:10px;border-top:1px solid var(--line)}
+.rec-legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.rec-lg{width:10px;height:10px;border-radius:3px;background:#5b8340;display:block}
+.rec-lg2{width:2px;height:11px;background:#e8eefc;display:block}
+.rec-ranges{margin-top:12px;padding:9px 14px;border-radius:11px;border:1px solid var(--line);background:transparent;color:#34d399;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+
 /* --- План дня (обзор) --- */
 .plan-card{margin-bottom:16px}
 .plan-split{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
@@ -404,77 +437,76 @@ body.nav-open .nav-overlay{opacity:1}
         <h3><span class="ico">📈</span> Статистика</h3>
         <div id="workoutStats"></div>
       </div>
-      <div class="card">
+      <div class="card col-2">
         <h3><span class="ico">🧍</span> Карта восстановления</h3>
-        <svg class="body-svg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#2a3a5c"/>
-              <stop offset="1" stop-color="#1b2740"/>
-            </linearGradient>
-            <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#3a4d75"/>
-              <stop offset="1" stop-color="#24314e"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Голова и шея -->
-          <ellipse class="sil" cx="100" cy="34" rx="20" ry="24" fill="url(#skinGrad)"/>
-          <path class="sil" d="M92 56 L108 56 L110 70 L90 70 Z" fill="url(#skinGrad)"/>
-
-          <!-- Торс: плечи, грудь, пресс -->
-          <path class="sil" d="M100 68 C82 68 66 74 58 84 C54 92 56 108 60 120 L64 168 L72 200 L128 200 L136 168 L140 120 C144 108 146 92 142 84 C134 74 118 68 100 68 Z" fill="url(#skinGrad)"/>
-
-          <!-- Руки -->
-          <path class="sil" d="M58 84 C48 92 44 112 42 134 L40 176 C39 186 44 192 50 192 C56 192 60 186 60 176 L62 134 L64 108 Z" fill="url(#skinGrad)"/>
-          <path class="sil" d="M142 84 C152 92 156 112 158 134 L160 176 C161 186 156 192 150 192 C144 192 140 186 140 176 L138 134 L136 108 Z" fill="url(#skinGrad)"/>
-
-          <!-- Ноги -->
-          <path class="sil" d="M72 200 L68 260 L66 320 L64 400 C63 412 70 418 78 418 C86 418 92 412 92 400 L94 320 L96 260 L98 200 Z" fill="url(#skinGrad)"/>
-          <path class="sil" d="M128 200 L132 260 L134 320 L136 400 C137 412 130 418 122 418 C114 418 108 412 108 400 L106 320 L104 260 L102 200 Z" fill="url(#skinGrad)"/>
-
-          <!-- Мышцы: плечи (дельты) -->
-          <ellipse class="muscle" data-m="shoulders" cx="62" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
-          <ellipse class="muscle" data-m="shoulders" cx="138" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
-
-          <!-- Грудь -->
-          <path class="muscle" data-m="chest" d="M74 100 C80 96 92 96 98 102 L98 122 C92 126 80 126 74 120 Z" fill="url(#muscleGrad)"/>
-          <path class="muscle" data-m="chest" d="M126 100 C120 96 108 96 102 102 L102 122 C108 126 120 126 126 120 Z" fill="url(#muscleGrad)"/>
-
-          <!-- Бицепс -->
-          <ellipse class="muscle" data-m="biceps" cx="50" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
-          <ellipse class="muscle" data-m="biceps" cx="150" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
-
-          <!-- Трицепс (задняя часть руки) -->
-          <ellipse class="muscle" data-m="triceps" cx="56" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
-          <ellipse class="muscle" data-m="triceps" cx="144" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
-
-          <!-- Пресс: 6 кубиков -->
-          <rect class="muscle" data-m="abs" x="88" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-          <rect class="muscle" data-m="abs" x="102" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-          <rect class="muscle" data-m="abs" x="88" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-          <rect class="muscle" data-m="abs" x="102" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-          <rect class="muscle" data-m="abs" x="88" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-          <rect class="muscle" data-m="abs" x="102" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-
-          <!-- Квадрицепс -->
-          <path class="muscle" data-m="quads" d="M78 210 C72 230 70 260 72 290 L92 290 C92 260 92 230 90 210 Z" fill="url(#muscleGrad)"/>
-          <path class="muscle" data-m="quads" d="M122 210 C128 230 130 260 128 290 L108 290 C108 260 108 230 110 210 Z" fill="url(#muscleGrad)"/>
-
-          <!-- Бицепс бедра (задняя поверхность — показан сбоку) -->
-          <path class="muscle" data-m="hams" d="M68 300 C66 320 66 340 68 360 L78 360 C80 340 80 320 78 300 Z" fill="url(#muscleGrad)"/>
-          <path class="muscle" data-m="hams" d="M132 300 C134 320 134 340 132 360 L122 360 C120 340 120 320 122 300 Z" fill="url(#muscleGrad)"/>
-
-          <!-- Икры -->
-          <ellipse class="muscle" data-m="calves" cx="78" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
-          <ellipse class="muscle" data-m="calves" cx="122" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
-        </svg>
-        <div class="legend">
-          <span><i style="background:#f87171"></i> сегодня</span>
-          <span><i style="background:#fbbf24"></i> восстановление</span>
-          <span><i style="background:#34d399"></i> готово</span>
-          <span><i style="background:#2b3a5c"></i> нет данных</span>
+        <div class="rec-tabs" id="recTabs">
+          <button class="on" data-rec="sets">Подходы</button>
+          <button data-rec="fatigue">Усталость</button>
+          <button data-rec="strength">Сила</button>
         </div>
+        <div class="rec-tabs rec-tabs2" id="recTabs2">
+          <button class="on" data-rec2="done">Выполнено</button>
+          <button data-rec2="plan">Запланировано</button>
+          <button data-rec2="week">Неделя ⌄</button>
+        </div>
+        <div class="rec-weeknav">
+          <button class="rec-arrow" onclick="shiftRecWeek(-1)">‹</button>
+          <b id="recWeekLabel">Неделя</b>
+          <button class="rec-arrow" onclick="shiftRecWeek(1)">›</button>
+        </div>
+        <div class="rec-body">
+          <svg class="rec-svg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2a3a5c"/>
+                <stop offset="1" stop-color="#1b2740"/>
+              </linearGradient>
+              <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#3a4d75"/>
+                <stop offset="1" stop-color="#24314e"/>
+              </linearGradient>
+            </defs>
+            <ellipse class="sil" cx="100" cy="34" rx="20" ry="24" fill="url(#skinGrad)"/>
+            <path class="sil" d="M92 56 L108 56 L110 70 L90 70 Z" fill="url(#skinGrad)"/>
+            <path class="sil" d="M100 68 C82 68 66 74 58 84 C54 92 56 108 60 120 L64 168 L72 200 L128 200 L136 168 L140 120 C144 108 146 92 142 84 C134 74 118 68 100 68 Z" fill="url(#skinGrad)"/>
+            <path class="sil" d="M58 84 C48 92 44 112 42 134 L40 176 C39 186 44 192 50 192 C56 192 60 186 60 176 L62 134 L64 108 Z" fill="url(#skinGrad)"/>
+            <path class="sil" d="M142 84 C152 92 156 112 158 134 L160 176 C161 186 156 192 150 192 C144 192 140 186 140 176 L138 134 L136 108 Z" fill="url(#skinGrad)"/>
+            <path class="sil" d="M72 200 L68 260 L66 320 L64 400 C63 412 70 418 78 418 C86 418 92 412 92 400 L94 320 L96 260 L98 200 Z" fill="url(#skinGrad)"/>
+            <path class="sil" d="M128 200 L132 260 L134 320 L136 400 C137 412 130 418 122 418 C114 418 108 412 108 400 L106 320 L104 260 L102 200 Z" fill="url(#skinGrad)"/>
+            <ellipse class="muscle" data-m="shoulders" cx="62" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="shoulders" cx="138" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="chest" d="M74 100 C80 96 92 96 98 102 L98 122 C92 126 80 126 74 120 Z" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="chest" d="M126 100 C120 96 108 96 102 102 L102 122 C108 126 120 126 126 120 Z" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="biceps" cx="50" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="biceps" cx="150" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="triceps" cx="56" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="triceps" cx="144" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="88" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="102" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="88" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="102" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="88" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <rect class="muscle" data-m="abs" x="102" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="quads" d="M78 210 C72 230 70 260 72 290 L92 290 C92 260 92 230 90 210 Z" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="quads" d="M122 210 C128 230 130 260 128 290 L108 290 C108 260 108 230 110 210 Z" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="hams" d="M68 300 C66 320 66 340 68 360 L78 360 C80 340 80 320 78 300 Z" fill="url(#muscleGrad)"/>
+            <path class="muscle" data-m="hams" d="M132 300 C134 320 134 340 132 360 L122 360 C120 340 120 320 122 300 Z" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="calves" cx="78" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
+            <ellipse class="muscle" data-m="calves" cx="122" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
+          </svg>
+        </div>
+        <div class="rec-scale">
+          <span>Меньше</span>
+          <i class="rec-sq"></i><i class="rec-sq"></i><i class="rec-sq"></i><i class="rec-sq"></i>
+          <span>Больше</span>
+        </div>
+        <div class="rec-list" id="recList"></div>
+        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Показать ещё ⌄</button>
+        <div class="rec-legend">
+          <span><i class="rec-lg"></i> Целевой диапазон</span>
+          <span><i class="rec-lg2"></i> Запланировано</span>
+        </div>
+        <button class="rec-ranges" onclick="toast('Диапазоны подходов настраиваются в профиле')">⇄ Диапазоны</button>
       </div>
       <div class="card">
         <h3><span class="ico">🦵</span> Группы и статус</h3>
@@ -1393,6 +1425,102 @@ function renderCalendar() {
   }
   $('#calGrid').innerHTML = cells.join('');
 }
+
+/* ---------- Карта восстановления (скриншот-стиль) ---------- */
+var REC_GROUPS = [
+  { k: 'hams', n: 'Бицепс бедра', lo: 6, hi: 16 },
+  { k: 'quads', n: 'Квадрицепс', lo: 8, hi: 18 },
+  { k: 'glutes', n: 'Ягодицы', lo: 4, hi: 16 },
+  { k: 'chest', n: 'Грудь', lo: 10, hi: 20 },
+  { k: 'calves', n: 'Икры', lo: 8, hi: 16 },
+  { k: 'lats', n: 'Широчайшие', lo: 10, hi: 20 },
+  { k: 'upperback', n: 'Верх спины', lo: 6, hi: 16 },
+  { k: 'triceps', n: 'Трицепс', lo: 6, hi: 16 },
+  { k: 'biceps', n: 'Бицепс', lo: 8, hi: 18 },
+  { k: 'frontdelt', n: 'Передние дельты', lo: 4, hi: 12 },
+  { k: 'middelt', n: 'Средние дельты', lo: 8, hi: 20 },
+  { k: 'reardelt', n: 'Задние дельты', lo: 6, hi: 16 },
+  { k: 'abs', n: 'Пресс', lo: 6, hi: 16 },
+  { k: 'adductors', n: 'Приводящие', lo: 0, hi: 0 },
+  { k: 'forearms', n: 'Предплечья', lo: 0, hi: 0 },
+  { k: 'traps', n: 'Трапеции', lo: 0, hi: 0 },
+  { k: 'lowerback', n: 'Поясница', lo: 0, hi: 0 },
+  { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
+  { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
+];
+var recMore = false;
+var recWeekOffset = 0;
+var recTab = 'sets';
+var recTab2 = 'done';
+
+function recWeekRange() {
+  var now = new Date();
+  var day = (now.getDay() + 6) % 7;
+  var mon = new Date(now); mon.setDate(now.getDate() - day + recWeekOffset * 7);
+  var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  return { from: iso(mon), to: iso(sun), mon: mon };
+}
+
+function recSetsFor(key) {
+  var r = recWeekRange(), total = 0;
+  S.workouts.forEach(function (w) {
+    if (w.date < r.from || w.date > r.to) return;
+    if ((w.groups || []).indexOf(key) < 0) return;
+    (w.exercises || []).forEach(function (e) { total += +e.sets || 0; });
+  });
+  return total;
+}
+
+window.shiftRecWeek = function (n) { recWeekOffset += n; renderRecovery(); };
+window.toggleRecMore = function () { recMore = !recMore; renderRecovery(); };
+
+function renderRecovery() {
+  var list = document.getElementById('recList');
+  if (!list) return;
+
+  var r = recWeekRange();
+  var months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  var lbl = document.getElementById('recWeekLabel');
+  if (lbl) lbl.textContent = 'Неделя с ' + r.mon.getDate() + ' ' + months[r.mon.getMonth()] + '.';
+
+  var rows = REC_GROUPS.slice(0, recMore ? REC_GROUPS.length : 13);
+  list.innerHTML = rows.map(function (g) {
+    var v = recSetsFor(g.k);
+    var hasRange = g.hi > 0;
+    var valTxt = hasRange ? (v + ' / ' + g.lo + '–' + g.hi) : String(v);
+    var track = '';
+    if (hasRange) {
+      var max = g.hi * 1.15;
+      var left = Math.round(g.lo / max * 100);
+      var width = Math.round((g.hi - g.lo) / max * 100);
+      var mark = Math.min(100, Math.round(v / max * 100));
+      track = '<div class="rec-track"><span class="rng" style="left:' + left + '%;width:' + width + '%"></span>' +
+        '<span class="mark" style="left:' + mark + '%"></span></div>';
+    } else {
+      track = '<div class="rec-track"><span class="mark" style="left:0%"></span></div>';
+    }
+    return '<div class="rec-row"><span class="rn">' + g.n + '</span>' + track + '<span class="rv">' + valTxt + '</span></div>';
+  }).join('');
+
+  var more = document.getElementById('recMore');
+  if (more) more.textContent = recMore ? 'Показать меньше ⌃' : 'Показать ещё ⌄';
+
+  var t1 = document.getElementById('recTabs');
+  if (t1) $$('#recTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec === recTab); });
+  var t2 = document.getElementById('recTabs2');
+  if (t2) $$('#recTabs2 button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec2 === recTab2); });
+}
+
+document.addEventListener('click', function (e) {
+  var b1 = e.target.closest && e.target.closest('#recTabs button');
+  if (b1) { recTab = b1.dataset.rec; renderRecovery(); return; }
+  var b2 = e.target.closest && e.target.closest('#recTabs2 button');
+  if (b2) {
+    if (b2.dataset.rec2 === 'week') { recWeekOffset = 0; }
+    recTab2 = b2.dataset.rec2;
+    renderRecovery();
+  }
+});
 
 /* ---------- Мышцы ---------- */
 function renderMuscles() {
