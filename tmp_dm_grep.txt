@@ -1,0 +1,48 @@
+﻿4: (function () {
+6:   if (window.__gmdBooted) return;
+7:   window.__gmdBooted = true;
+184:   (function load() {
+186:       var raw = localStorage.getItem(LS);
+188:       var o = JSON.parse(raw);
+195:   function save() {
+196:     try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {}
+198:   function pad(n) { return n < 10 ? '0' + n : '' + n; }
+199:   function todayKey() {
+203:   function todayLog() {
+218:   function pick(o, names) {
+225:   function readForeignProfile() {
+228:       try { raw = localStorage.getItem(PROFILE_KEYS[i]); } catch (e) {}
+231:         var o = JSON.parse(raw);
+244:   function activeProfile() {
+248:   function actFactor(v) {
+257:   function targets() {
+277:   function eaten() {
+289:   function esc(s) {
+292:   function li(x) { return '<li>' + esc(x) + '</li>'; }
+294:   function toast(msg) {
+305:     t.__tm = setTimeout(function () { t.classList.remove('show'); }, 2400);
+420:   function findRoot() {
+446:   function recipesFor(mode, meal) {
+465:   function suggestFor(left) {
+477:   function renderModes() {
+492:   function renderKpi() {
+524:   function renderLog() {
+543:   function renderGrid() {
+574:   function renderAll() {
+582:   function closeModal() {
+586:   function showModal(inner) {
+592:     ov.addEventListener('click', function (e) {
+599:   function openRecipe(idx) {
+623:   function openQuick() {
+642:       inp.addEventListener('input', function () { filterQuick(this.value); });
+643:       setTimeout(function () { inp.focus(); }, 250);
+647:   function filterQuick(q) {
+674:   function addFood(name, k, p, f, c) {
+683:   function addRecipe(idx) {
+690:   function openVideo(idx) {
+697:   function fillProfileForm() {
+710:   function saveProfile() {
+725:   function onClick(e) {
+821:   function onKey(e) {
+826:   function boot() {
+843:   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 60); });
