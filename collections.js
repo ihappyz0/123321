@@ -415,7 +415,7 @@
 
   /* ==================== ВСТРАИВАНИЕ В МОДУЛИ ==================== */
   var MOUNTS = [
-    { view: 'view-overview', key: 'overview', title: 'Подборки для старта', pos: 'after-banner' },
+    { view: 'view-overview', key: 'overview', title: 'Подборки для старта', pos: 'append' },
     { view: 'view-food', key: 'food', title: 'Подборки продуктов', pos: 'append' },
     { view: 'view-workout', key: 'workout', title: 'Подборки тренировок', pos: 'append' },
     { view: 'view-video', key: 'video', title: 'Подборки видео-уроков', pos: 'append' },
