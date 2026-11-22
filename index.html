@@ -1378,9 +1378,24 @@ function renderPlanned() {
     }).join('');
     chips.dataset.built = '1';
   }
-  if ($('#planExRows') && !$('#planExRows').children.length) addPlanExRow();
+  if ($('#planExRows') && !$('#planExRows').children.length) {
+    var draft = loadPlanDraft();
+    if (draft && draft.rows && draft.rows.length) {
+      draft.rows.forEach(function (r) { addPlanExRow(r); });
+      (draft.groups || []).forEach(function (g) {
+        planPickedGroups[g] = true;
+        var el = $('.gchip[data-pm="' + g + '"]');
+        if (el) el.classList.add('on');
+      });
+    } else {
+      addPlanExRow();
+    }
+  }
   var dateEl = $('#planDate');
-  if (dateEl && !dateEl.value) dateEl.value = iso();
+  if (dateEl && !dateEl.value) {
+    var draft2 = loadPlanDraft();
+    dateEl.value = (draft2 && draft2.date) || iso();
+  }
 
   var host = $('#plannedList');
   if (!host) return;
