@@ -1454,6 +1454,18 @@ document.addEventListener('click', function (e) {
   box.hidden = true;
 });
 
+function autoWorkoutTitle(exs, groups) {
+  if (groups && groups.length) {
+    var names = groups.map(function (k) {
+      var g = GROUPS.filter(function (x) { return x.k === k; })[0];
+      return g ? g.n : k;
+    });
+    return 'Тренировка: ' + names.slice(0, 2).join(' + ');
+  }
+  if (exs && exs.length) return exs[0].name + (exs.length > 1 ? ' +' + (exs.length - 1) : '');
+  return 'Тренировка';
+}
+
 window.finishWorkout = function () { return window.saveWorkout(); };
 
 window.saveWorkout = function () {
