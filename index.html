@@ -497,8 +497,10 @@ body.nav-open .nav-overlay{opacity:1}
           <button class="btn sm ghost" onclick="addExRow()">+ Упражнение вручную</button>
         </div>
         <div class="btn-row">
-          <button class="btn primary" onclick="saveWorkout()">Сохранить тренировку</button>
+          <button class="btn primary" onclick="finishWorkout()">✅ Завершить тренировку</button>
+          <button class="btn ghost" onclick="cancelWorkout()">Отменить</button>
         </div>
+        <p class="kpi-sub" id="activeWorkoutHint">Новая тренировка создаётся автоматически при добавлении упражнения.</p>
         <div class="divider"></div>
         <h3><span class="ico">📈</span> Статистика</h3>
         <div id="workoutStats"></div>
