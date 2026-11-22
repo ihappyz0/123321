@@ -876,9 +876,37 @@ window.switchView = function (name) {
   $$('.view').forEach(function (v) { v.classList.toggle('active', v.id === 'view-' + name); });
   $$('.tab').forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
   closeNav();
+  try { localStorage.setItem('gm_view', name); } catch (e) {}
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (name === 'calendar') renderCalendar();
 }
+
+function restoreView() {
+  var v = null;
+  try { v = localStorage.getItem('gm_view'); } catch (e) {}
+  if (!v) return;
+  if (v === 'water') v = 'food';
+  var el = document.getElementById('view-' + v);
+  if (!el) return;
+  $$('.view').forEach(function (x) { x.classList.toggle('active', x.id === 'view-' + v); });
+  $$('.tab').forEach(function (b) { b.classList.toggle('active', b.dataset.view === v); });
+  if (v === 'calendar') renderCalendar();
+}
+
+/* F5 / перезагрузка: остаёмся на текущей вкладке и позиции скролла */
+function saveScroll() {
+  try { sessionStorage.setItem('gm_scroll', String(window.pageYOffset || window.scrollY || 0)); } catch (e) {}
+}
+function restoreScroll() {
+  var y = 0;
+  try { y = parseInt(sessionStorage.getItem('gm_scroll') || '0', 10) || 0; } catch (e) {}
+  if (y > 0) {
+    setTimeout(function () { window.scrollTo(0, y); }, 60);
+    setTimeout(function () { window.scrollTo(0, y); }, 260);
+  }
+}
+window.addEventListener('beforeunload', saveScroll);
+document.addEventListener('visibilitychange', function () { if (document.hidden) saveScroll(); });
 
 /* ---------- модалка ---------- */
 var objURL = null;
@@ -2284,7 +2312,9 @@ document.addEventListener('gm:mode', function () {
   renderAll();
 });
 
+restoreView();
 renderAll();
+restoreScroll();
 })();
 </script>
 </body>
