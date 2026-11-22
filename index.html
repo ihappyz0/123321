@@ -302,7 +302,7 @@ body.nav-open .nav-overlay{opacity:1}
 .rec-figure-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#64748b}
 .rec-svg{width:100%;height:auto;max-height:340px;display:block}
 .rec-svg .body-part{fill:#1e293b;stroke:#334155;stroke-width:.8;transition:fill .2s ease,stroke .2s ease;cursor:pointer}
-.rec-svg .body-part:hover{fill:#334155;stroke:#475569}
+.rec-svg .body-part:hover{fill:#475569;stroke:#94a3b8;stroke-width:1.4}
 .rec-svg .body-part.st-trained{fill:#ef4444;stroke:#fca5a5}
 .rec-svg .body-part.st-recovering{fill:#f59e0b;stroke:#fcd34d}
 .rec-svg .body-part.st-ready{fill:#10b981;stroke:#6ee7b7}
@@ -544,16 +544,21 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="rec-summary" id="recSummary"></div>
 
         <div class="rec-body" id="recBody">
+          <div class="rec-tooltip" id="recTooltip"></div>
           <svg viewBox="0 0 440 420" xmlns="http://www.w3.org/2000/svg" class="muscle-map">
             <style>
               .muscle-map{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
               .muscle-map .body-base{fill:#1e293b;stroke:#475569;stroke-width:1.5;stroke-linejoin:round}
               .muscle-map .body-part{fill:#334155;stroke:#0f172a;stroke-width:1;transition:fill .2s ease,opacity .2s ease;cursor:pointer}
-              .muscle-map .body-part:hover{fill:#38bdf8}
+              .muscle-map .body-part:hover{fill:#38bdf8;stroke:#e0f2fe;stroke-width:1.4}
               .muscle-map .body-part.st-trained{fill:#ef4444;stroke:#fca5a5}
               .muscle-map .body-part.st-recovering{fill:#f59e0b;stroke:#fcd34d}
               .muscle-map .body-part.st-ready{fill:#10b981;stroke:#6ee7b7}
               .muscle-map .body-part.st-new{fill:#334155;stroke:#0f172a}
+              .muscle-map .body-part.st-trained:hover{fill:#f87171}
+              .muscle-map .body-part.st-recovering:hover{fill:#fbbf24}
+              .muscle-map .body-part.st-ready:hover{fill:#34d399}
+              .muscle-map .body-part.st-new:hover{fill:#475569}
               .muscle-map .label{fill:#64748b;font-family:system-ui,sans-serif;font-size:11px;text-anchor:middle;letter-spacing:.08em;text-transform:uppercase}
             </style>
 
