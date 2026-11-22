@@ -608,7 +608,7 @@ body.nav-open .nav-overlay{opacity:1}
               <ellipse class="body-part" data-m="triceps" cx="382" cy="140" rx="9" ry="20"/>
               <ellipse class="body-part" data-m="forearms" cx="272" cy="186" rx="8" ry="22"/>
               <ellipse class="body-part" data-m="forearms" cx="388" cy="186" rx="8" ry="22"/>
-              <path class="body-part" data-m="lowerback" d="M316,188 L344,188 L344,212 L316,212 Z"/>
+
               <ellipse class="body-part" data-m="glutes" cx="316" cy="226" rx="16" ry="14"/>
               <ellipse class="body-part" data-m="glutes" cx="344" cy="226" rx="16" ry="14"/>
               <path class="body-part" data-m="hams" d="M304,246 C300,270 300,296 302,318 L322,318 C322,296 322,270 320,246 Z"/>
@@ -1611,8 +1611,11 @@ function renderCalendar() {
 /* ---------- Карта восстановления (скриншот-стиль) ---------- */
 var REC_GROUPS = [
   { k: 'chest', n: 'Грудь', lo: 10, hi: 20 },
-  { k: 'lats', n: 'Спина', lo: 10, hi: 20 },
-  { k: 'quads', n: 'Ноги', lo: 8, hi: 18 },
+  { k: 'lats', n: 'Широчайшие', lo: 10, hi: 20 },
+  { k: 'upperback', n: 'Ромбовидные', lo: 6, hi: 16 },
+  { k: 'traps', n: 'Трапеции', lo: 6, hi: 16 },
+  { k: 'lowerback', n: 'Разгибатели спины', lo: 4, hi: 12 },
+  { k: 'quads', n: 'Квадрицепс', lo: 8, hi: 18 },
   { k: 'middelt', n: 'Плечи', lo: 8, hi: 20 },
   { k: 'biceps', n: 'Бицепс', lo: 8, hi: 18 },
   { k: 'triceps', n: 'Трицепс', lo: 6, hi: 16 },
@@ -1620,13 +1623,10 @@ var REC_GROUPS = [
   { k: 'glutes', n: 'Ягодицы', lo: 4, hi: 16 },
   { k: 'hams', n: 'Бицепс бедра', lo: 6, hi: 16 },
   { k: 'calves', n: 'Икры', lo: 8, hi: 16 },
-  { k: 'upperback', n: 'Верх спины', lo: 6, hi: 16 },
   { k: 'frontdelt', n: 'Передние дельты', lo: 4, hi: 12 },
   { k: 'reardelt', n: 'Задние дельты', lo: 6, hi: 16 },
   { k: 'adductors', n: 'Приводящие', lo: 0, hi: 0 },
   { k: 'forearms', n: 'Предплечья', lo: 0, hi: 0 },
-  { k: 'traps', n: 'Трапеции', lo: 0, hi: 0 },
-  { k: 'lowerback', n: 'Поясница', lo: 0, hi: 0 },
   { k: 'obliques', n: 'Косые мышцы', lo: 0, hi: 0 },
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
@@ -1649,6 +1649,15 @@ var REC_ALIASES = {
   glutes: ['hams', 'quads'], frontdelt: ['shoulders'], middelt: ['shoulders'], reardelt: ['shoulders'],
   adductors: ['quads'], forearms: ['biceps', 'triceps'], obliques: ['abs'], serratus: ['chest', 'abs']
 };
+
+/* какие конкретные мышцы спины грузит упражнение — по названию */
+var BACK_KEYWORDS = [
+  { re: /подтягивани|тяга\s*(верхн|блок)|пуловер|австралийск/i, g: ['lats'] },
+  { re: /тяга\s*(штанги|гантел|т-?гриф|нижн|пояс|наклон)/i, g: ['lats', 'upperback'] },
+  { re: /шраг|трапец/i, g: ['traps'] },
+  { re: /гиперэкстензи|гуд\s*морнинг|становая|наклон/i, g: ['lowerback'] },
+  { re: /тяга\s*к\s*лицу|face\s*pull|обратн.*разведени/i, g: ['upperback', 'reardelt'] }
+];
 
 /* ключевые слова в названии упражнения → какие мышцы оно грузит */
 var EX_KEYWORDS = [
@@ -1673,6 +1682,14 @@ function exMuscles(e) {
   EX_KEYWORDS.forEach(function (k) {
     if (k.re.test(name)) k.g.forEach(function (g) { out[g] = 1; });
   });
+  /* уточняем спинные мышцы: если упражнение грузит спину — раскладываем на конкретные */
+  if (out.back) {
+    var matched = false;
+    BACK_KEYWORDS.forEach(function (k) {
+      if (k.re.test(name)) { k.g.forEach(function (g) { out[g] = 1; }); matched = true; }
+    });
+    if (!matched) { out.lats = 1; out.upperback = 1; }
+  }
   return Object.keys(out);
 }
 
