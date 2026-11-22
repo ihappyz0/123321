@@ -2125,6 +2125,8 @@
         state.mode = m;
         save();
         visible = 4;
+        var boxM = document.getElementById('gmdModes');
+        if (boxM) boxM.classList.remove('open');
         renderModes();
         renderKpi();
         renderGrid();
