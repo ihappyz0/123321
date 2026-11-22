@@ -508,6 +508,32 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="list" id="workoutList" style="max-height:180px"></div>
       </div>
       <div class="card col-2" style="grid-column:1 / -1">
+        <h3><span class="ico">📅</span> Запланированная тренировка</h3>
+        <div class="divider"></div>
+        <div class="field" style="position:relative">
+          <label>Упражнение</label>
+          <input id="planExSearch" placeholder="Начните вводить: жим, тяга, присед…" autocomplete="off" oninput="planExSearchInput(this.value)" onfocus="planExSearchInput(this.value)" />
+          <div class="ex-suggest" id="planExSuggest" hidden></div>
+        </div>
+        <div class="field">
+          <label>Целевые группы</label>
+          <div class="chips-row" id="planGroupChips"></div>
+        </div>
+        <div class="field">
+          <label>Подходы, повторы и вес</label>
+          <div id="planExRows"></div>
+          <button class="btn sm ghost" onclick="addPlanExRow()">+ Упражнение вручную</button>
+        </div>
+        <div class="field"><label>Дата</label><input id="planDate" type="date" /></div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="savePlannedWorkout()">📅 Запланировать</button>
+        </div>
+        <div class="divider"></div>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗓 Запланировано</h4>
+        <div class="list" id="plannedList" style="max-height:220px"></div>
+      </div>
+
+      <div class="card col-2" style="grid-column:1 / -1">
         <h3><span class="ico">🏋️</span> Тренировка</h3>
         <div class="divider"></div>
         <div class="workout-split">
@@ -1210,6 +1236,173 @@ window.addExRow = function (prefill) {
   return row;
 };
 
+/* ---------- Запланированная тренировка ---------- */
+window.togglePlanGroup = function (k) {
+  planPickedGroups[k] = !planPickedGroups[k];
+  var el = $('.gchip[data-pm="' + k + '"]');
+  if (el) el.classList.toggle('on', !!planPickedGroups[k]);
+};
+
+window.addPlanExRow = function (prefill) {
+  var wrap = $('#planExRows');
+  if (!wrap) return;
+  var row = document.createElement('div');
+  row.className = 'exf';
+  row.innerHTML =
+    '<input class="e-name" placeholder="Жим лёжа" />' +
+    '<input class="e-sets" type="number" inputmode="numeric" placeholder="4" />' +
+    '<input class="e-reps" type="number" inputmode="numeric" placeholder="8" />' +
+    '<input class="e-w" type="number" inputmode="decimal" placeholder="кг" />' +
+    '<button class="del" type="button">×</button>';
+  row.querySelector('.del').addEventListener('click', function () { row.remove(); });
+  if (prefill) {
+    row.querySelector('.e-name').value = prefill.name || '';
+    row.querySelector('.e-sets').value = prefill.sets || '';
+    row.querySelector('.e-reps').value = prefill.reps || '';
+    row.querySelector('.e-w').value = prefill.weight || '';
+  }
+  wrap.appendChild(row);
+  return row;
+};
+
+window.planExSearchInput = function (q) {
+  var box = $('#planExSuggest');
+  if (!box) return;
+  var list = exSuggestList(q);
+  if (!q || !q.trim()) list = EX_LIB.slice(0, 20);
+  if (!list.length) {
+    box.innerHTML = '<div class="ex-s-empty">Ничего не нашлось — добавьте упражнение вручную кнопкой ниже.</div>';
+    box.hidden = false;
+    return;
+  }
+  box.innerHTML = list.map(function (ex) {
+    var eff = exEffLabel(ex.eff);
+    var groups = ex.g.map(function (g) { return GROUP_NAMES[g] || g; }).join(' · ');
+    return '<div class="ex-s-item" onclick="planExPick(' + EX_LIB.indexOf(ex) + ')">' +
+      '<span class="es-ico">' + ex.ico + '</span>' +
+      '<div class="es-body"><b>' + esc(ex.n) + '</b>' +
+        '<div class="es-meta"><span class="ex-tag">' + (groups || 'Кардио') + '</span></div>' +
+      '</div>' +
+      '<span class="ex-s-eff ' + eff.cls + '">' + eff.txt + '</span>' +
+    '</div>';
+  }).join('');
+  box.hidden = false;
+};
+
+window.planExPick = function (idx) {
+  var ex = EX_LIB[idx];
+  if (!ex) return;
+  var bw = lastWeight() || S.profile.weight || 75;
+  addPlanExRow({
+    name: ex.n,
+    sets: ex.sets,
+    reps: ex.reps,
+    weight: ex.w ? Math.round(ex.w * bw / 2.5) * 2.5 : ''
+  });
+  ex.g.forEach(function (g) {
+    if (!planPickedGroups[g]) {
+      planPickedGroups[g] = true;
+      var el = $('.gchip[data-pm="' + g + '"]');
+      if (el) el.classList.add('on');
+    }
+  });
+  var box = $('#planExSuggest');
+  if (box) { box.hidden = true; box.innerHTML = ''; }
+  var inp = $('#planExSearch');
+  if (inp) inp.value = '';
+  toast(ex.n + ' добавлено в план');
+};
+
+window.savePlannedWorkout = function () {
+  var groups = Object.keys(planPickedGroups).filter(function (k) { return planPickedGroups[k]; });
+  var exs = $$('#planExRows .exf').map(function (r) {
+    return {
+      name: r.querySelector('.e-name').value.trim(),
+      sets: +r.querySelector('.e-sets').value || 0,
+      reps: +r.querySelector('.e-reps').value || 0,
+      weight: +r.querySelector('.e-w').value || 0
+    };
+  }).filter(function (e) { return e.name; });
+
+  if (!exs.length) { toast('Добавьте хотя бы одно упражнение'); return; }
+
+  var dateEl = $('#planDate');
+  var date = (dateEl && dateEl.value) || iso();
+  var title = autoWorkoutTitle(exs, groups);
+
+  S.planned.push({ id: uid(), date: date, title: title, groups: groups, exercises: exs });
+  save();
+
+  $('#planExRows').innerHTML = '';
+  planPickedGroups = {};
+  $$('.gchip[data-pm]').forEach(function (el) { el.classList.remove('on'); });
+  addPlanExRow();
+  toast('Тренировка запланирована на ' + date);
+  renderPlanned();
+  renderCalendar();
+  renderRecovery();
+};
+
+window.removePlanned = function (id) {
+  S.planned = S.planned.filter(function (p) { return p.id !== id; });
+  save(); renderPlanned(); renderCalendar(); renderRecovery();
+};
+
+window.startPlanned = function (id) {
+  var p = S.planned.filter(function (x) { return x.id === id; })[0];
+  if (!p) return;
+  $('#exRows').innerHTML = '';
+  pickedGroups = {};
+  $$('.gchip[data-m]').forEach(function (el) { el.classList.remove('on'); });
+  (p.groups || []).forEach(function (g) {
+    pickedGroups[g] = true;
+    var el = $('.gchip[data-m="' + g + '"]');
+    if (el) el.classList.add('on');
+  });
+  (p.exercises || []).forEach(function (e) { addExRow(e); });
+  S.planned = S.planned.filter(function (x) { return x.id !== id; });
+  save();
+  renderPlanned();
+  toast('План перенесён в тренировку');
+  var card = $('#exRows');
+  if (card && card.scrollIntoView) { try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {} }
+};
+
+function renderPlanned() {
+  var chips = $('#planGroupChips');
+  if (chips && !chips.dataset.built) {
+    chips.innerHTML = GROUPS.map(function (g) {
+      return '<button class="gchip" data-pm="' + g.k + '" onclick="togglePlanGroup(\'' + g.k + '\')">' + g.n + '</button>';
+    }).join('');
+    chips.dataset.built = '1';
+  }
+  if ($('#planExRows') && !$('#planExRows').children.length) addPlanExRow();
+  var dateEl = $('#planDate');
+  if (dateEl && !dateEl.value) dateEl.value = iso();
+
+  var host = $('#plannedList');
+  if (!host) return;
+  var list = S.planned.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+  if (!list.length) {
+    host.innerHTML = '<div class="empty">Планов пока нет — добавьте первую запланированную тренировку.</div>';
+    return;
+  }
+  host.innerHTML = list.map(function (p) {
+    var vol = (p.exercises || []).reduce(function (s, e) { return s + (e.sets * e.reps * e.weight); }, 0);
+    var groups = (p.groups || []).map(function (k) {
+      var g = GROUPS.filter(function (x) { return x.k === k; })[0];
+      return g ? g.n : k;
+    });
+    return '<div class="row"><div><b>' + esc(p.title) + '</b>' +
+      '<div class="tiny muted">' + p.date + ' · ' + (p.exercises || []).length + ' упр. · ' + fmt(vol) + ' кг</div>' +
+      (groups.length ? '<div class="tiny muted">' + groups.join(' · ') + '</div>' : '') +
+      '</div>' +
+      '<div style="display:flex;gap:6px">' +
+      '<button class="btn sm teal" onclick="startPlanned(\'' + p.id + '\')">▶</button>' +
+      '<button class="del" onclick="removePlanned(\'' + p.id + '\')">×</button></div></div>';
+  }).join('');
+}
+
 /* ---------- Умный поиск упражнений ---------- */
 /* Каталог: ключевые слова для поиска, группы мышц, эффективность 1–5,
    базовые подходы/повторения и типовой вес (доля от веса тела). */
@@ -1444,11 +1637,15 @@ window.exPick = function (idx) {
   toast(ex.n + ' добавлено · ' + exEffLabel(ex.eff).txt);
 };
 
-document.addEventListener('click', function (e) {
+  document.addEventListener('click', function (e) {
   var box = $('#exSuggest');
-  if (!box || box.hidden) return;
-  if (e.target.closest('#exSuggest') || e.target.id === 'exSearch') return;
-  box.hidden = true;
+  if (box && !box.hidden) {
+    if (!(e.target.closest('#exSuggest') || e.target.id === 'exSearch')) box.hidden = true;
+  }
+  var pbox = $('#planExSuggest');
+  if (pbox && !pbox.hidden) {
+    if (!(e.target.closest('#planExSuggest') || e.target.id === 'planExSearch')) pbox.hidden = true;
+  }
 });
 
 function autoWorkoutTitle(exs, groups) {
