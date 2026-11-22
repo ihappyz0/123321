@@ -1798,6 +1798,7 @@ function renderOverview() {
       '<h3><span class="ico">⚖️</span> Вес</h3>' +
       '<div class="kpi-row"><span class="kpi pink">' + cur.toFixed(1) + '</span><span class="unit">кг</span></div>' +
       '<p class="kpi-sub">Цель: ' + S.profile.goal + ' · норма воды ' + fmt(wg) + ' мл</p>' +
+      '<div class="btn-row"><button class="btn sm primary" onclick="switchView(\'progress\')">📈 Прогресс</button></div>' +
     '</div>' +
     '<div class="card">' +
       '<h3><span class="ico">📅</span> Калории за 7 дней</h3>' + weekFoodChart() +
