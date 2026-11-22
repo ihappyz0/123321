@@ -409,6 +409,14 @@ body.nav-open .nav-overlay{opacity:1}
 /* --- Мобильная адаптация: ничего не ломаем, только подстраиваем под узкие экраны --- */
 @media(max-width:560px){
   .wrap{padding:0 12px}
+  .topbar-in{padding:10px 12px;gap:8px}
+  .brand{min-width:0;flex:1 1 auto}
+  .brand>div:last-child{min-width:0}
+  .brand h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top-actions{flex:0 0 auto;flex-wrap:nowrap;gap:6px}
+  .chip{padding:6px 9px;font-size:10.5px;flex:0 0 auto}
+  .hamburger{flex:0 0 auto}
   main{padding:14px 0 8px}
   .bento{gap:12px;grid-template-columns:1fr}
   .card{padding:15px;border-radius:17px}
