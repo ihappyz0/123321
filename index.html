@@ -1835,6 +1835,81 @@ var EX_LIB = [
 
 var GROUP_NAMES = { chest: 'Грудь', back: 'Спина', shoulders: 'Плечи', biceps: 'Бицепс', triceps: 'Трицепс', abs: 'Пресс', quads: 'Квадрицепс', hams: 'Бицепс бедра', calves: 'Икры' };
 
+/* ---------- Виды тренировок (сплиты) ---------- */
+var SPLITS = [
+  { id: 'fullbody', n: 'Фул-боди', ico: '🧍', freq: '2–3 раза в неделю',
+    desc: 'Всё тело за одну тренировку: по одному базовому упражнению на каждую крупную группу. Лучший старт для новичков и тех, кто ходит в зал 2–3 раза в неделю.',
+    groups: ['chest', 'back', 'quads', 'shoulders', 'abs'],
+    ex: ['Приседания со штангой', 'Жим штанги лёжа', 'Тяга штанги в наклоне', 'Жим стоя (армейский)', 'Планка'] },
+  { id: 'upper_lower', n: 'Верх / Низ', ico: '↕️', freq: '4 раза в неделю',
+    desc: 'Две тренировки на верх тела и две на низ. Каждая группа получает 2 стимула в неделю — хороший баланс объёма и восстановления.',
+    groups: ['chest', 'back', 'shoulders', 'quads', 'hams'],
+    ex: ['Жим штанги лёжа', 'Тяга верхнего блока', 'Жим гантелей сидя', 'Приседания со штангой', 'Румынская тяга'] },
+  { id: 'push_pull_legs', n: 'Push / Pull / Legs', ico: '🔀', freq: '3–6 раз в неделю',
+    desc: 'Жимовые, тяговые и ножные дни по кругу. Классика для опытных: много объёма на группу и чёткое разделение нагрузки.',
+    groups: ['chest', 'shoulders', 'triceps', 'back', 'biceps', 'quads', 'hams'],
+    ex: ['Жим штанги лёжа', 'Жим стоя (армейский)', 'Разгибание на блоке', 'Подтягивания', 'Подъём на бицепс штангой', 'Приседания со штангой', 'Сгибание ног лёжа'] },
+  { id: 'bro_split', n: 'Сплит по группам', ico: '🎯', freq: '5–6 раз в неделю',
+    desc: 'Отдельный день на каждую группу: грудь, спина, плечи, руки, ноги. Максимальная концентрация на мышце, но требует высокой дисциплины.',
+    groups: ['chest', 'back', 'shoulders', 'biceps', 'triceps', 'quads'],
+    ex: ['Жим штанги лёжа', 'Разведения гантелей лёжа', 'Тяга штанги в наклоне', 'Тяга верхнего блока', 'Махи гантелями в стороны', 'Подъём на бицепс штангой', 'Французский жим', 'Жим ногами'] },
+  { id: 'strength', n: 'Силовой (5×5)', ico: '🏋️', freq: '3 раза в неделю',
+    desc: 'Тяжёлые базовые движения на 5 повторений с линейным ростом веса. Цель — сила и плотность мышц, а не «пампинг».',
+    groups: ['quads', 'chest', 'back', 'shoulders'],
+    ex: ['Приседания со штангой', 'Жим штанги лёжа', 'Становая тяга', 'Жим стоя (армейский)', 'Тяга штанги в наклоне'] },
+  { id: 'hiit', n: 'HIIT / Жиросжигание', ico: '🔥', freq: '2–3 раза в неделю',
+    desc: 'Короткие интервалы высокой интенсивности + круговая силовая. Тратит много калорий за 20–30 минут, сохраняет мышцы в дефиците.',
+    groups: ['abs', 'quads', 'hams', 'calves'],
+    ex: ['HIIT на дорожке', 'Бёрпи', 'Махи гирей', 'Скакалка', 'Трастеры с гантелями'] },
+  { id: 'home', n: 'Домашняя', ico: '🏠', freq: '3–4 раза в неделю',
+    desc: 'Только вес тела и минимум инвентаря. Подходит для тренировок в квартире и на улице без зала.',
+    groups: ['chest', 'abs', 'quads', 'shoulders'],
+    ex: ['Отжимания от пола', 'Приседания с гантелью (габлет)', 'Выпады с гантелями', 'Планка', 'Подъём ног лёжа'] }
+];
+var splitCurrent = 'fullbody';
+
+window.pickSplit = function (id) {
+  splitCurrent = id;
+  renderSplit();
+};
+
+function renderSplit() {
+  var seg = $('#splitSeg');
+  var info = $('#splitInfo');
+  var listEl = $('#splitExercises');
+  if (!seg || !info || !listEl) return;
+
+  seg.innerHTML = SPLITS.map(function (s) {
+    return '<button class="' + (s.id === splitCurrent ? 'on' : '') + '" onclick="pickSplit(\'' + s.id + '\')">' + s.ico + ' ' + s.n + '</button>';
+  }).join('');
+
+  var cur = SPLITS.filter(function (s) { return s.id === splitCurrent; })[0] || SPLITS[0];
+  var groupNames = cur.groups.map(function (g) { return GROUP_NAMES[g] || g; });
+  info.innerHTML =
+    '<div style="background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.26);border-radius:14px;padding:13px 15px">' +
+      '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
+        '<b style="font-size:14px">' + cur.ico + ' ' + cur.n + '</b>' +
+        '<span class="tag teal">' + cur.freq + '</span>' +
+      '</div>' +
+      '<p style="font-size:12.5px;line-height:1.6;color:#dbe4f5">' + cur.desc + '</p>' +
+      '<div class="chips-row" style="margin-top:10px">' +
+        groupNames.map(function (g) { return '<span class="tag">' + g + '</span>'; }).join('') +
+      '</div>' +
+    '</div>';
+
+  listEl.innerHTML = cur.ex.map(function (name) {
+    var ex = EX_LIB.filter(function (x) { return exNorm(x.n) === exNorm(name); })[0];
+    var eff = ex ? exEffLabel(ex.eff) : { cls: 'mid', txt: '★★★' };
+    var groups = ex ? ex.g.map(function (g) { return GROUP_NAMES[g] || g; }).join(' · ') : '';
+    var idx = ex ? EX_LIB.indexOf(ex) : -1;
+    return '<div class="ex-row" style="cursor:pointer" onclick="' + (idx >= 0 ? 'exPick(' + idx + ')' : '') + '">' +
+      '<div><div class="n">' + (ex ? ex.ico + ' ' : '') + esc(name) + '</div>' +
+      '<div class="d">' + (groups || 'Базовое') + (ex ? ' · ' + ex.sets + '×' + ex.reps : '') + '</div></div>' +
+      '<span class="ex-s-eff ' + eff.cls + '">' + eff.txt + '</span></div>';
+  }).join('');
+}
+window.renderSplit = renderSplit;
+
 function exNorm(s) {
   return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
 }
