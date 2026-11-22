@@ -261,7 +261,7 @@ body.nav-open .nav-overlay{opacity:1}
 .exf{display:grid;grid-template-columns:1.6fr .6fr .6fr .8fr auto;gap:7px;margin-bottom:8px;align-items:center}
 @media(max-width:560px){.exf{grid-template-columns:1fr 1fr 1fr;gap:6px}.exf .e-name{grid-column:1/-1}}
 .exf input{padding:9px 10px;font-size:12.5px;border-radius:10px}
-.ex-suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:#101828;border:1px solid rgba(139,92,246,.4);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);max-height:340px;overflow:auto;padding:6px}
+.ex-suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:#101828;border:1px solid rgba(139,92,246,.4);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);max-height:70vh;overflow:auto;padding:6px}
 .ex-suggest::-webkit-scrollbar{width:6px}
 .ex-suggest::-webkit-scrollbar-thumb{background:#2a3752;border-radius:9px}
 .ex-s-item{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:11px;cursor:pointer;transition:.15s}
@@ -384,18 +384,14 @@ body.nav-open .nav-overlay{opacity:1}
     <div class="bento">
       <div class="card col-2">
         <h3><span class="ico">🏋️</span> Новая тренировка</h3>
-        <div class="grid2">
-          <div class="field"><label>Название</label><input id="wTitle" placeholder="Верх тела / Сила" /></div>
-          <div class="field"><label>Длительность, мин</label><input id="wDur" type="number" inputmode="numeric" value="60" /></div>
-        </div>
-        <div class="field">
-          <label>Целевые группы</label>
-          <div class="chips-row" id="groupChips"></div>
-        </div>
         <div class="field" style="position:relative">
           <label>Упражнение</label>
           <input id="exSearch" placeholder="Начните вводить: жим, тяга, присед…" autocomplete="off" oninput="exSearchInput(this.value)" onfocus="exSearchInput(this.value)" />
           <div class="ex-suggest" id="exSuggest" hidden></div>
+        </div>
+        <div class="field">
+          <label>Целевые группы</label>
+          <div class="chips-row" id="groupChips"></div>
         </div>
         <div class="field">
           <label>Подходы, повторы и вес</label>
@@ -1108,7 +1104,6 @@ window.saveWorkout = function () {
   S.workouts.push({ id: uid(), date: iso(), title: title, duration: dur, groups: groups, exercises: exs });
   save();
 
-  $('#wTitle').value = '';
   $('#exRows').innerHTML = '';
   pickedGroups = {};
   $$('.gchip[data-m]').forEach(function (el) { el.classList.remove('on'); });
