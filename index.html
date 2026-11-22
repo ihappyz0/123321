@@ -341,12 +341,7 @@ body.nav-open .nav-overlay{opacity:1}
         </div>
       </div>
       <div class="divider"></div>
-      <div id="planRingRows"></div>
-      <div class="divider"></div>
-      <div class="kpi-row"><span class="kpi amber" id="waterKpiOverview">0</span><span class="unit" id="waterUnitOverview">/ 2600 мл</span></div>
-      <div class="bar amber"><i id="waterBarOverview"></i></div>
-      <p class="kpi-sub" id="waterHintOverview">Норма рассчитана по весу: 35 мл на кг.</p>
-      <div class="btn-row">
+      <div class="btn-row"></search>
         <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
         <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
         <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
@@ -815,7 +810,7 @@ function renderPlanRing(force) {
   barsBox.innerHTML = items.map(function (i) {
     var p = i.g ? Math.max(0, Math.min(100, Math.round(i.v / i.g * 100))) : 0;
     return '<div class="plan-row">' +
-      '<div class="plan-row-top"><span>' + i.n + '</span><b>' + fmt(i.v) + ' / ' + fmt(i.g) + ' ' + i.u + '</b></div>' +
+      '<div class="plan-row-top"><span>' + i.n + '</span><b>' + fmt(i.v) + ' / ' + fmt(i.g) + ' ' + i.u + ' · ' + p + '%</b></div>' +
       '<div class="bar ' + i.cls + '"><i style="width:' + p + '%"></i></div>' +
     '</div>';
   }).join('');
