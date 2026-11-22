@@ -555,127 +555,127 @@
      tip (главный совет по технике) и steps (пошаговая техника). */
   var EX_GUIDE = {
     'Приседания со штангой': {
-      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Squat.gif',
       video: 'https://www.youtube.com/results?search_query=приседания+со+штангой+техника',
       tip: 'Колени идут по направлению носков, спина прямая, глубина — до параллели бедра с полом.',
       steps: ['Гриф на трапециях, стопы на ширине плеч', 'Вдох, задержка дыхания, таз назад', 'Опускайся до параллели, колени не заваливаются внутрь', 'Мощно встань, выдох в верхней точке']
     },
     'Жим штанги лёжа': {
-      gif: 'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
       video: 'https://www.youtube.com/results?search_query=жим+штанги+лежа+техника',
       tip: 'Лопатки сведены, стопы упираются в пол, гриф опускается на низ груди.',
       steps: ['Ляг так, чтобы глаза были под грифом', 'Сведи лопатки, небольшой прогиб в пояснице', 'Опусти гриф на низ груди, локти ~45°', 'Выжми по дуге к изголовью']
     },
     'Становая тяга': {
-      gif: 'https://media.giphy.com/media/3oKIPavRPgJYaNI97W/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
       video: 'https://www.youtube.com/results?search_query=становая+тяга+техника',
       tip: 'Спина прямая на всём протяжении, гриф скользит по ногам, таз и плечи поднимаются одновременно.',
       steps: ['Стопы на ширине таза, гриф над серединой стопы', 'Сядь, возьмись за гриф, выпрями спину', 'Отталкивайся ногами, гриф вдоль голеней', 'Вверху выпрямись, не отклоняйся назад']
     },
     'Жим стоя (армейский)': {
-      gif: 'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Standing-Shoulder-Press.gif',
       video: 'https://www.youtube.com/results?search_query=жим+стоя+армейский+техника',
       tip: 'Пресс напряжён, не прогибай поясницу, гриф проходит близко к лицу.',
       steps: ['Штанга на груди, хват чуть шире плеч', 'Напряги пресс и ягодицы', 'Выжми гриф вверх, голову слегка назад', 'Вверху гриф над макушкой']
     },
     'Тяга штанги в наклоне': {
-      gif: 'https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
       video: 'https://www.youtube.com/results?search_query=тяга+штанги+в+наклоне+техника',
       tip: 'Корпус наклонён ~45°, тяни к поясу, локти вдоль тела.',
       steps: ['Наклонись, спина прямая, колени чуть согнуты', 'Тяни гриф к низу живота', 'Сведи лопатки в верхней точке', 'Медленно опусти, не бросай']
     },
     'Подтягивания': {
-      gif: 'https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
       video: 'https://www.youtube.com/results?search_query=подтягивания+техника',
       tip: 'Начинай движение со сведения лопаток, а не с рук.',
       steps: ['Хват чуть шире плеч, ладони от себя', 'Сведи лопатки, подтянись грудью к перекладине', 'Подбородок выше перекладины', 'Опускайся медленно, полностью выпрямляя руки']
     },
     'Отжимания от пола': {
-      gif: 'https://media.giphy.com/media/3o7TKrKjX9cVqZ2c2A/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
       video: 'https://www.youtube.com/results?search_query=отжимания+от+пола+техника',
       tip: 'Тело — прямая линия, локти не разводи широко.',
       steps: ['Упор лёжа, ладони под плечами', 'Напряги пресс и ягодицы', 'Опустись, локти ~45° к корпусу', 'Выжми вверх, не прогибай поясницу']
     },
     'Планка': {
-      gif: 'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
       video: 'https://www.youtube.com/results?search_query=планка+техника',
       tip: 'Таз не провисает и не задирается — тело в одну линию.',
       steps: ['Упор на предплечья и носки', 'Локти под плечами', 'Напряги пресс и ягодицы', 'Дыши ровно, держи 30–60 секунд']
     },
     'Скручивания на пресс': {
-      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Crunch.gif',
       video: 'https://www.youtube.com/results?search_query=скручивания+на+пресс+техника',
       tip: 'Скручивайся за счёт пресса, а не тяни шею руками.',
       steps: ['Ляг, колени согнуты, руки за головой', 'На выдохе оторви лопатки от пола', 'Задержись на секунду вверху', 'Медленно опустись, не расслабляй пресс']
     },
     'Подъём ног лёжа': {
-      gif: 'https://media.giphy.com/media/3oKIPavRPgJYaNI97W/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Raise.gif',
       video: 'https://www.youtube.com/results?search_query=подъем+ног+лежа+пресс',
       tip: 'Поясница прижата к полу — не отрывай её.',
       steps: ['Ляг, руки вдоль тела', 'Подними прямые ноги до 90°', 'Медленно опусти, не касаясь пола', 'Держи поясницу прижатой']
     },
     'Боковая планка': {
-      gif: 'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank.gif',
       video: 'https://www.youtube.com/results?search_query=боковая+планка+техника',
       tip: 'Тело — прямая линия от головы до стоп.',
       steps: ['Ляг на бок, локоть под плечом', 'Подними таз, тело в линию', 'Держи 30–45 секунд', 'Повтори на другую сторону']
     },
     'Выпады с гантелями': {
-      gif: 'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif',
       video: 'https://www.youtube.com/results?search_query=выпады+с+гантелями+техника',
       tip: 'Колено передней ноги не выходит за носок.',
       steps: ['Встань прямо, гантели в руках', 'Шагни вперёд, опустись до 90°', 'Колено задней ноги почти касается пола', 'Оттолкнись передней ногой, вернись']
     },
     'Приседания с гантелью (габлет)': {
-      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Goblet-Squat.gif',
       video: 'https://www.youtube.com/results?search_query=габлет+приседания+техника',
       tip: 'Гантель у груди, локти под ней — помогает держать спину прямой.',
       steps: ['Держи гантель вертикально у груди', 'Стопы на ширине плеч', 'Приседай до параллели', 'Вставай, толкаясь пятками']
     },
     'HIIT на дорожке': {
-      gif: 'https://media.giphy.com/media/3o7TKrKjX9cVqZ2c2A/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Running-on-Treadmill.gif',
       video: 'https://www.youtube.com/results?search_query=hiit+на+дорожке+интервалы',
       tip: '30 секунд спринт / 30 секунд ходьба — 8 кругов.',
       steps: ['Разминка 3 минуты ходьбой', '30 сек быстрый бег на максимум', '30 сек медленная ходьба', 'Повтори 8 раз, затем заминка']
     },
     'Бёрпи': {
-      gif: 'https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
       video: 'https://www.youtube.com/results?search_query=берпи+техника',
       tip: 'Держи темп, который можешь сохранить все 8 повторов.',
       steps: ['Из положения стоя присядь, руки на пол', 'Прыжком в упор лёжа', 'Отжимание (по желанию)', 'Прыжком вернись и выпрыгни вверх']
     },
     'Скакалка': {
-      gif: 'https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jump-Rope.gif',
       video: 'https://www.youtube.com/results?search_query=скакалка+техника',
       tip: 'Прыгай невысоко, вращение — кистями, а не руками.',
       steps: ['Локти прижаты к корпусу', 'Вращай скакалку кистями', 'Прыгай на 2–3 см от пола', 'Приземляйся на носки']
     },
     'Махи гирей': {
-      gif: 'https://media.giphy.com/media/3oKIPavRPgJYaNI97W/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Kettlebell-Swing.gif',
       video: 'https://www.youtube.com/results?search_query=махи+гирей+техника',
       tip: 'Движение идёт от таза, а не от рук.',
       steps: ['Гиря между ног, спина прямая', 'Мощно толкни таз вперёд', 'Гиря взлетает до уровня груди', 'Дай ей вернуться между ног']
     },
     'Суставная гимнастика': {
-      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Arm-Circles.gif',
       video: 'https://www.youtube.com/results?search_query=суставная+гимнастика+разминка',
       tip: 'Плавные вращения во всех суставах по 10 раз.',
       steps: ['Вращения головой 10 раз', 'Плечи вперёд/назад по 10', 'Локти и кисти по 10', 'Таз и колени по 10']
     },
     'Динамическая растяжка': {
-      gif: 'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Swing.gif',
       video: 'https://www.youtube.com/results?search_query=динамическая+растяжка+перед+тренировкой',
       tip: 'Не задерживайся в позах — двигайся плавно.',
       steps: ['Махи ногами вперёд/назад по 10', 'Круги руками 10 раз', 'Выпады с поворотом корпуса', 'Наклоны корпуса в стороны']
     },
     'Кошка-корова': {
-      gif: 'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cat-Cow-Stretch.gif',
       video: 'https://www.youtube.com/results?search_query=кошка+корова+упражнение',
       tip: 'Синхронизируй движение с дыханием.',
       steps: ['Встань на четвереньки', 'На вдохе прогни спину вниз', 'На выдохе округли спину вверх', '10 медленных повторов']
     },
     'Растяжка после': {
-      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
+      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hamstring-Stretch.gif',
       video: 'https://www.youtube.com/results?search_query=растяжка+после+тренировки',
       tip: 'Держи каждое положение 20–30 секунд, дыши глубоко.',
       steps: ['Растяжка квадрицепса по 20 сек', 'Растяжка бицепса бедра по 20 сек', 'Растяжка груди в дверном проёме', 'Растяжка спины в наклоне']
