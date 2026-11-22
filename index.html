@@ -508,7 +508,8 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="list" id="workoutList" style="max-height:180px"></div>
       </div>
       <div class="card col-2" style="grid-column:1 / -1">
-        <h3><span class="ico">📅</span> Запланированная тренировка</h3>
+        <h3 style="cursor:pointer;user-select:none" onclick="togglePlanCard()"><span class="ico">📅</span> Запланированная тренировка <span id="planCardArrow" style="margin-left:auto;font-size:12px;color:#8b9ab5">▼</span></h3>
+        <div id="planCardBody" hidden>
         <div class="divider"></div>
         <div class="field" style="position:relative">
           <label>Упражнение</label>
@@ -531,6 +532,7 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="divider"></div>
         <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗓 Запланировано</h4>
         <div class="list" id="plannedList" style="max-height:220px"></div>
+        </div>
       </div>
 
       <div class="card col-2" style="grid-column:1 / -1">
@@ -983,6 +985,15 @@ function muscleStatus(key) {
 }
 
 /* ---------- интерфейс: навигация ---------- */
+window.togglePlanCard = function () {
+  var body = document.getElementById('planCardBody');
+  var arrow = document.getElementById('planCardArrow');
+  if (!body) return;
+  var open = body.hasAttribute('hidden');
+  if (open) body.removeAttribute('hidden'); else body.setAttribute('hidden', '');
+  if (arrow) arrow.textContent = open ? '▲' : '▼';
+};
+
 window.toggleNav = function () {
   var open = document.body.classList.toggle('nav-open');
   $('#menuBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
