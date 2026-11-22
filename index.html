@@ -512,73 +512,83 @@ body.nav-open .nav-overlay{opacity:1}
           <span class="rec-sub">За последние 7 дней</span>
         </div>
 
-        <div style="margin:14px 0 18px;padding:14px;background:#0f1728;border:1px solid var(--line);border-radius:16px;overflow-x:auto">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 720" width="100%" style="max-width:500px;height:auto;display:block;margin:0 auto">
-            <defs>
-              <style>
-                .anat-title { font: bold 20px sans-serif; fill: #e8eefc; }
-                .anat-label { font: bold 13px sans-serif; fill: #e8eefc; }
-                .anat-sublabel { font: 11px sans-serif; fill: #8b9ab5; }
-                .anat-outline { fill: #1b2740; stroke: #3a4d75; stroke-width: 2.5; stroke-linejoin: round; }
-                .anat-guide { stroke: #64748b; stroke-width: 1.2; stroke-dasharray: 3,3; fill: none; }
-                .anat-dot { fill: #5eead4; }
-              </style>
-            </defs>
+        <div class="rec-summary" id="recSummary"></div>
 
-            <rect width="500" height="720" rx="12" fill="#0b0f19" stroke="#1f2a44" stroke-width="1.5"/>
-            <text x="250" y="38" text-anchor="middle" class="anat-title">Анатомия человека (схема)</text>
+        <div class="rec-body" id="recBody">
+          <svg viewBox="0 0 440 420" xmlns="http://www.w3.org/2000/svg" class="muscle-map">
+            <style>
+              .muscle-map{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
+              .muscle-map .body-base{fill:#1e293b;stroke:#475569;stroke-width:1.5;stroke-linejoin:round}
+              .muscle-map .body-part{fill:#334155;stroke:#0f172a;stroke-width:1;transition:fill .2s ease,opacity .2s ease;cursor:pointer}
+              .muscle-map .body-part:hover{fill:#38bdf8}
+              .muscle-map .body-part.st-trained{fill:#ef4444;stroke:#fca5a5}
+              .muscle-map .body-part.st-recovering{fill:#f59e0b;stroke:#fcd34d}
+              .muscle-map .body-part.st-ready{fill:#10b981;stroke:#6ee7b7}
+              .muscle-map .body-part.st-new{fill:#334155;stroke:#0f172a}
+              .muscle-map .label{fill:#64748b;font-family:system-ui,sans-serif;font-size:11px;text-anchor:middle;letter-spacing:.08em;text-transform:uppercase}
+            </style>
 
-            <g id="body-silhouette">
-              <circle cx="210" cy="115" r="36" class="anat-outline"/>
-              <rect x="198" y="148" width="24" height="24" rx="6" class="anat-outline"/>
-              <path d="M155 175 Q210 165 265 175 L252 365 L168 365 Z" class="anat-outline"/>
-              <path d="M265 178 L302 275 L290 365 L272 365 L280 280 L252 198 Z" class="anat-outline"/>
-              <path d="M155 178 L118 275 L130 365 L148 365 L140 280 L168 198 Z" class="anat-outline"/>
-              <path d="M168 365 L162 535 L154 670 L180 670 L188 535 L202 365 Z" class="anat-outline"/>
-              <path d="M218 365 L232 535 L240 670 L266 670 L258 535 L252 365 Z" class="anat-outline"/>
+            <g id="front-view">
+              <text x="110" y="414" class="label">Спереди</text>
+
+              <path class="body-base" d="M110,20 C122,20 127,29 127,42 C127,54 121,64 116,67 L118,78 C130,82 152,84 160,94 C166,104 166,126 164,146 L172,196 L182,226 C184,234 180,248 174,250 C169,250 165,240 164,230 L154,194 L146,144 L144,174 L142,202 C148,224 148,266 140,302 L138,318 C142,338 140,368 134,386 L140,396 C134,400 120,400 116,396 L118,382 C115,358 114,332 114,316 L112,246 L108,246 L106,316 C106,332 105,358 102,382 L104,396 C100,400 86,400 80,396 L86,386 C80,368 78,338 82,318 L80,302 C72,266 72,224 78,202 L76,174 L74,144 L66,194 L56,230 C55,240 51,250 46,250 C40,248 36,234 38,226 L48,196 L56,146 C54,126 54,104 60,94 C68,84 90,82 102,78 L104,67 C99,64 93,54 93,42 C93,29 98,20 110,20 Z"/>
+
+              <ellipse class="body-part" data-m="frontdelt" cx="64" cy="102" rx="13" ry="12"/>
+              <ellipse class="body-part" data-m="frontdelt" cx="156" cy="102" rx="13" ry="12"/>
+              <path class="body-part" data-m="chest" d="M78,112 C88,106 104,106 108,114 L108,138 C100,144 84,144 78,136 Z"/>
+              <path class="body-part" data-m="chest" d="M142,112 C132,106 116,106 112,114 L112,138 C120,144 136,144 142,136 Z"/>
+              <ellipse class="body-part" data-m="biceps" cx="58" cy="140" rx="9" ry="20"/>
+              <ellipse class="body-part" data-m="biceps" cx="162" cy="140" rx="9" ry="20"/>
+              <ellipse class="body-part" data-m="forearms" cx="52" cy="186" rx="8" ry="22"/>
+              <ellipse class="body-part" data-m="forearms" cx="168" cy="186" rx="8" ry="22"/>
+              <rect class="body-part" data-m="abs" x="96" y="146" width="12" height="13" rx="2"/>
+              <rect class="body-part" data-m="abs" x="112" y="146" width="12" height="13" rx="2"/>
+              <rect class="body-part" data-m="abs" x="96" y="163" width="12" height="13" rx="2"/>
+              <rect class="body-part" data-m="abs" x="112" y="163" width="12" height="13" rx="2"/>
+              <rect class="body-part" data-m="abs" x="96" y="180" width="12" height="13" rx="2"/>
+              <rect class="body-part" data-m="abs" x="112" y="180" width="12" height="13" rx="2"/>
+              <path class="body-part" data-m="obliques" d="M88,150 L94,150 L94,196 L88,196 Z"/>
+              <path class="body-part" data-m="obliques" d="M126,150 L132,150 L132,196 L126,196 Z"/>
+              <path class="body-part" data-m="quads" d="M84,214 C78,238 76,270 78,300 L100,300 C100,270 100,238 98,214 Z"/>
+              <path class="body-part" data-m="quads" d="M136,214 C142,238 144,270 142,300 L120,300 C120,270 120,238 122,214 Z"/>
+              <path class="body-part" data-m="adductors" d="M100,214 L108,214 L108,290 L100,290 Z"/>
+              <path class="body-part" data-m="adductors" d="M112,214 L120,214 L120,290 L112,290 Z"/>
+              <ellipse class="body-part" data-m="calves" cx="88" cy="356" rx="11" ry="26"/>
+              <ellipse class="body-part" data-m="calves" cx="132" cy="356" rx="11" ry="26"/>
             </g>
 
-            <g id="organs">
-              <ellipse cx="210" cy="106" rx="22" ry="15" fill="#fda4af" stroke="#be123c" stroke-width="1.5"/>
-              <path d="M196 192 C182 192, 174 212, 176 242 C178 254, 194 254, 204 246 L204 198 Z" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
-              <path d="M224 192 C238 192, 246 212, 244 242 C242 254, 226 254, 216 246 L216 198 Z" fill="#bae6fd" stroke="#0369a1" stroke-width="1.5"/>
-              <path d="M214 218 C214 210, 226 210, 226 220 C226 229, 214 236, 214 236 C214 236, 202 229, 202 220 C202 210, 214 210, 214 218 Z" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/>
-              <path d="M178 254 Q205 248 228 258 Q215 274 182 268 Z" fill="#d97706" stroke="#78350f" stroke-width="1.5"/>
-              <path d="M216 262 Q236 262 234 282 Q232 294 216 288 Q210 276 216 262 Z" fill="#fbbf24" stroke="#92400e" stroke-width="1.5"/>
-              <rect x="182" y="294" width="56" height="46" rx="14" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
-              <path d="M190 306 H230 M190 318 H230 M190 330 H222" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
-            </g>
+            <g id="back-view">
+              <text x="330" y="414" class="label">Сзади</text>
 
-            <g id="callouts">
-              <line x1="232" y1="106" x2="315" y2="106" class="anat-guide"/>
-              <circle cx="232" cy="106" r="3" class="anat-dot"/>
-              <text x="322" y="103" class="anat-label">Головной мозг</text>
-              <text x="322" y="118" class="anat-sublabel">Нервная система</text>
+              <path class="body-base" d="M330,20 C342,20 347,29 347,42 C347,54 341,64 336,67 L338,78 C350,82 372,84 380,94 C386,104 386,126 384,146 L392,196 L402,226 C404,234 400,248 394,250 C389,250 385,240 384,230 L374,194 L366,144 L364,174 L362,202 C368,224 368,266 360,302 L358,318 C362,338 360,368 354,386 L360,396 C354,400 340,400 336,396 L338,382 C335,358 334,332 334,316 L332,246 L328,246 L326,316 C326,332 325,358 322,382 L324,396 C320,400 306,400 300,396 L306,386 C300,368 298,338 302,318 L300,302 C292,266 292,224 298,202 L296,174 L294,144 L286,194 L276,230 C275,240 271,250 266,250 C260,248 256,234 258,226 L268,196 L276,146 C274,126 274,104 280,94 C288,84 310,82 322,78 L324,67 C319,64 313,54 313,42 C313,29 318,20 330,20 Z"/>
 
-              <line x1="244" y1="205" x2="315" y2="175" class="anat-guide"/>
-              <circle cx="244" cy="205" r="3" class="anat-dot"/>
-              <text x="322" y="172" class="anat-label">Лёгкие</text>
-              <text x="322" y="187" class="anat-sublabel">Дыхательная система</text>
-
-              <line x1="224" y1="224" x2="315" y2="224" class="anat-guide"/>
-              <circle cx="224" cy="224" r="3" class="anat-dot"/>
-              <text x="322" y="221" class="anat-label">Сердце</text>
-              <text x="322" y="236" class="anat-sublabel">Сердечно-сосудистая</text>
-
-              <line x1="234" y1="272" x2="315" y2="272" class="anat-guide"/>
-              <circle cx="234" cy="272" r="3" class="anat-dot"/>
-              <text x="322" y="269" class="anat-label">Печень и желудок</text>
-              <text x="322" y="284" class="anat-sublabel">Пищеварение и обмен веществ</text>
-
-              <line x1="238" y1="317" x2="315" y2="322" class="anat-guide"/>
-              <circle cx="238" cy="317" r="3" class="anat-dot"/>
-              <text x="322" y="319" class="anat-label">Кишечник</text>
-              <text x="322" y="334" class="anat-sublabel">Всасывание питательных веществ</text>
+              <ellipse class="body-part" data-m="traps" cx="330" cy="92" rx="26" ry="12"/>
+              <ellipse class="body-part" data-m="reardelt" cx="284" cy="102" rx="13" ry="12"/>
+              <ellipse class="body-part" data-m="reardelt" cx="376" cy="102" rx="13" ry="12"/>
+              <path class="body-part" data-m="upperback" d="M300,108 C312,104 348,104 360,108 L358,140 C346,146 314,146 302,140 Z"/>
+              <path class="body-part" data-m="lats" d="M298,142 L316,142 L314,186 L296,180 Z"/>
+              <path class="body-part" data-m="lats" d="M362,142 L344,142 L346,186 L364,180 Z"/>
+              <ellipse class="body-part" data-m="triceps" cx="278" cy="140" rx="9" ry="20"/>
+              <ellipse class="body-part" data-m="triceps" cx="382" cy="140" rx="9" ry="20"/>
+              <ellipse class="body-part" data-m="forearms" cx="272" cy="186" rx="8" ry="22"/>
+              <ellipse class="body-part" data-m="forearms" cx="388" cy="186" rx="8" ry="22"/>
+              <path class="body-part" data-m="lowerback" d="M316,188 L344,188 L344,212 L316,212 Z"/>
+              <ellipse class="body-part" data-m="glutes" cx="316" cy="226" rx="16" ry="14"/>
+              <ellipse class="body-part" data-m="glutes" cx="344" cy="226" rx="16" ry="14"/>
+              <path class="body-part" data-m="hams" d="M304,246 C300,270 300,296 302,318 L322,318 C322,296 322,270 320,246 Z"/>
+              <path class="body-part" data-m="hams" d="M356,246 C360,270 360,296 358,318 L338,318 C338,296 338,270 340,246 Z"/>
+              <ellipse class="body-part" data-m="calves" cx="308" cy="356" rx="11" ry="26"/>
+              <ellipse class="body-part" data-m="calves" cx="352" cy="356" rx="11" ry="26"/>
             </g>
           </svg>
         </div>
 
-        <div class="rec-summary" id="recSummary"></div>
+        <div class="rec-legend">
+          <span><i class="rec-dot" style="background:#ef4444"></i> Утомлена</span>
+          <span><i class="rec-dot" style="background:#f59e0b"></i> Восстанавливается</span>
+          <span><i class="rec-dot" style="background:#10b981"></i> Готова</span>
+          <span><i class="rec-dot" style="background:#334155"></i> Нет данных</span>
+        </div>
 
         <div class="rec-list" id="recList"></div>
         <button class="rec-more" id="recMore" onclick="toggleRecMore()">Скрыть лишние мышцы ⌃</button>
