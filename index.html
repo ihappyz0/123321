@@ -392,10 +392,15 @@ body.nav-open .nav-overlay{opacity:1}
           <label>Целевые группы</label>
           <div class="chips-row" id="groupChips"></div>
         </div>
+        <div class="field" style="position:relative">
+          <label>Упражнение</label>
+          <input id="exSearch" placeholder="Начните вводить: жим, тяга, присед…" autocomplete="off" oninput="exSearchInput(this.value)" onfocus="exSearchInput(this.value)" />
+          <div class="ex-suggest" id="exSuggest" hidden></div>
+        </div>
         <div class="field">
-          <label>Упражнения</label>
+          <label>Подходы, повторы и вес</label>
           <div id="exRows"></div>
-          <button class="btn sm ghost" onclick="addExRow()">+ Упражнение</button>
+          <button class="btn sm ghost" onclick="addExRow()">+ Упражнение вручную</button>
         </div>
         <div class="btn-row">
           <button class="btn primary" onclick="saveWorkout()">Сохранить тренировку</button>
