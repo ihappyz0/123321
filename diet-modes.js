@@ -593,11 +593,16 @@
   function renderModes() {
     var box = document.getElementById('gmdModes');
     if (!box) return;
-    var h = '';
+    var cur = MODES[state.mode];
+    var h = '<button class="gmd-mode-trigger" data-gmd="modeToggle">' +
+      '<span class="gmd-mt-left"><b>' + cur.ico + '</b>' + esc(cur.name) + '</span>' +
+      '<span class="gmd-mt-arrow">▼</span>' +
+    '</button><div class="gmd-mode-list">';
     for (var i = 0; i < MODE_ORDER.length; i++) {
       var m = MODES[MODE_ORDER[i]];
       h += '<button class="gmd-mode' + (state.mode === m.id ? ' on' : '') + '" data-gmd="mode" data-mode="' + m.id + '"><b>' + m.ico + '</b>' + esc(m.name) + '</button>';
     }
+    h += '</div>';
     box.innerHTML = h;
     document.getElementById('gmdDesc').textContent = MODES[state.mode].desc;
     var tips = MODES[state.mode].tips, th = '';
@@ -2109,6 +2114,11 @@
     if (!btn) return;
     var act = btn.getAttribute('data-gmd');
 
+    if (act === 'modeToggle') {
+      var box = document.getElementById('gmdModes');
+      if (box) box.classList.toggle('open');
+      return;
+    }
     if (act === 'mode') {
       var m = btn.getAttribute('data-mode');
       if (MODES[m]) {
