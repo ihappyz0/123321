@@ -365,6 +365,12 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="kpi-row"><span class="kpi amber" id="waterKpi">0</span><span class="unit" id="waterUnit">/ 2600 мл</span></div>
         <div class="bar amber"><i id="waterBar"></i></div>
         <p class="kpi-sub" id="waterHint">Норма рассчитана по весу: 35 мл на кг.</p>
+        <div class="btn-row">
+          <button class="btn sm teal" onclick="addWater(200)">+200 мл</button>
+          <button class="btn sm teal" onclick="addWater(250)">+250 мл</button>
+          <button class="btn sm teal" onclick="addWater(500)">+500 мл</button>
+          <button class="btn sm ghost" onclick="resetWater()">↺ Сброс</button>
+        </div>
         <div class="divider"></div>
         <div class="chart" id="waterChart"></div>
       </div>
