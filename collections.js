@@ -676,7 +676,10 @@
       var video = g.video || ('https://www.youtube.com/results?search_query=' + encodeURIComponent(n + ' техника'));
       var tip = g.tip || 'Следи за техникой и не гонись за весом в первых подходах.';
       var steps = (g.steps || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
-      var gifHtml = '<span class="gmc-gif-ph">' + (g.ico || '🏋️') + '</span>';
+      var gifHtml = gif
+        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\'" />' +
+          '<span class="gmc-gif-ph" style="display:none">' + (g.ico || '🏋️') + '</span>'
+        : '<span class="gmc-gif-ph">' + (g.ico || '🏋️') + '</span>';
       return '<li class="gmc-ex" data-gmc-ex="' + i + '">' +
         '<div class="gmc-ex-head" data-gmc-extoggle="' + i + '">' +
           '<span class="gmc-ex-arrow">▶</span>' +
