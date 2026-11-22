@@ -12,6 +12,9 @@
 <meta name="description" content="GymMind — ИИ-тренер, дневник тренировок, питание, видео-уроки и анализ техники." />
 <link rel="manifest" href="manifest.webmanifest" />
 <script src="video-library.js" defer></script>
+<script src="nutrition-recipes.js" defer></script>
+<script src="diet-modes.js" defer></script>
+<script src="nutrition-ui-fix.js" defer></script>
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
 <title>GymMind — ИИ-тренер и дневник зала</title>
@@ -220,23 +223,6 @@ body.nav-open .nav-overlay{opacity:1}
   .brand h1{font-size:17px}
   .chip{padding:6px 10px;font-size:11px}
 }
-.dish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:280px;overflow:auto;padding-right:4px;margin-top:4px}
-.dish-chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;border:1px solid var(--line);background:#0e1526;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;transition:.18s}
-.dish-chip:hover{border-color:rgba(139,92,246,.5)}
-.dish-chip.on{background:linear-gradient(135deg,rgba(139,92,246,.32),rgba(45,212,191,.22));border-color:rgba(139,92,246,.65)}
-.dish-chip .de{font-size:16px;flex:0 0 auto}
-.dish-chip small{display:block;font-weight:500;color:var(--muted);font-size:10.5px;margin-top:2px}
-.preview{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.28);border-radius:14px;padding:12px 14px;margin-top:12px;font-size:12.5px;color:#d6e0f2;line-height:1.55}
-.preview .big{font-size:22px;font-weight:800;color:#e8eefc;letter-spacing:-.5px}
-.photo-preview{aspect-ratio:16/10;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0d1424;display:grid;place-items:center;color:var(--muted);font-size:12px;margin-top:12px;text-align:center;padding:6px}
-.photo-preview img{width:100%;height:100%;object-fit:cover;display:block;border-radius:10px}
-.cand-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
-.cand-row:last-child{border-bottom:none}
-.scorebar{flex:1;height:6px;border-radius:99px;background:#0d1424;overflow:hidden;min-width:40px}
-.scorebar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--teal))}
-.scanbox{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3;margin-top:12px}
-.scanbox video{width:100%;height:100%;object-fit:cover;display:block}
-.scanbox .frame{position:absolute;inset:18% 12%;border:2px solid rgba(94,234,212,.9);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.4);pointer-events:none}
 .seg{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none}
 .seg::-webkit-scrollbar{display:none}
 .seg button{flex:0 0 auto;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--tile2);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
@@ -325,97 +311,31 @@ body.nav-open .nav-overlay{opacity:1}
   <section class="view" id="view-food">
     <div class="bento">
       <div class="card col-2">
-        <h3><span class="ico">🍽</span> Съедено за день</h3>
+        <h3><span class="ico">🍽</span> Дневник питания</h3>
+        <div class="grid2">
+          <div class="field"><label>Блюдо</label><input id="fName" placeholder="Овсянка с бананом" /></div>
+          <div class="field"><label>Калории, ккал</label><input id="fKcal" type="number" inputmode="numeric" placeholder="420" /></div>
+        </div>
+        <div class="grid3">
+          <div class="field"><label>Белки, г</label><input id="fP" type="number" inputmode="decimal" placeholder="18" /></div>
+          <div class="field"><label>Жиры, г</label><input id="fF" type="number" inputmode="decimal" placeholder="9" /></div>
+          <div class="field"><label>Углеводы, г</label><input id="fC" type="number" inputmode="decimal" placeholder="62" /></div>
+        </div>
+        <div class="field"><label>Приём пищи</label><select id="fMeal"></select></div>
+        <div class="chips-row" id="foodPresets"></div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="addMeal()">Добавить приём</button>
+          <button class="btn ghost" onclick="clearTodayFood()">Очистить день</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="ico">📊</span> Итог за день</h3>
         <div id="foodTotals"></div>
         <div class="divider"></div>
         <div id="mealBreakdown"></div>
       </div>
       <div class="card col-2">
-        <h3><span class="ico">🎯</span> Дневная цель</h3>
-        <div id="foodProgress"></div>
-      </div>
-    </div>
-
-    <div class="bento" style="margin-top:16px">
-      <div class="card col-2">
-        <h3><span class="ico">➕</span> Добавить блюдо</h3>
-        <div class="seg" id="addTabs">
-          <button class="on" data-tab="base" onclick="gmAddTab('base')">🍲 Из базы</button>
-          <button data-tab="manual" onclick="gmAddTab('manual')">✍️ Вручную</button>
-          <button data-tab="photo" onclick="gmAddTab('photo')">📷 По фото</button>
-          <button data-tab="scan" onclick="gmAddTab('scan')">📦 Штрихкод</button>
-        </div>
-
-        <div id="pan-base">
-          <div class="field"><label>Поиск блюда или продукта</label><input id="baseSearch" placeholder="курица, овсянка, банан…" oninput="gmRenderBaseList()" /></div>
-          <div class="dish-grid" id="baseList"></div>
-          <div class="grid2" style="margin-top:12px">
-            <div class="field"><label>Вес порции, г</label><input id="baseWeight" type="number" inputmode="numeric" value="100" oninput="gmCalcBase()" /></div>
-            <div class="field"><label>Приём пищи</label><select id="baseMeal"></select></div>
-          </div>
-          <div class="preview" id="basePreview">—</div>
-          <div class="btn-row"><button class="btn primary" onclick="gmAddBase()">Добавить в дневник</button></div>
-        </div>
-
-        <div id="pan-manual" hidden>
-          <div class="field"><label>Название блюда</label><input id="manualName" placeholder="Домашний суп" /></div>
-          <div class="grid2">
-            <div class="field"><label>Калорий на 100 г</label><input id="manualK" type="number" inputmode="decimal" placeholder="120" oninput="gmCalcManual()" /></div>
-            <div class="field"><label>Вес порции, г</label><input id="manualW" type="number" inputmode="numeric" placeholder="250" oninput="gmCalcManual()" /></div>
-          </div>
-          <div class="grid3">
-            <div class="field"><label>Белки на 100 г</label><input id="manualP" type="number" inputmode="decimal" placeholder="0" oninput="gmCalcManual()" /></div>
-            <div class="field"><label>Жиры на 100 г</label><input id="manualF" type="number" inputmode="decimal" placeholder="0" oninput="gmCalcManual()" /></div>
-            <div class="field"><label>Углеводы на 100 г</label><input id="manualC" type="number" inputmode="decimal" placeholder="0" oninput="gmCalcManual()" /></div>
-          </div>
-          <div class="field"><label>Приём пищи</label><select id="manualMeal"></select></div>
-          <p class="tiny muted" style="margin-bottom:10px">Не знаешь калорийность на 100 г? Поставь вес 100 г и укажи калории всей порции — итог будет тот же.</p>
-          <div class="preview" id="manualPreview">—</div>
-          <div class="btn-row"><button class="btn primary" onclick="gmAddManual()">Добавить в дневник</button></div>
-        </div>
-
-        <div id="pan-photo" hidden>
-          <label class="upload">
-            <input type="file" accept="image/*" capture="environment" onchange="gmPhotoChosen(event)" />
-            <span class="u-ico">📷</span>
-            <b>Сфотографировать блюдо или выбрать фото</b>
-            <p>Приложение определит, что на фото, и посчитает калории</p>
-          </label>
-          <div class="photo-preview" id="photoPreview">Фото пока не загружено</div>
-          <div id="photoCands" style="margin-top:10px"></div>
-          <div class="grid2" style="margin-top:12px">
-            <div class="field"><label>Вес порции, г</label><input id="photoWeight" type="number" inputmode="numeric" value="250" oninput="gmCalcPhoto()" /></div>
-            <div class="field"><label>Приём пищи</label><select id="photoMeal"></select></div>
-          </div>
-          <div class="preview" id="photoPreviewKcal">—</div>
-          <div class="btn-row"><button class="btn primary" onclick="gmAddPhoto()">Добавить в дневник</button></div>
-        </div>
-
-        <div id="pan-scan" hidden>
-          <div class="btn-row" style="margin-top:0">
-            <button class="btn teal" onclick="gmStartScan()">📷 Открыть камеру</button>
-            <button class="btn ghost" onclick="gmStopScan()">Стоп</button>
-          </div>
-          <div class="scanbox" id="scanBox" hidden>
-            <video id="scanVideo" playsinline muted autoplay></video>
-            <div class="frame"></div>
-          </div>
-          <div class="field" style="margin-top:12px"><label>Штрихкод (8–13 цифр)</label>
-            <div style="display:flex;gap:8px"><input id="scanCode" type="tel" inputmode="numeric" placeholder="4600000000000" />
-            <button class="btn" onclick="gmBarcodeLookup()">Найти</button></div>
-          </div>
-          <p class="tiny muted" id="scanStatus">Продукт ищется в базе Open Food Facts.</p>
-          <div class="grid2" style="margin-top:12px">
-            <div class="field"><label>Вес порции, г</label><input id="scanWeight" type="number" inputmode="numeric" value="100" oninput="gmCalcScan()" /></div>
-            <div class="field"><label>Приём пищи</label><select id="scanMeal"></select></div>
-          </div>
-          <div class="preview" id="scanPreview">—</div>
-          <div class="btn-row"><button class="btn primary" onclick="gmAddScan()">Добавить в дневник</button></div>
-        </div>
-      </div>
-
-      <div class="card col-2">
-        <h3><span class="ico">📝</span> Список за день</h3>
+        <h3><span class="ico">📝</span> Съедено сегодня</h3>
         <div class="list" id="foodList"></div>
       </div>
     </div>
@@ -841,17 +761,11 @@ window.gmMealOptionsHTML = function (sel) {
 };
 function gmFillMealSelects() {
   var def = gmMealAuto();
-  ['fMeal', 'qMeal'].forEach(function (id) {
+  ['fMeal'].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
     el.innerHTML = gmMealOptionsHTML(el.value || def);
   });
-  var qp = document.getElementById('qPresets');
-  if (qp) {
-    qp.innerHTML = FOOD_PRESETS.map(function (p, i) {
-      return '<button class="gchip" onclick="fillQuick(' + i + ')">' + p.n + '</button>';
-    }).join('');
-  }
   var mb = document.getElementById('mealBreakdown');
   if (mb) {
     var day = todayFood();
@@ -862,27 +776,7 @@ function gmFillMealSelects() {
     }).join('');
   }
 }
-window.fillQuick = function (i) {
-  var p = FOOD_PRESETS[i];
-  if (!p) return;
-  var set = function (id, v) { var el = document.getElementById(id); if (el) el.value = v; };
-  set('qName', p.n); set('qKcal', p.kcal); set('qP', p.p); set('qF', p.f); set('qC', p.c);
-  var n = document.getElementById('qName');
-  if (n && n.focus) n.focus();
-};
-window.quickAddFood = function () {
-  var name = $('#qName').value.trim();
-  if (!name) { toast('Напишите, что съели'); return; }
-  S.food.push({
-    id: uid(), date: iso(), name: name, meal: gmMealOf('qMeal'),
-    kcal: +$('#qKcal').value || 0, p: +$('#qP').value || 0,
-    f: +$('#qF').value || 0, c: +$('#qC').value || 0
-  });
-  save();
-  ['qName', 'qKcal', 'qP', 'qF', 'qC'].forEach(function (id) { $('#' + id).value = ''; });
-  toast('Записано: ' + name);
-  renderAll();
-};
+
 
 function renderFood() {
   gmFillMealSelects();
