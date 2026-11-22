@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070b14"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="18%" cy="15%" r="55%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="85%" cy="85%" r="50%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="360" rx="24" fill="url(#glow1)"/>
+  <rect width="1200" height="360" rx="24" fill="url(#glow2)"/>
+  <rect x="28" y="28" width="1144" height="304" rx="20" fill="rgba(255,255,255,0.035)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <circle cx="96" cy="86" r="10" fill="#38bdf8"/>
+  <text x="118" y="92" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.5">PROJECT SHOWCASE</text>
+  <text x="72" y="168" fill="url(#titleGrad)" font-family="Segoe UI, Arial, sans-serif" font-size="54" font-weight="800">123321</text>
+  <text x="72" y="218" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="400">GymMind — ИИ-тренер, дневник тренировок и питание в одном приложении</text>
+  <g transform="translate(72, 256)"><rect width="84" height="34" rx="17" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.45)" stroke-width="1.2"/><text x="42" y="22" text-anchor="middle" fill="#e0f2fe" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">HTML5</text></g>
+  <g transform="translate(168, 256)"><rect width="128" height="34" rx="17" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.45)" stroke-width="1.2"/><text x="64" y="22" text-anchor="middle" fill="#e0f2fe" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">JavaScript</text></g>
+</svg>
