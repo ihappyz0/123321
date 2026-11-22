@@ -956,53 +956,7 @@
     }, 200);
   }
 
-  /* ==================== ПОЛНОЭКРАННЫЙ ПРОСМОТР GIF ==================== */
-  function openGifFull(src, name) {
-    var old = document.getElementById('gmcGifFull');
-    if (old) old.parentNode.removeChild(old);
-    var box = document.createElement('div');
-    box.id = 'gmcGifFull';
-    box.className = 'gmc-gif-full open';
-    box.innerHTML =
-      '<button class="gmc-gif-full-close" data-gmc-gifclose="1" aria-label="Закрыть">✕</button>' +
-      '<img src="' + esc(src) + '" alt="' + esc(name || '') + '" />' +
-      (name ? '<div class="gmc-gif-full-cap">' + esc(name) + '</div>' : '');
-    document.body.appendChild(box);
-    box.addEventListener('click', function (e) {
-      if (e.target === box || e.target.getAttribute('data-gmc-gifclose')) {
-        box.classList.remove('open');
-        setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 180);
-      }
-    });
-  }
-  function closeGifFull() {
-    var box = document.getElementById('gmcGifFull');
-    if (!box) return;
-    box.classList.remove('open');
-    setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 180);
-  }
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape' && e.key !== 'Esc') return;
-    var gifBox = document.getElementById('gmcGifFull');
-    if (gifBox) { closeGifFull(); return; }
-    var wModal = document.getElementById('gmcWorkoutModal');
-    if (wModal) {
-      wModal.classList.remove('open');
-      setTimeout(function () { if (wModal.parentNode) wModal.parentNode.removeChild(wModal); }, 200);
-    }
-  });
-
   document.addEventListener('click', function (e) {
-    /* полноэкранный GIF */
-    var zoom = e.target.closest ? e.target.closest('[data-gmc-zoom]') : null;
-    if (zoom) {
-      e.preventDefault();
-      e.stopPropagation();
-      openGifFull(zoom.getAttribute('data-gmc-zoom'), zoom.getAttribute('data-gmc-zoom-name'));
-      return;
-    }
-    /* клик по карточке тренировки */
     var item = e.target.closest ? e.target.closest('[data-gmc-workout]') : null;
     if (!item) return;
     openWorkoutModal(item.getAttribute('data-gmc-workout'), +item.getAttribute('data-gmc-idx'));
