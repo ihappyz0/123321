@@ -430,9 +430,37 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="chips-row" id="suppChips"></div>
         <p class="kpi-sub" id="suppHint">Отмечайте приём — статистика пойдёт в достижения.</p>
         <div class="divider"></div>
-        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">⏱ Когда и сколько пить <span class="tag teal" id="suppModeTag" style="margin-left:6px;font-size:10px">—</span></h4>
-        <div class="supp-timing" id="suppTiming"></div>
-        <p class="kpi-sub" style="margin-top:12px">Дозировки ориентировочные для здорового взрослого. При хронических болезнях и приёме лекарств — сначала к врачу.</p>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">⏱ Когда и сколько пить</h4>
+        <div class="supp-timing">
+          <div class="supp-block">
+            <b>До тренировки</b>
+            <ul>
+              <li><b class="supp-link" onclick="openSuppInfo('creatine')">Креатин 5 г</b> — за 30–40 мин до старта (или в любое время дня, главное каждый день).</li>
+              <li><b class="supp-link" onclick="openSuppInfo('caffeine')">Кофеин 100–200 мг</b> — за 30 мин до тренировки, не позже 6 часов до сна.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('bcaa')">BCAA 5–10 г</b> — за 15–20 мин до тренировки (если тренируетесь натощак).</li>
+              <li><b class="supp-link" onclick="openSuppInfo('beta')">Бета-аланин 3–5 г</b> — за 30 мин до тренировки (курсом, не разово).</li>
+            </ul>
+          </div>
+          <div class="supp-block">
+            <b>После тренировки</b>
+            <ul>
+              <li><b class="supp-link" onclick="openSuppInfo('protein')">Протеин 25–40 г</b> — в течение 30–60 мин после тренировки.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('creatine')">Креатин 5 г</b> — можно и после, если не пили до.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('carbs')">Углеводы 40–60 г</b> — вместе с протеином для восстановления гликогена.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('electrolytes')">Электролиты</b> — при обильном потоотделении, 500–700 мл воды.</li>
+            </ul>
+          </div>
+          <div class="supp-block">
+            <b>В течение дня</b>
+            <ul>
+              <li><b class="supp-link" onclick="openSuppInfo('omega')">Омега-3 1000–2000 мг</b> — с едой, содержащей жиры.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('d3')">Витамин D3 1000–2000 МЕ</b> — утром или днём с едой.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('mag')">Магний 200–400 мг</b> — вечером, за 1–2 часа до сна.</li>
+              <li><b class="supp-link" onclick="openSuppInfo('c')">Витамин C 500 мг</b> — утром, вместе с завтраком.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="kpi-sub" style="margin-top:12px">Дозировки ориентировочные для здорового взрослого. При хронических заболеваниях и приёме лекарств — сначала к врачу.</p>
         <div class="divider"></div>
         <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">📆 Дисциплина за неделю</h4>
         <div class="chart" id="suppChart"></div>
