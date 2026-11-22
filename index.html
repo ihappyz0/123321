@@ -15,6 +15,7 @@
 <script src="diet-mode-sync.js" defer></script>
 <script src="diet-modes.js" defer></script>
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="recovery-map.css" />
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
 <title>GymMind — ИИ-тренер и дневник зала</title>
 <script>
@@ -1583,25 +1584,21 @@ function renderRecovery() {
   var r = recWeekRange();
   var months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
   var lbl = document.getElementById('recWeekLabel');
-  if (lbl) lbl.textContent = 'Неделя с ' + r.mon.getDate() + ' ' + months[r.mon.getMonth()] + '.';
+  if (lbl) lbl.textContent = r.mon.getDate() + ' ' + months[r.mon.getMonth()] + '.';
 
   var rows = REC_GROUPS.slice(0, recMore ? REC_GROUPS.length : 13);
   list.innerHTML = rows.map(function (g) {
     var v = recSetsFor(g.k);
+    var st = recStatus(g.k);
     var hasRange = g.hi > 0;
     var valTxt = hasRange ? (v + ' / ' + g.lo + '–' + g.hi) : String(v);
-    var track = '';
-    if (hasRange) {
-      var max = g.hi * 1.15;
-      var left = Math.round(g.lo / max * 100);
-      var width = Math.round((g.hi - g.lo) / max * 100);
-      var mark = Math.min(100, Math.round(v / max * 100));
-      track = '<div class="rec-track"><span class="rng" style="left:' + left + '%;width:' + width + '%"></span>' +
-        '<span class="mark" style="left:' + mark + '%"></span></div>';
-    } else {
-      track = '<div class="rec-track"><span class="mark" style="left:0%"></span></div>';
-    }
-    return '<div class="rec-row"><span class="rn">' + g.n + '</span>' + track + '<span class="rv">' + valTxt + '</span></div>';
+    var pct = 0;
+    if (hasRange) pct = Math.min(100, Math.round(v / (g.hi || 1) * 100));
+    else if (v > 0) pct = 100;
+    return '<div class="rec-item ' + st.cls + '" data-m="' + g.k + '">' +
+      '<div class="rec-item-top"><span class="rn">' + g.n + '</span><span class="rv"><b>' + v + '</b>' + (hasRange ? ' / ' + g.lo + '–' + g.hi : '') + '</span></div>' +
+      '<div class="rec-track"><span class="fill" style="width:' + pct + '%"></span></div>' +
+    '</div>';
   }).join('');
 
   var more = document.getElementById('recMore');
@@ -1609,9 +1606,59 @@ function renderRecovery() {
 
   var t1 = document.getElementById('recTabs');
   if (t1) $$('#recTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec === recTab); });
-  var t2 = document.getElementById('recTabs2');
-  if (t2) $$('#recTabs2 button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec2 === recTab2); });
+
+  /* раскраска SVG-карты */
+  $$('#recBody .body-part').forEach(function (el) {
+    var k = el.dataset.m;
+    el.classList.remove('st-trained', 'st-recovering', 'st-ready', 'st-new');
+    el.classList.add(recStatus(k).cls);
+  });
 }
+
+/* интерактивность карты: тултип при наведении/клике */
+(function () {
+  var body = document.getElementById('recBody');
+  if (!body) return;
+  var tip = document.getElementById('recTooltip');
+
+  function showTip(el, ev) {
+    if (!tip) return;
+    var k = el.dataset.m;
+    var g = REC_GROUPS.filter(function (x) { return x.k === k; })[0];
+    if (!g) return;
+    var v = recSetsFor(k);
+    var st = recStatus(k);
+    var range = g.hi > 0 ? (' / ' + g.lo + '–' + g.hi) : '';
+    tip.innerHTML = '<b>' + g.n + '</b><span class="tt-num">' + v + range + ' · ' + st.txt + '</span>';
+    var rect = body.getBoundingClientRect();
+    var x = (ev.clientX - rect.left) + 12;
+    var y = (ev.clientY - rect.top) - 10;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+    tip.classList.add('show');
+    el.classList.add('active');
+  }
+  function hideTip(el) {
+    if (tip) tip.classList.remove('show');
+    if (el) el.classList.remove('active');
+  }
+  body.addEventListener('mouseover', function (e) {
+    var el = e.target.closest('.body-part');
+    if (el) showTip(el, e);
+  });
+  body.addEventListener('mousemove', function (e) {
+    var el = e.target.closest('.body-part');
+    if (el) showTip(el, e);
+  });
+  body.addEventListener('mouseout', function (e) {
+    var el = e.target.closest('.body-part');
+    if (el) hideTip(el);
+  });
+  body.addEventListener('click', function (e) {
+    var el = e.target.closest('.body-part');
+    if (el) showTip(el, e);
+  });
+})();
 
 document.addEventListener('click', function (e) {
   var b1 = e.target.closest && e.target.closest('#recTabs button');
