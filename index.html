@@ -89,6 +89,7 @@ main{padding:18px 0 10px}
 .bar.amber>i{background:linear-gradient(90deg,#fbbf24,#f59e0b)}
 .bar.pink>i{background:linear-gradient(90deg,#f472b6,#ec4899)}
 .bar.green>i{background:linear-gradient(90deg,#34d399,#22c55e)}
+.bar.teal>i{background:linear-gradient(90deg,#2dd4bf,#06b6d4)}
 .macro{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .macro .m{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:10px}
 .macro .m .lbl{font-size:11px;color:var(--muted);margin-bottom:5px}
@@ -254,7 +255,8 @@ body.nav-open .nav-overlay{opacity:1}
 @media(max-width:560px){.exf{grid-template-columns:1fr 1fr 1fr;gap:6px}.exf .e-name{grid-column:1/-1}}
 .exf input{padding:9px 10px;font-size:12.5px;border-radius:10px}
 .del{width:32px;height:32px;border-radius:9px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.3);color:#fca5a5;font-size:14px;cursor:pointer;display:grid;place-items:center;font-family:inherit}
-.bar.teal>i{background:linear-gradient(90deg,#2dd4bf,#06b6d4)}
+
+/* --- План дня (обзор) --- */
 .plan-card{margin-bottom:16px}
 .plan-split{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
 @media(max-width:640px){.plan-split{grid-template-columns:1fr;gap:14px}}
@@ -266,6 +268,19 @@ body.nav-open .nav-overlay{opacity:1}
 .plan-row-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
 .plan-row-top b{color:var(--text);font-weight:800}
 .plan-row .bar{margin-top:0}
+
+/* --- Большая диаграмма прогресса питания --- */
+.food-progress{display:flex;flex-direction:column;align-items:center;gap:14px}
+.food-ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(from -90deg, #8b5cf6 0deg, #2dd4bf var(--p,0deg), #1b2540 var(--p,0deg));transition:background .5s ease;box-shadow:0 12px 32px rgba(139,92,246,.25)}
+.food-ring::after{content:'';position:absolute;inset:16px;border-radius:50%;background:linear-gradient(160deg,#141b2d,#0f1728);border:1px solid var(--line)}
+.food-ring-inner{position:relative;z-index:2;text-align:center}
+.food-ring-inner .pct{font-size:34px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#c4b5fd,#5eead4);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.food-ring-inner .lbl{font-size:11px;color:var(--muted);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.6px}
+.food-legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.food-legend .lg{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:11px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;font-weight:600}
+.food-legend .lg i{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
+.food-legend .lg b{margin-left:auto;font-weight:800;color:var(--text)}
+@media(max-width:480px){.food-ring{width:150px;height:150px}.food-ring-inner .pct{font-size:28px}}
 </style>
 </head>
 <body>
@@ -314,44 +329,53 @@ body.nav-open .nav-overlay{opacity:1}
         <span id="bannerText">Заполните дневник — ИИ-тренер подстроит план.</span>
       </div>
     </div>
+
+    <div class="card plan-card" id="planCard">
+      <h3><span class="ico">🎯</span> План дня и выполнение</h3>
+      <div class="plan-split">
+        <div id="planBars"></div>
+        <div class="plan-ring-wrap">
+          <div class="score-ring" id="planRing" style="--p:0%"><span id="planRingVal">0%</span></div>
+          <p class="kpi-sub" id="planRingHint">—</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="planRingRows"></div>
+    </div>
+
     <div class="bento" id="overviewGrid"></div>
   </section>
 
   <section class="view" id="view-food">
     <div class="bento" style="margin-bottom:16px">
-      <div class="card col-2">
-        <h3><span class="ico">📊</span> План дня</h3>
-        <div id="planBars"></div>
-      </div>
       <div class="card">
-        <h3><span class="ico">🎯</span> Выполнение плана</h3>
-        <div style="display:flex;align-items:center;gap:16px">
-          <div class="score-ring" id="planRing" style="--p:0%"><span id="planRingVal">0%</span></div>
-          <div style="flex:1">
-            <p class="kpi-sub" id="planRingHint" style="margin-top:0">—</p>
+        <h3><span class="ico">📈</span> Прогресс питания</h3>
+        <div class="food-progress">
+          <div class="food-ring" id="foodRing" style="--p:0deg">
+            <div class="food-ring-inner">
+              <div class="pct" id="foodRingPct">0%</div>
+              <div class="lbl">плана дня</div>
+            </div>
           </div>
+          <div class="food-legend" id="foodLegend"></div>
         </div>
-        <div class="divider"></div>
-        <div id="planRingRows"></div>
       </div>
-    </div>
-    <div class="bento" id="foodHost"></div>
-    <div class="bento" style="margin-top:16px">
-      <div class="card">
-        <h3><span class="ico">💧</span> Водный баланс</h3>
-        <div class="kpi-row"><span class="kpi" id="waterKpi">0</span><span class="unit" id="waterUnit">/ 2600 мл</span></div>
-        <div class="bar"><i id="waterBar"></i></div>
+      <div class="card col-2">
+        <h3><span class="ico">💧</span> Вода и баланс за 7 дней</h3>
+        <div class="kpi-row"><span class="kpi amber" id="waterKpi">0</span><span class="unit" id="waterUnit">/ 2600 мл</span></div>
+        <div class="bar amber"><i id="waterBar"></i></div>
         <p class="kpi-sub" id="waterHint">Норма рассчитана по весу: 35 мл на кг.</p>
         <div class="btn-row">
           <button class="btn teal" onclick="addWater(250)">+250 мл</button>
           <button class="btn teal" onclick="addWater(500)">+500 мл</button>
           <button class="btn ghost" onclick="resetWater()">Сброс</button>
         </div>
-      </div>
-      <div class="card">
-        <h3><span class="ico">📅</span> Вода за 7 дней</h3>
+        <div class="divider"></div>
         <div class="chart" id="waterChart"></div>
       </div>
+    </div>
+    <div class="bento" id="foodHost"></div>
+    <div class="bento" style="margin-top:16px">
       <div class="card">
         <h3><span class="ico">🎯</span> Советы по воде</h3>
         <div class="advice">
@@ -714,18 +738,22 @@ function esc(s) {
 /* ---------- Вода ---------- */
 window.addWater = function (ml) {
   S.water[iso()] = (S.water[iso()] || 0) + ml;
-  save(); renderWater(); renderOverview(); renderAch(); renderPlanRing();
+  save(); renderWater(); renderOverview(); renderAch(); renderPlanRing(); renderFoodProgress();
 };
 window.resetWater = function () {
-  S.water[iso()] = 0; save(); renderWater(); renderOverview(); renderPlanRing();
+  S.water[iso()] = 0; save(); renderWater(); renderOverview(); renderPlanRing(); renderFoodProgress();
 };
 
 function renderWater() {
   var g = waterGoal(), v = waterToday();
-  $('#waterKpi').textContent = fmt(v);
-  $('#waterUnit').textContent = '/ ' + fmt(g) + ' мл';
-  $('#waterBar').style.width = Math.min(100, Math.round(v / g * 100)) + '%';
-  $('#waterHint').textContent = v >= g
+  var kpi = $('#waterKpi');
+  if (kpi) kpi.textContent = fmt(v);
+  var unit = $('#waterUnit');
+  if (unit) unit.textContent = '/ ' + fmt(g) + ' мл';
+  var bar = $('#waterBar');
+  if (bar) bar.style.width = Math.min(100, Math.round(v / g * 100)) + '%';
+  var hint = $('#waterHint');
+  if (hint) hint.textContent = v >= g
     ? 'Норма выполнена — отличная работа!'
     : 'Норма рассчитана по весу: 35 мл на кг. Осталось ' + fmt(g - v) + ' мл.';
 
@@ -736,11 +764,13 @@ function renderWater() {
     days.push({ k: k, v: S.water[k] || 0, lbl: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'][d.getDay()] });
   }
   var max = Math.max(g, Math.max.apply(null, days.map(function (x) { return x.v; })));
-  $('#waterChart').innerHTML = days.map(function (x) {
+  var chart = $('#waterChart');
+  if (chart) chart.innerHTML = days.map(function (x) {
     return '<div class="c"><i style="height:' + Math.max(3, Math.round(x.v / max * 100)) + '%"></i><span>' + x.lbl + '</span></div>';
   }).join('');
 
-  $('#waterTips').innerHTML = [
+  var tips = $('#waterTips');
+  if (tips) tips.innerHTML = [
     'Стакан воды сразу после пробуждения — запускает метаболизм.',
     'Пейте 250–300 мл за 20 минут до тренировки.',
     'Во время силовой — 400–600 мл, добавьте щепотку соли при обильном потоотделении.',
@@ -748,41 +778,37 @@ function renderWater() {
   ].map(function (s) { return '<li>' + s + '</li>'; }).join('');
 }
 
-/* ---------- План дня + % выполнения (одна карточка) ---------- */
+/* ---------- План дня + % выполнения (в Обзоре) ---------- */
 var planSig = '';
 
-function keepPlanOnTop() {
-  var pc = $('.plan-card');
-  if (!pc || !pc.parentNode) return;
-  var host = $('.gmd-host');
-  if (!host || host.parentNode !== pc.parentNode) return;
-  if (host.compareDocumentPosition(pc) & Node.DOCUMENT_POSITION_FOLLOWING) {
-    pc.parentNode.insertBefore(pc, host);
-  }
+function planItems() {
+  var g = macroGoal(), t = sumFood(todayFood());
+  var wg = waterGoal(), ml = waterToday();
+  return [
+    { n: 'Калории', v: t.kcal, g: g.kcal, u: 'ккал', cls: '', color: '#8b5cf6' },
+    { n: 'Белки', v: t.p, g: g.p, u: 'г', cls: 'green', color: '#34d399' },
+    { n: 'Жиры', v: t.f, g: g.f, u: 'г', cls: 'amber', color: '#fbbf24' },
+    { n: 'Углеводы', v: t.c, g: g.c, u: 'г', cls: 'pink', color: '#f472b6' },
+    { n: 'Вода', v: ml, g: wg, u: 'мл', cls: 'teal', color: '#2dd4bf' }
+  ];
+}
+
+function planPct(items) {
+  var sum = 0;
+  items.forEach(function (i) { sum += i.g ? Math.min(100, i.v / i.g * 100) : 0; });
+  return Math.round(sum / items.length);
 }
 
 function renderPlanRing(force) {
   var barsBox = $('#planBars');
   if (!barsBox) return;
 
-  var g = macroGoal(), t = sumFood(todayFood());
-  var wg = waterGoal(), ml = waterToday();
-
-  var items = [
-    { n: 'Калории', v: t.kcal, g: g.kcal, u: 'ккал', cls: '' },
-    { n: 'Белки', v: t.p, g: g.p, u: 'г', cls: 'green' },
-    { n: 'Жиры', v: t.f, g: g.f, u: 'г', cls: 'amber' },
-    { n: 'Углеводы', v: t.c, g: g.c, u: 'г', cls: 'pink' },
-    { n: 'Вода', v: ml, g: wg, u: 'мл', cls: 'teal' }
-  ];
-
+  var items = planItems();
   var sig = items.map(function (i) { return Math.round(i.v) + '/' + Math.round(i.g); }).join('|');
-  if (!force && sig === planSig) { keepPlanOnTop(); return; }
+  if (!force && sig === planSig) return;
   planSig = sig;
 
-  var sum = 0;
-  items.forEach(function (i) { sum += i.g ? Math.min(100, i.v / i.g * 100) : 0; });
-  var pct = Math.round(sum / items.length);
+  var pct = planPct(items);
 
   barsBox.innerHTML = items.map(function (i) {
     var p = i.g ? Math.max(0, Math.min(100, Math.round(i.v / i.g * 100))) : 0;
@@ -799,10 +825,11 @@ function renderPlanRing(force) {
 
   var hint = $('#planRingHint');
   if (hint) {
+    var g = macroGoal(), t = sumFood(todayFood());
     if (pct >= 100) hint.textContent = 'План дня закрыт полностью. Отдых и сон 7–9 часов.';
     else if (pct >= 60) hint.textContent = 'Хороший темп: осталось ' + fmt(Math.max(0, g.kcal - t.kcal)) + ' ккал.';
     else if (pct > 0) hint.textContent = 'Меньше половины плана. Следующий шаг — белок и вода.';
-    else hint.textContent = 'Дневник пуст. Добавьте первый приём пищи ниже.';
+    else hint.textContent = 'Дневник пуст. Добавьте первый приём пищи.';
   }
 
   var rows = $('#planRingRows');
@@ -814,10 +841,27 @@ function renderPlanRing(force) {
         '<span class="tag ' + tag + '">' + p + '%</span></div>';
     }).join('');
   }
-
-  keepPlanOnTop();
 }
 window.renderPlanRing = renderPlanRing;
+
+/* ---------- Большая диаграмма прогресса питания ---------- */
+function renderFoodProgress() {
+  var items = planItems();
+  var pct = planPct(items);
+  var ring = $('#foodRing');
+  if (ring) ring.style.setProperty('--p', (pct * 3.6) + 'deg');
+  var pctEl = $('#foodRingPct');
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  var legend = $('#foodLegend');
+  if (legend) {
+    legend.innerHTML = items.map(function (i) {
+      var p = i.g ? Math.min(100, Math.round(i.v / i.g * 100)) : 0;
+      return '<div class="lg"><i style="background:' + i.color + '"></i>' + i.n + '<b>' + p + '%</b></div>';
+    }).join('');
+  }
+}
+window.renderFoodProgress = renderFoodProgress;
 
 /* ---------- Тренировки ---------- */
 var GROUPS = [
@@ -1418,6 +1462,8 @@ function coachAdvice(t, g, week, plan) {
 /* ---------- общий рендер ---------- */
 function renderAll() {
   renderOverview();
+  renderPlanRing(true);
+  renderFoodProgress();
   renderWater();
   renderWorkout();
   renderMuscles();
