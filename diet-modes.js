@@ -178,8 +178,46 @@
       st: ['Морковь нарежь палочками.', 'Выложи хумус в мисочку, посыпь паприкой.', 'Макай морковь в хумус.'] }
   ];
 
+  /* ==================== СОВЕТЫ ПО ЕДЕ И ВОДЕ ==================== */
+  var FOOD_TIPS = {
+    bulk: [
+      'Добавляй ложку оливкового масла в готовые блюда — +120 ккал без объёма.',
+      'Пей калорийные смузи: молоко + банан + овсянка + протеин = ~500 ккал.',
+      'Ешь каждые 3–4 часа, даже если не хочется — иначе не наберёшь норму.',
+      'Взвешивайся раз в неделю: +0,3–0,5 кг — идеальный темп набора.'
+    ],
+    cut: [
+      'Ешь медленно, по 20 минут на приём — насыщение приходит раньше.',
+      'Пей стакан воды за 20 минут до еды — снижает аппетит.',
+      'Замени гарнир на овощи: та же тарелка, минус 200 ккал.',
+      'Белок в каждом приёме — сохраняет мышцы в дефиците.'
+    ],
+    shred: [
+      'Готовь заранее: контейнеры на 2 дня спасают от срывов.',
+      'Углеводы — только до и после тренировки, в остальное время белок + овощи.',
+      'Не сокращай соль резко — упадёт сила и появятся судороги.',
+      'Раз в неделю — «загрузочный» день на норму поддержания.'
+    ],
+    maintain: [
+      'Правило тарелки: ½ овощи, ¼ белок, ¼ гарнир — без подсчётов.',
+      'Один свободный приём пищи в неделю — психологически легче держать форму.',
+      'Следи за белком: 1,6 г на кг веса — минимум для сохранения мышц.',
+      'Взвешивайся в одно и то же время — так видно реальный тренд.'
+    ]
+  };
+
+  var WATER_TIPS = [
+    'Стакан воды (250 мл) сразу после пробуждения — запускает метаболизм.',
+    'За 20 минут до тренировки — 250–300 мл, во время — по 150 мл каждые 15 минут.',
+    'После тренировки — 500 мл на каждый потерянный кг веса (взвесься до и после).',
+    'Кофе и чай считаются в норму, но не заменяют чистую воду.',
+    'Моча светло-жёлтая — значит воды хватает. Тёмная — пей больше.',
+    'При обильном потоотделении добавь щепотку соли в воду — восстановит электролиты.'
+  ];
+
   /* ==================== СОСТОЯНИЕ ==================== */
   var LS = 'gm_diet_v2';
+  var MODE_LS = 'gm_diet_mode';
   var state = { mode: 'maintain', log: {}, profile: null };
   (function load() {
     try {
@@ -323,6 +361,16 @@
         '<div class="gmd-m"><span>Углеводы</span><b id="gmdCv">—</b><div class="gmd-mb"><i id="gmdCb"></i></div></div>' +
       '</div>' +
       '<div class="gmd-tips" id="gmdTips"></div>' +
+      '<div class="gmd-advice">' +
+        '<div class="gmd-advice-col">' +
+          '<h4>🍽 Совет по еде</h4>' +
+          '<ul id="gmdFoodTip"></ul>' +
+        '</div>' +
+        '<div class="gmd-advice-col">' +
+          '<h4>💧 Совет по воде</h4>' +
+          '<ul id="gmdWaterTip"></ul>' +
+        '</div>' +
+      '</div>' +
       '<div class="btn-row">' +
         '<button class="btn sm" data-gmd="profile">⚙️ Мои данные</button>' +
         '<button class="btn sm ghost" data-gmd="reset">↺ Сброс дня</button>' +
@@ -396,6 +444,13 @@
     '.gmd-tips{margin-top:14px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.24);border-radius:14px;padding:11px 13px}' +
     '.gmd-tips ul{margin:0;padding-left:16px}' +
     '.gmd-tips li{font-size:11.5px;line-height:1.6;color:#dbe4f5;margin-bottom:3px}' +
+    '.gmd-advice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}' +
+    '@media(max-width:640px){.gmd-advice{grid-template-columns:1fr}}' +
+    '.gmd-advice-col{background:rgba(45,212,191,.07);border:1px solid rgba(45,212,191,.24);border-radius:14px;padding:11px 13px}' +
+    '.gmd-advice-col h4{margin:0 0 8px;font-size:12px;color:#5eead4;font-weight:800;letter-spacing:.3px}' +
+    '.gmd-advice-col ul{margin:0;padding-left:16px}' +
+    '.gmd-advice-col li{font-size:11.5px;line-height:1.6;color:#dbe4f5;margin-bottom:5px}' +
+    '.gmd-advice-col li:last-child{margin-bottom:0}' +
     '.gmd-form{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}' +
     '.gmd-hint{margin-top:12px;font-size:12px;line-height:1.65;color:#c9d5ec;background:rgba(45,212,191,.07);border:1px solid rgba(45,212,191,.24);border-radius:14px;padding:11px 13px}' +
     '.gmd-hint b{color:#5eead4}' +
@@ -540,6 +595,25 @@
     var tips = MODES[state.mode].tips, th = '';
     for (var j = 0; j < tips.length; j++) th += li(tips[j]);
     document.getElementById('gmdTips').innerHTML = '<ul>' + th + '</ul>';
+    renderAdvice();
+  }
+
+  /* советы по еде (под режим) и по воде (ротация по дню) */
+  function renderAdvice() {
+    var foodBox = document.getElementById('gmdFoodTip');
+    if (foodBox) {
+      var ft = FOOD_TIPS[state.mode] || FOOD_TIPS.maintain;
+      var fh = '';
+      for (var i = 0; i < ft.length; i++) fh += li(ft[i]);
+      foodBox.innerHTML = fh;
+    }
+    var waterBox = document.getElementById('gmdWaterTip');
+    if (waterBox) {
+      var start = new Date().getDate() % WATER_TIPS.length;
+      var wh = '';
+      for (var k = 0; k < 3; k++) wh += li(WATER_TIPS[(start + k) % WATER_TIPS.length]);
+      waterBox.innerHTML = wh;
+    }
   }
 
   function renderKpi() {
