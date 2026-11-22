@@ -1429,7 +1429,6 @@ window.finishWorkout = function () { return window.saveWorkout(); };
 window.saveWorkout = function () {
   var titleEl = $('#wTitle');
   var durEl = $('#wDur');
-  var title = titleEl ? titleEl.value.trim() : 'Тренировка';
   var dur = durEl ? (+durEl.value || 60) : 60;
   var groups = Object.keys(pickedGroups).filter(function (k) { return pickedGroups[k]; });
   var exs = $$('#exRows .exf').map(function (r) {
@@ -1442,6 +1441,8 @@ window.saveWorkout = function () {
   }).filter(function (e) { return e.name; });
 
   if (!exs.length) { toast('Добавьте хотя бы одно упражнение'); return; }
+
+  var title = (titleEl && titleEl.value.trim()) || autoWorkoutTitle(exs, groups);
 
   S.workouts.push({ id: uid(), date: iso(), title: title, duration: dur, groups: groups, exercises: exs });
   save();
@@ -1486,11 +1487,48 @@ function renderWorkout() {
   var hist = S.workouts.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 20);
   $('#workoutList').innerHTML = hist.length ? hist.map(function (w) {
     var vol = (w.exercises || []).reduce(function (s, e) { return s + (e.sets * e.reps * e.weight); }, 0);
-    return '<div class="row"><div><b>' + esc(w.title) + '</b>' +
+    return '<div class="row" style="cursor:pointer" onclick="openWorkoutDetails(\'' + w.id + '\')"><div><b>' + esc(w.title) + '</b>' +
       '<div class="tiny muted">' + w.date + ' · ' + w.duration + ' мин · ' + (w.exercises || []).length + ' упр. · ' + fmt(vol) + ' кг</div></div>' +
-      '<button class="del" onclick="removeWorkout(\'' + w.id + '\')">×</button></div>';
+      '<button class="del" onclick="event.stopPropagation();removeWorkout(\'' + w.id + '\')">×</button></div>';
   }).join('') : '<div class="empty">Ещё нет тренировок — запишите первую.</div>';
 }
+
+window.openWorkoutDetails = function (id) {
+  var w = S.workouts.filter(function (x) { return x.id === id; })[0];
+  if (!w) return;
+  var vol = (w.exercises || []).reduce(function (s, e) { return s + (e.sets * e.reps * e.weight); }, 0);
+  var totalSets = (w.exercises || []).reduce(function (s, e) { return s + (+e.sets || 0); }, 0);
+  var totalReps = (w.exercises || []).reduce(function (s, e) { return s + (+e.sets || 0) * (+e.reps || 0); }, 0);
+  var groups = (w.groups || []).map(function (k) {
+    var g = GROUPS.filter(function (x) { return x.k === k; })[0];
+    return g ? g.n : k;
+  });
+  var exHtml = (w.exercises || []).length ? w.exercises.map(function (e) {
+    var ev = (+e.sets || 0) * (+e.reps || 0) * (+e.weight || 0);
+    return '<div class="ex-row"><div><div class="n">' + esc(e.name) + '</div>' +
+      '<div class="d">' + (e.sets || 0) + ' × ' + (e.reps || 0) + (e.weight ? ' · ' + e.weight + ' кг' : '') + '</div></div>' +
+      '<span class="w">' + fmt(ev) + ' кг</span></div>';
+  }).join('') : '<div class="empty">Упражнения не записаны</div>';
+
+  openModal(
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px">' +
+      '<div><h3 style="font-size:16px;margin-bottom:4px">🏋️ ' + esc(w.title) + '</h3>' +
+      '<p class="kpi-sub" style="margin:0">' + w.date + ' · ' + (w.duration || 0) + ' мин</p></div>' +
+      '<button class="btn sm ghost" onclick="closeModal()">✕</button>' +
+    '</div>' +
+    '<div class="grid3" style="margin-bottom:14px">' +
+      '<div class="macro" style="margin:0"><div class="m"><div class="lbl">Объём</div><div class="val">' + fmt(vol) + ' кг</div></div></div>' +
+      '<div class="macro" style="margin:0"><div class="m"><div class="lbl">Подходы</div><div class="val">' + totalSets + '</div></div></div>' +
+      '<div class="macro" style="margin:0"><div class="m"><div class="lbl">Повторы</div><div class="val">' + totalReps + '</div></div></div>' +
+    '</div>' +
+    (groups.length ? '<div class="chips-row" style="margin-bottom:12px">' + groups.map(function (g) { return '<span class="tag teal">' + esc(g) + '</span>'; }).join('') + '</div>' : '') +
+    '<h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">Упражнения</h4>' +
+    '<div>' + exHtml + '</div>' +
+    '<div class="btn-row" style="margin-top:14px">' +
+      '<button class="btn ghost full" onclick="removeWorkout(\'' + w.id + '\');closeModal();">🗑 Удалить тренировку</button>' +
+    '</div>'
+  );
+};
 
 /* ---------- Календарь ---------- */
 var calOffset = 0;
