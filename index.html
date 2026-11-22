@@ -160,10 +160,10 @@ textarea{resize:vertical;min-height:74px}
 .sil{fill:#1b2740;stroke:#2b3a5c;stroke-width:1}
 .muscle{fill:#24314e;stroke:#3a4d75;stroke-width:1;transition:fill .2s,stroke .2s;cursor:pointer}
 .muscle:hover{fill:#3b5285}
-.st-trained{fill:#f87171;stroke:#fecaca}
-.st-recovering{fill:#fbbf24;stroke:#fde68a}
-.st-ready{fill:#34d399;stroke:#a7f3d0}
-.st-new{fill:#2b3a5c;stroke:#4b5f8a}
+.st-trained{fill:#f87171 !important;stroke:#fecaca}
+.st-recovering{fill:#fbbf24 !important;stroke:#fde68a}
+.st-ready{fill:#34d399 !important;stroke:#a7f3d0}
+.st-new{fill:#2b3a5c !important;stroke:#4b5f8a}
 .selected{stroke:#f472b6;stroke-width:2.6}
 .legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
@@ -408,22 +408,68 @@ body.nav-open .nav-overlay{opacity:1}
       </div>
       <div class="card">
         <h3><span class="ico">🧍</span> Карта восстановления</h3>
-        <svg class="body-svg" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
-          <circle class="sil" cx="100" cy="30" r="22"/>
-          <path class="sil" d="M100 54 L128 66 L132 150 L120 210 L80 210 L68 150 L72 66 Z"/>
-          <rect class="sil" x="60" y="200" width="34" height="150" rx="16"/>
-          <rect class="sil" x="106" y="200" width="34" height="150" rx="16"/>
-          <ellipse class="muscle" data-m="shoulders" cx="66" cy="86" rx="15" ry="13"/>
-          <ellipse class="muscle" data-m="shoulders" cx="134" cy="86" rx="15" ry="13"/>
-          <ellipse class="muscle" data-m="chest" cx="86" cy="104" rx="16" ry="15"/>
-          <ellipse class="muscle" data-m="chest" cx="114" cy="104" rx="16" ry="15"/>
-          <ellipse class="muscle" data-m="biceps" cx="55" cy="128" rx="10" ry="20"/>
-          <ellipse class="muscle" data-m="biceps" cx="145" cy="128" rx="10" ry="20"/>
-          <rect class="muscle" data-m="abs" x="86" y="126" width="28" height="72" rx="10"/>
-          <ellipse class="muscle" data-m="quads" cx="84" cy="250" rx="15" ry="42"/>
-          <ellipse class="muscle" data-m="quads" cx="116" cy="250" rx="15" ry="42"/>
-          <ellipse class="muscle" data-m="calves" cx="84" cy="350" rx="11" ry="26"/>
-          <ellipse class="muscle" data-m="calves" cx="116" cy="350" rx="11" ry="26"/>
+        <svg class="body-svg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2a3a5c"/>
+              <stop offset="1" stop-color="#1b2740"/>
+            </linearGradient>
+            <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3a4d75"/>
+              <stop offset="1" stop-color="#24314e"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Голова и шея -->
+          <ellipse class="sil" cx="100" cy="34" rx="20" ry="24" fill="url(#skinGrad)"/>
+          <path class="sil" d="M92 56 L108 56 L110 70 L90 70 Z" fill="url(#skinGrad)"/>
+
+          <!-- Торс: плечи, грудь, пресс -->
+          <path class="sil" d="M100 68 C82 68 66 74 58 84 C54 92 56 108 60 120 L64 168 L72 200 L128 200 L136 168 L140 120 C144 108 146 92 142 84 C134 74 118 68 100 68 Z" fill="url(#skinGrad)"/>
+
+          <!-- Руки -->
+          <path class="sil" d="M58 84 C48 92 44 112 42 134 L40 176 C39 186 44 192 50 192 C56 192 60 186 60 176 L62 134 L64 108 Z" fill="url(#skinGrad)"/>
+          <path class="sil" d="M142 84 C152 92 156 112 158 134 L160 176 C161 186 156 192 150 192 C144 192 140 186 140 176 L138 134 L136 108 Z" fill="url(#skinGrad)"/>
+
+          <!-- Ноги -->
+          <path class="sil" d="M72 200 L68 260 L66 320 L64 400 C63 412 70 418 78 418 C86 418 92 412 92 400 L94 320 L96 260 L98 200 Z" fill="url(#skinGrad)"/>
+          <path class="sil" d="M128 200 L132 260 L134 320 L136 400 C137 412 130 418 122 418 C114 418 108 412 108 400 L106 320 L104 260 L102 200 Z" fill="url(#skinGrad)"/>
+
+          <!-- Мышцы: плечи (дельты) -->
+          <ellipse class="muscle" data-m="shoulders" cx="62" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
+          <ellipse class="muscle" data-m="shoulders" cx="138" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
+
+          <!-- Грудь -->
+          <path class="muscle" data-m="chest" d="M74 100 C80 96 92 96 98 102 L98 122 C92 126 80 126 74 120 Z" fill="url(#muscleGrad)"/>
+          <path class="muscle" data-m="chest" d="M126 100 C120 96 108 96 102 102 L102 122 C108 126 120 126 126 120 Z" fill="url(#muscleGrad)"/>
+
+          <!-- Бицепс -->
+          <ellipse class="muscle" data-m="biceps" cx="50" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
+          <ellipse class="muscle" data-m="biceps" cx="150" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
+
+          <!-- Трицепс (задняя часть руки) -->
+          <ellipse class="muscle" data-m="triceps" cx="56" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
+          <ellipse class="muscle" data-m="triceps" cx="144" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
+
+          <!-- Пресс: 6 кубиков -->
+          <rect class="muscle" data-m="abs" x="88" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+          <rect class="muscle" data-m="abs" x="102" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+          <rect class="muscle" data-m="abs" x="88" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+          <rect class="muscle" data-m="abs" x="102" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+          <rect class="muscle" data-m="abs" x="88" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+          <rect class="muscle" data-m="abs" x="102" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
+
+          <!-- Квадрицепс -->
+          <path class="muscle" data-m="quads" d="M78 210 C72 230 70 260 72 290 L92 290 C92 260 92 230 90 210 Z" fill="url(#muscleGrad)"/>
+          <path class="muscle" data-m="quads" d="M122 210 C128 230 130 260 128 290 L108 290 C108 260 108 230 110 210 Z" fill="url(#muscleGrad)"/>
+
+          <!-- Бицепс бедра (задняя поверхность — показан сбоку) -->
+          <path class="muscle" data-m="hams" d="M68 300 C66 320 66 340 68 360 L78 360 C80 340 80 320 78 300 Z" fill="url(#muscleGrad)"/>
+          <path class="muscle" data-m="hams" d="M132 300 C134 320 134 340 132 360 L122 360 C120 340 120 320 122 300 Z" fill="url(#muscleGrad)"/>
+
+          <!-- Икры -->
+          <ellipse class="muscle" data-m="calves" cx="78" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
+          <ellipse class="muscle" data-m="calves" cx="122" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
         </svg>
         <div class="legend">
           <span><i style="background:#f87171"></i> сегодня</span>
@@ -479,22 +525,56 @@ body.nav-open .nav-overlay{opacity:1}
     <div class="bento">
       <div class="card">
         <h3><span class="ico">🧍</span> Карта восстановления</h3>
-        <svg class="body-svg" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
-          <circle class="sil" cx="100" cy="30" r="22"/>
-          <path class="sil" d="M100 54 L128 66 L132 150 L120 210 L80 210 L68 150 L72 66 Z"/>
-          <rect class="sil" x="60" y="200" width="34" height="150" rx="16"/>
-          <rect class="sil" x="106" y="200" width="34" height="150" rx="16"/>
-          <ellipse class="muscle" data-m="shoulders" cx="66" cy="86" rx="15" ry="13"/>
-          <ellipse class="muscle" data-m="shoulders" cx="134" cy="86" rx="15" ry="13"/>
-          <ellipse class="muscle" data-m="chest" cx="86" cy="104" rx="16" ry="15"/>
-          <ellipse class="muscle" data-m="chest" cx="114" cy="104" rx="16" ry="15"/>
-          <ellipse class="muscle" data-m="biceps" cx="55" cy="128" rx="10" ry="20"/>
-          <ellipse class="muscle" data-m="biceps" cx="145" cy="128" rx="10" ry="20"/>
-          <rect class="muscle" data-m="abs" x="86" y="126" width="28" height="72" rx="10"/>
-          <ellipse class="muscle" data-m="quads" cx="84" cy="250" rx="15" ry="42"/>
-          <ellipse class="muscle" data-m="quads" cx="116" cy="250" rx="15" ry="42"/>
-          <ellipse class="muscle" data-m="calves" cx="84" cy="350" rx="11" ry="26"/>
-          <ellipse class="muscle" data-m="calves" cx="116" cy="350" rx="11" ry="26"/>
+        <svg class="body-svg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skinGrad2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2a3a5c"/>
+              <stop offset="1" stop-color="#1b2740"/>
+            </linearGradient>
+            <linearGradient id="muscleGrad2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3a4d75"/>
+              <stop offset="1" stop-color="#24314e"/>
+            </linearGradient>
+          </defs>
+
+          <ellipse class="sil" cx="100" cy="34" rx="20" ry="24" fill="url(#skinGrad2)"/>
+          <path class="sil" d="M92 56 L108 56 L110 70 L90 70 Z" fill="url(#skinGrad2)"/>
+
+          <path class="sil" d="M100 68 C82 68 66 74 58 84 C54 92 56 108 60 120 L64 168 L72 200 L128 200 L136 168 L140 120 C144 108 146 92 142 84 C134 74 118 68 100 68 Z" fill="url(#skinGrad2)"/>
+
+          <path class="sil" d="M58 84 C48 92 44 112 42 134 L40 176 C39 186 44 192 50 192 C56 192 60 186 60 176 L62 134 L64 108 Z" fill="url(#skinGrad2)"/>
+          <path class="sil" d="M142 84 C152 92 156 112 158 134 L160 176 C161 186 156 192 150 192 C144 192 140 186 140 176 L138 134 L136 108 Z" fill="url(#skinGrad2)"/>
+
+          <path class="sil" d="M72 200 L68 260 L66 320 L64 400 C63 412 70 418 78 418 C86 418 92 412 92 400 L94 320 L96 260 L98 200 Z" fill="url(#skinGrad2)"/>
+          <path class="sil" d="M128 200 L132 260 L134 320 L136 400 C137 412 130 418 122 418 C114 418 108 412 108 400 L106 320 L104 260 L102 200 Z" fill="url(#skinGrad2)"/>
+
+          <ellipse class="muscle" data-m="shoulders" cx="62" cy="90" rx="13" ry="15" fill="url(#muscleGrad2)"/>
+          <ellipse class="muscle" data-m="shoulders" cx="138" cy="90" rx="13" ry="15" fill="url(#muscleGrad2)"/>
+
+          <path class="muscle" data-m="chest" d="M74 100 C80 96 92 96 98 102 L98 122 C92 126 80 126 74 120 Z" fill="url(#muscleGrad2)"/>
+          <path class="muscle" data-m="chest" d="M126 100 C120 96 108 96 102 102 L102 122 C108 126 120 126 126 120 Z" fill="url(#muscleGrad2)"/>
+
+          <ellipse class="muscle" data-m="biceps" cx="50" cy="128" rx="9" ry="20" fill="url(#muscleGrad2)"/>
+          <ellipse class="muscle" data-m="biceps" cx="150" cy="128" rx="9" ry="20" fill="url(#muscleGrad2)"/>
+
+          <ellipse class="muscle" data-m="triceps" cx="56" cy="150" rx="7" ry="16" fill="url(#muscleGrad2)"/>
+          <ellipse class="muscle" data-m="triceps" cx="144" cy="150" rx="7" ry="16" fill="url(#muscleGrad2)"/>
+
+          <rect class="muscle" data-m="abs" x="88" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+          <rect class="muscle" data-m="abs" x="102" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+          <rect class="muscle" data-m="abs" x="88" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+          <rect class="muscle" data-m="abs" x="102" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+          <rect class="muscle" data-m="abs" x="88" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+          <rect class="muscle" data-m="abs" x="102" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad2)"/>
+
+          <path class="muscle" data-m="quads" d="M78 210 C72 230 70 260 72 290 L92 290 C92 260 92 230 90 210 Z" fill="url(#muscleGrad2)"/>
+          <path class="muscle" data-m="quads" d="M122 210 C128 230 130 260 128 290 L108 290 C108 260 108 230 110 210 Z" fill="url(#muscleGrad2)"/>
+
+          <path class="muscle" data-m="hams" d="M68 300 C66 320 66 340 68 360 L78 360 C80 340 80 320 78 300 Z" fill="url(#muscleGrad2)"/>
+          <path class="muscle" data-m="hams" d="M132 300 C134 320 134 340 132 360 L122 360 C120 340 120 320 122 300 Z" fill="url(#muscleGrad2)"/>
+
+          <ellipse class="muscle" data-m="calves" cx="78" cy="380" rx="10" ry="24" fill="url(#muscleGrad2)"/>
+          <ellipse class="muscle" data-m="calves" cx="122" cy="380" rx="10" ry="24" fill="url(#muscleGrad2)"/>
         </svg>
         <div class="legend">
           <span><i style="background:#f87171"></i> сегодня</span>
