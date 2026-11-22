@@ -1,0 +1,18 @@
+{
+  "appId": "com.gymmind.app",
+  "appName": "GymMind",
+  "webDir": "www",
+  "backgroundColor": "#0b0f19",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0b0f19"
+  },
+  "ios": {
+    "backgroundColor": "#0b0f19",
+    "contentInset": "always",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}
