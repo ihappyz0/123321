@@ -867,7 +867,7 @@ var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
 var LS = 'gymmind_v3';
 var DEFAULT = {
   profile: { name: 'Атлет', goal: 'Масса', sex: 'm', age: 25, height: 178, weight: 75, plan: 4 },
-  food: [], workouts: [], weights: [],
+  food: [], workouts: [], weights: [], planned: [],
   water: {}, supps: {}, lessons: {}, links: {}, myVideos: []
 };
 
@@ -1331,6 +1331,7 @@ window.savePlannedWorkout = function () {
   var date = (dateEl && dateEl.value) || iso();
   var title = autoWorkoutTitle(exs, groups);
 
+  if (!Array.isArray(S.planned)) S.planned = [];
   S.planned.push({ id: uid(), date: date, title: title, groups: groups, exercises: exs });
   save();
 
