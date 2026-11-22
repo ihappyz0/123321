@@ -190,10 +190,12 @@ textarea{resize:vertical;min-height:74px}
 .ach b{font-size:13px;display:block;margin-bottom:3px}
 .ach p{font-size:11px;color:var(--muted);line-height:1.45}
 .ach .bar{height:6px;margin-top:8px}
-.advice{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.28);border-radius:16px;padding:15px}
-.advice h4{font-size:13px;color:#fcd34d;margin-bottom:9px}
-.advice ul{margin:0;padding-left:18px}
-.advice li{font-size:12px;line-height:1.65;color:#dbe4f5;margin-bottom:5px}
+.advice{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.28);border-radius:16px;padding:16px 18px}
+.advice h4{font-size:13px;color:#fcd34d;margin-bottom:11px;letter-spacing:.3px}
+.advice ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 16px}
+@media(max-width:640px){.advice ul{grid-template-columns:1fr}}
+.advice li{font-size:12.5px;line-height:1.6;color:#dbe4f5;padding-left:18px;position:relative}
+.advice li::before{content:'▸';position:absolute;left:0;top:0;color:#fbbf24;font-weight:800}
 .ex-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .ex-row:last-child{border-bottom:none}
 .ex-row .n{font-size:13px;font-weight:700}
@@ -1449,11 +1451,32 @@ function lessonOfDayCard() {
 
 function coachAdvice(t, g, week, plan) {
   var tips = [];
-  if (t.p < g.p * 0.6) tips.push('Белка маловато: цель ' + g.p + ' г, сейчас ' + fmt(t.p) + ' г.');
-  if (waterToday() < waterGoal() * 0.5) tips.push('Выпейте стакан воды — норма ещё не близко.');
-  if (week < plan) tips.push('До плана недели ' + (plan - week) + ' тренировки.');
-  if (!Object.keys(S.lessons).length) tips.push('Разберите технику в видео-уроках перед тяжёлым подходом.');
-  if (!tips.length) tips.push('Всё по плану. Держите режим сна 7–9 часов.');
+  var ml = waterToday(), wg = waterGoal();
+  var kcalLeft = Math.max(0, g.kcal - t.kcal);
+
+  if (t.p < g.p * 0.6) tips.push('Белка маловато: цель ' + g.p + ' г, сейчас ' + fmt(t.p) + ' г. Добавьте порцию творога, курицы или протеина.');
+  else tips.push('Белок в норме — ' + fmt(t.p) + ' из ' + g.p + ' г. Мышцам есть из чего строиться.');
+
+  if (ml < wg * 0.5) tips.push('Выпейте стакан воды — выпито ' + fmt(ml) + ' из ' + fmt(wg) + ' мл, норма ещё не близко.');
+  else if (ml < wg) tips.push('Воды ' + fmt(ml) + ' из ' + fmt(wg) + ' мл. Осталось ' + fmt(wg - ml) + ' мл до нормы.');
+  else tips.push('Водный баланс закрыт — ' + fmt(ml) + ' мл. Отличная гидратация.');
+
+  if (week < plan) tips.push('До плана недели ' + (plan - week) + ' тренировки. Лучше не переносить на выходные.');
+  else tips.push('План недели выполнен: ' + week + ' из ' + plan + ' тренировок. Можно дать организму отдых.');
+
+  if (kcalLeft > 0) tips.push('Осталось ' + fmt(kcalLeft) + ' ккал до цели. Доберите их лёгким перекусом, а не сладким.');
+  else tips.push('Калории закрыты. Дальше — только вода и зелень, чтобы не уйти в профицит.');
+
+  if (!Object.keys(S.lessons).length) tips.push('Разберите технику в видео-уроках перед тяжёлым подходом — это снижает риск травмы.');
+  else tips.push('Разобрано ' + Object.keys(S.lessons).length + ' видео-уроков. Продолжайте — техника важнее веса.');
+
+  var streak = computeStreak();
+  if (streak >= 3) tips.push('Серия ' + streak + ' дн. подряд — не разрывайте её, даже лёгкой тренировкой.');
+  else tips.push('Серия пока ' + streak + ' дн. Начните с короткой тренировки сегодня, чтобы запустить цепочку.');
+
+  if (t.f > g.f * 1.2) tips.push('Жиров многовато: ' + fmt(t.f) + ' из ' + g.f + ' г. Уберите жареное и масло в блюдах.');
+  else tips.push('Жиры под контролем: ' + fmt(t.f) + ' из ' + g.f + ' г. Норма для гормонального фона.');
+
   return '<div class="advice"><h4>Рекомендации</h4><ul>' + tips.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>';
 }
 
