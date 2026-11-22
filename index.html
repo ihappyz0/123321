@@ -405,6 +405,119 @@ body.nav-open .nav-overlay{opacity:1}
 .food-legend .lg i{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
 .food-legend .lg b{margin-left:auto;font-weight:800;color:var(--text)}
 @media(max-width:480px){.food-ring{width:150px;height:150px}.food-ring-inner .pct{font-size:28px}}
+
+/* --- Мобильная адаптация: ничего не ломаем, только подстраиваем под узкие экраны --- */
+@media(max-width:560px){
+  .wrap{padding:0 12px}
+  main{padding:14px 0 8px}
+  .bento{gap:12px;grid-template-columns:1fr}
+  .card{padding:15px;border-radius:17px}
+  .kpi{font-size:32px}
+  .banner{padding:13px 14px;border-radius:16px;gap:10px}
+  .banner .b-ico{font-size:21px}
+  .banner b{font-size:13px}
+  .banner span{font-size:11.5px}
+  .btn{padding:12px 15px;font-size:13px}
+  .btn.sm{padding:9px 12px;font-size:12px}
+  .btn-row{gap:8px}
+  .btn-row .btn{flex:1 1 auto}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .macro{grid-template-columns:repeat(3,1fr);gap:7px}
+  .macro .m{padding:8px}
+  .macro .m .lbl{font-size:10px}
+  .macro .m .val{font-size:12px}
+  .plan-split{gap:14px}
+  .plan-ring-wrap{min-width:0}
+  .plan-ring-wrap .score-ring{width:92px;height:92px;font-size:24px}
+  .plan-row-top{font-size:11.5px;flex-wrap:wrap;gap:4px}
+  .cal-grid,.cal-week{gap:4px}
+  .cal-cell{border-radius:9px;font-size:11px}
+  .cal-num{font-size:11px}
+  .vgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .vcover{font-size:22px}
+  .vcover .play{width:38px;height:38px;font-size:12px}
+  .vbody b{font-size:12px}
+  .rec-list{grid-template-columns:1fr !important}
+  .rec-body{gap:10px}
+  .rec-figure{max-width:150px}
+  .rec-svg{max-height:290px}
+  .rec-legend{gap:10px}
+  .rec-legend span{font-size:10px}
+  .rec-tabs button{font-size:11px;padding:7px 6px}
+  .rec-item{padding:9px 10px}
+  .advice{padding:14px}
+  .advice ul,.advice-list{grid-template-columns:1fr}
+  .advice li,.advice-list li{font-size:12px}
+  .supp-timing{grid-template-columns:1fr}
+  .supp-block{padding:8px 10px}
+  .supp-block li{font-size:10.5px}
+  .food-legend{grid-template-columns:1fr 1fr;gap:6px}
+  .food-legend .lg{padding:7px 8px;font-size:11px}
+  .chart{height:100px;gap:5px}
+  .chart .c span{font-size:9px}
+  .ach{padding:12px;gap:10px}
+  .ach .a-ico{font-size:21px}
+  .ach b{font-size:12.5px}
+  .ach p{font-size:10.5px}
+  .score-ring{width:74px;height:74px;font-size:21px}
+  .modal{padding:10px}
+  .modal-box{padding:15px;border-radius:17px;max-height:92vh}
+  .exf{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .exf .e-name{grid-column:1/-1}
+  .exf input{padding:11px 10px;font-size:13px}
+  .exf .del{width:100%;height:36px;grid-column:1/-1}
+  .ex-suggest{max-height:50vh}
+  .ex-s-item{padding:10px}
+  .ex-s-item b{font-size:12.5px}
+  .ex-s-eff{font-size:9.5px;padding:2px 6px}
+  .gchip{padding:9px 12px;font-size:12px}
+  .seg button{padding:8px 12px;font-size:11.5px}
+  .steps li{font-size:12px}
+  .report-issue,.report-good{padding:11px}
+  .report-issue p,.report-good p{font-size:11.5px}
+  .row{padding:10px 0;gap:9px}
+  .row b{font-size:12.5px}
+  .tag{font-size:10.5px;padding:3px 8px}
+  .toast{font-size:12px;padding:11px 16px;bottom:18px}
+  .topbar-in{padding:9px 12px}
+  .brand h1{font-size:16px}
+  .brand p{font-size:10px}
+  .logo{width:38px;height:38px;border-radius:12px;font-size:18px}
+  .chip{padding:6px 9px;font-size:10.5px}
+  .hamburger{width:38px;height:38px;border-radius:11px}
+  .tabs{width:min(88vw,320px)}
+  .tab{padding:12px 13px;font-size:13.5px}
+  .field label{font-size:11.5px}
+  input,select,textarea{padding:12px 12px;font-size:15px}
+  .kpi-row .unit{font-size:12px}
+  .kpi-sub{font-size:11.5px}
+  .list{max-height:300px}
+  .empty{padding:18px;font-size:12px}
+  .divider{margin:12px 0}
+  .food-ring{width:160px;height:160px}
+  .food-ring-inner .pct{font-size:30px}
+  .workout-split{gap:14px}
+  #workoutStats .kpi{font-size:30px}
+}
+@media(max-width:380px){
+  .wrap{padding:0 10px}
+  .card{padding:13px;border-radius:15px}
+  .kpi{font-size:28px}
+  .macro{grid-template-columns:1fr 1fr}
+  .vgrid{grid-template-columns:1fr}
+  .food-legend{grid-template-columns:1fr}
+  .cal-cell{border-radius:8px}
+  .chip{padding:5px 8px;font-size:10px}
+  .brand h1{font-size:15px}
+  .food-ring{width:140px;height:140px}
+  .food-ring-inner .pct{font-size:26px}
+  .rec-figure{max-width:130px}
+}
+/* iOS: не даём Safari зумить при фокусе на поле + корректные safe-area */
+@supports(-webkit-touch-callout:none){
+  input,select,textarea{font-size:16px}
+}
+body{padding-bottom:calc(40px + env(safe-area-inset-bottom))}
 </style>
 </head>
 <body>
