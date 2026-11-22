@@ -594,7 +594,7 @@
     document.getElementById('gmdDesc').textContent = MODES[state.mode].desc;
     var tips = MODES[state.mode].tips, th = '';
     for (var j = 0; j < tips.length; j++) th += li(tips[j]);
-    document.getElementById('gmdTips').innerHTML = '<ul>' + th + '</ul>';
+    document.getElementById('gmdTips').innerHTML = '<h4 style="margin:0 0 8px;font-size:12px;color:#fcd34d;font-weight:800;letter-spacing:.3px">💡 Советы по режиму</h4><ul>' + th + '</ul>';
     renderAdvice();
   }
 
