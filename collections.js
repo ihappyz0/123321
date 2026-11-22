@@ -365,31 +365,20 @@
       '.gmc-modal-info{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.26);border-radius:13px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.6;color:#dbe4f5}' +
       '.gmc-modal-info b{color:#5eead4}' +
       '.gmc-modal-list{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}' +
-      '.gmc-modal-list{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}' +
-      '.gmc-modal-list>li{font-size:12.5px;line-height:1.55;color:#dbe4f5;border-radius:11px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden;transition:.2s}' +
-      '.gmc-modal-list>li.gmc-ex.open{border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.07)}' +
-      '.gmc-ex-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer;user-select:none}' +
-      '.gmc-ex-head:hover{background:rgba(255,255,255,.03)}' +
-      '.gmc-ex-arrow{color:#8b5cf6;font-weight:800;font-size:11px;transition:transform .2s;flex:0 0 auto}' +
-      '.gmc-ex.open .gmc-ex-arrow{transform:rotate(90deg)}' +
-      '.gmc-ex-name{flex:1;min-width:0;font-size:12.5px;font-weight:700;line-height:1.3}' +
-      '.gmc-ex-sets{font-size:10.5px;font-weight:800;color:#5eead4;white-space:nowrap;flex:0 0 auto}' +
-      '.gmc-ex-body{display:none;padding:0 12px 13px}' +
-      '.gmc-ex.open .gmc-ex-body{display:block}' +
-      '.gmc-ex-media{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}' +
-      '@media(max-width:480px){.gmc-ex-media{grid-template-columns:1fr}}' +
-      '.gmc-ex-gif{aspect-ratio:4/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(45,212,191,.2));display:grid;place-items:center;position:relative}' +
-      '.gmc-ex-gif img{width:100%;height:100%;object-fit:cover;display:block}' +
-      '.gmc-ex-gif .gmc-gif-ph{font-size:34px;opacity:.85}' +
-      '.gmc-ex-gif .gmc-gif-lbl{position:absolute;left:6px;bottom:6px;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;background:rgba(5,8,14,.8);color:#5eead4;text-transform:uppercase;letter-spacing:.4px}' +
-      '.gmc-ex-video{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid rgba(248,113,113,.35);background:rgba(248,113,113,.1);color:#fca5a5;font-size:11.5px;font-weight:800;text-decoration:none;transition:.2s;padding:10px;text-align:center}' +
-      '.gmc-ex-video:hover{background:rgba(248,113,113,.18);transform:translateY(-1px)}' +
-      '.gmc-ex-video .gmc-v-ico{font-size:22px}' +
-      '.gmc-ex-tip{font-size:11.5px;line-height:1.6;color:#dbe4f5;margin:0 0 8px}' +
-      '.gmc-ex-tip b{color:#5eead4}' +
-      '.gmc-ex-steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}' +
-      '.gmc-ex-steps li{font-size:11px;line-height:1.5;color:#c9d5ec;padding-left:14px;position:relative}' +
-      '.gmc-ex-steps li::before{content:"▸";position:absolute;left:0;color:#8b5cf6;font-weight:800}' +
+      '.gmc-modal-actions{display:flex;gap:9px;flex-wrap:wrap}' +
+      '.gmc-modal-actions button{flex:1 1 auto;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#1a2236;color:#e8eefc;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}' +
+      '.gmc-modal-actions button:hover{transform:translateY(-1px);background:#202b44}' +
+      '.gmc-modal-actions button.primary{background:linear-gradient(135deg,#8b5cf6,#6366f1);border-color:transparent;box-shadow:0 8px 22px rgba(139,92,246,.32)}' +
+      '.gmc-item .gmc-dot{width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex:0 0 auto;margin-top:6px}' +
+      '.gmc-card.teal .gmc-item .gmc-dot{background:#2dd4bf}' +
+      '.gmc-card.amber .gmc-item .gmc-dot{background:#fbbf24}' +
+      '.gmc-card.green .gmc-item .gmc-dot{background:#34d399}' +
+      '.gmc-card.pink .gmc-item .gmc-dot{background:#f472b6}' +
+      '.gmc-item-body{flex:1;min-width:0}' +
+      '.gmc-item-body b{display:block;font-size:12.5px;font-weight:700;line-height:1.3;margin-bottom:2px}' +
+      '.gmc-item-body span{display:block;font-size:11px;color:#8b9ab5;line-height:1.45}' +
+      '.gmc-item-tag{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.05);color:#94a3b8;border:1px solid rgba(255,255,255,.08);white-space:nowrap;flex:0 0 auto;text-transform:uppercase;letter-spacing:.3px}' +
+      /* упражнение в модалке */
       '.gmc-ex{border-radius:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden;transition:.2s}' +
       '.gmc-ex.open{border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.07)}' +
       '.gmc-ex-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer;user-select:none}' +
@@ -414,19 +403,6 @@
       '.gmc-ex-steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}' +
       '.gmc-ex-steps li{font-size:11px;line-height:1.5;color:#c9d5ec;padding-left:14px;position:relative}' +
       '.gmc-ex-steps li::before{content:"▸";position:absolute;left:0;color:#8b5cf6;font-weight:800}' +
-      '.gmc-modal-actions{display:flex;gap:9px;flex-wrap:wrap}' +
-      '.gmc-modal-actions button{flex:1 1 auto;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#1a2236;color:#e8eefc;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}' +
-      '.gmc-modal-actions button:hover{transform:translateY(-1px);background:#202b44}' +
-      '.gmc-modal-actions button.primary{background:linear-gradient(135deg,#8b5cf6,#6366f1);border-color:transparent;box-shadow:0 8px 22px rgba(139,92,246,.32)}' +
-      '.gmc-item .gmc-dot{width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex:0 0 auto;margin-top:6px}' +
-      '.gmc-card.teal .gmc-item .gmc-dot{background:#2dd4bf}' +
-      '.gmc-card.amber .gmc-item .gmc-dot{background:#fbbf24}' +
-      '.gmc-card.green .gmc-item .gmc-dot{background:#34d399}' +
-      '.gmc-card.pink .gmc-item .gmc-dot{background:#f472b6}' +
-      '.gmc-item-body{flex:1;min-width:0}' +
-      '.gmc-item-body b{display:block;font-size:12.5px;font-weight:700;line-height:1.3;margin-bottom:2px}' +
-      '.gmc-item-body span{display:block;font-size:11px;color:#8b9ab5;line-height:1.45}' +
-      '.gmc-item-tag{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.05);color:#94a3b8;border:1px solid rgba(255,255,255,.08);white-space:nowrap;flex:0 0 auto;text-transform:uppercase;letter-spacing:.3px}' +
       '@media(max-width:560px){' +
         '.gmc-grid{grid-template-columns:1fr;gap:12px}' +
         '.gmc-card{padding:14px;border-radius:16px}' +
@@ -551,132 +527,131 @@
   };
 
   /* ==================== БАЗА ЗНАНИЙ ПО УПРАЖНЕНИЯМ ==================== */
-  /* Для каждого упражнения: gif (URL превью), video (ссылка на YouTube),
+  /* Для каждого упражнения: gif (URL анимации техники), video (ссылка на YouTube),
      tip (главный совет по технике) и steps (пошаговая техника). */
   var EX_GUIDE = {
     'Приседания со штангой': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Squat.gif',
-      gif2: 'https://media.giphy.com/media/l4FGGafcOHXe7wJ4A/giphy.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=приседания+со+штангой+техника',
       tip: 'Колени идут по направлению носков, спина прямая, глубина — до параллели бедра с полом.',
       steps: ['Гриф на трапециях, стопы на ширине плеч', 'Вдох, задержка дыхания, таз назад', 'Опускайся до параллели, колени не заваливаются внутрь', 'Мощно встань, выдох в верхней точке']
     },
     'Жим штанги лёжа': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=жим+штанги+лежа+техника',
       tip: 'Лопатки сведены, стопы упираются в пол, гриф опускается на низ груди.',
       steps: ['Ляг так, чтобы глаза были под грифом', 'Сведи лопатки, небольшой прогиб в пояснице', 'Опусти гриф на низ груди, локти ~45°', 'Выжми по дуге к изголовью']
     },
     'Становая тяга': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=становая+тяга+техника',
       tip: 'Спина прямая на всём протяжении, гриф скользит по ногам, таз и плечи поднимаются одновременно.',
       steps: ['Стопы на ширине таза, гриф над серединой стопы', 'Сядь, возьмись за гриф, выпрями спину', 'Отталкивайся ногами, гриф вдоль голеней', 'Вверху выпрямись, не отклоняйся назад']
     },
     'Жим стоя (армейский)': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Standing-Shoulder-Press.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=жим+стоя+армейский+техника',
       tip: 'Пресс напряжён, не прогибай поясницу, гриф проходит близко к лицу.',
       steps: ['Штанга на груди, хват чуть шире плеч', 'Напряги пресс и ягодицы', 'Выжми гриф вверх, голову слегка назад', 'Вверху гриф над макушкой']
     },
     'Тяга штанги в наклоне': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=тяга+штанги+в+наклоне+техника',
       tip: 'Корпус наклонён ~45°, тяни к поясу, локти вдоль тела.',
       steps: ['Наклонись, спина прямая, колени чуть согнуты', 'Тяни гриф к низу живота', 'Сведи лопатки в верхней точке', 'Медленно опусти, не бросай']
     },
     'Подтягивания': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=подтягивания+техника',
       tip: 'Начинай движение со сведения лопаток, а не с рук.',
       steps: ['Хват чуть шире плеч, ладони от себя', 'Сведи лопатки, подтянись грудью к перекладине', 'Подбородок выше перекладины', 'Опускайся медленно, полностью выпрямляя руки']
     },
     'Отжимания от пола': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=отжимания+от+пола+техника',
       tip: 'Тело — прямая линия, локти не разводи широко.',
       steps: ['Упор лёжа, ладони под плечами', 'Напряги пресс и ягодицы', 'Опустись, локти ~45° к корпусу', 'Выжми вверх, не прогибай поясницу']
     },
     'Планка': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=планка+техника',
       tip: 'Таз не провисает и не задирается — тело в одну линию.',
       steps: ['Упор на предплечья и носки', 'Локти под плечами', 'Напряги пресс и ягодицы', 'Дыши ровно, держи 30–60 секунд']
     },
     'Скручивания на пресс': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Crunch.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=скручивания+на+пресс+техника',
       tip: 'Скручивайся за счёт пресса, а не тяни шею руками.',
       steps: ['Ляг, колени согнуты, руки за головой', 'На выдохе оторви лопатки от пола', 'Задержись на секунду вверху', 'Медленно опустись, не расслабляй пресс']
     },
     'Подъём ног лёжа': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Raise.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=подъем+ног+лежа+пресс',
       tip: 'Поясница прижата к полу — не отрывай её.',
       steps: ['Ляг, руки вдоль тела', 'Подними прямые ноги до 90°', 'Медленно опусти, не касаясь пола', 'Держи поясницу прижатой']
     },
     'Боковая планка': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=боковая+планка+техника',
       tip: 'Тело — прямая линия от головы до стоп.',
       steps: ['Ляг на бок, локоть под плечом', 'Подними таз, тело в линию', 'Держи 30–45 секунд', 'Повтори на другую сторону']
     },
     'Выпады с гантелями': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=выпады+с+гантелями+техника',
       tip: 'Колено передней ноги не выходит за носок.',
       steps: ['Встань прямо, гантели в руках', 'Шагни вперёд, опустись до 90°', 'Колено задней ноги почти касается пола', 'Оттолкнись передней ногой, вернись']
     },
     'Приседания с гантелью (габлет)': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Goblet-Squat.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=габлет+приседания+техника',
       tip: 'Гантель у груди, локти под ней — помогает держать спину прямой.',
       steps: ['Держи гантель вертикально у груди', 'Стопы на ширине плеч', 'Приседай до параллели', 'Вставай, толкаясь пятками']
     },
     'HIIT на дорожке': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Running-on-Treadmill.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=hiit+на+дорожке+интервалы',
       tip: '30 секунд спринт / 30 секунд ходьба — 8 кругов.',
       steps: ['Разминка 3 минуты ходьбой', '30 сек быстрый бег на максимум', '30 сек медленная ходьба', 'Повтори 8 раз, затем заминка']
     },
     'Бёрпи': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=берпи+техника',
       tip: 'Держи темп, который можешь сохранить все 8 повторов.',
       steps: ['Из положения стоя присядь, руки на пол', 'Прыжком в упор лёжа', 'Отжимание (по желанию)', 'Прыжком вернись и выпрыгни вверх']
     },
     'Скакалка': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jump-Rope.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=скакалка+техника',
       tip: 'Прыгай невысоко, вращение — кистями, а не руками.',
       steps: ['Локти прижаты к корпусу', 'Вращай скакалку кистями', 'Прыгай на 2–3 см от пола', 'Приземляйся на носки']
     },
     'Махи гирей': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Kettlebell-Swing.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=махи+гирей+техника',
       tip: 'Движение идёт от таза, а не от рук.',
       steps: ['Гиря между ног, спина прямая', 'Мощно толкни таз вперёд', 'Гиря взлетает до уровня груди', 'Дай ей вернуться между ног']
     },
     'Суставная гимнастика': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Arm-Circles.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=суставная+гимнастика+разминка',
       tip: 'Плавные вращения во всех суставах по 10 раз.',
       steps: ['Вращения головой 10 раз', 'Плечи вперёд/назад по 10', 'Локти и кисти по 10', 'Таз и колени по 10']
     },
     'Динамическая растяжка': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Swing.gif',
+      gif: 'https://media.giphy.com/media/3o7TKu8j0Q8b2nJ4Xu/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=динамическая+растяжка+перед+тренировкой',
       tip: 'Не задерживайся в позах — двигайся плавно.',
       steps: ['Махи ногами вперёд/назад по 10', 'Круги руками 10 раз', 'Выпады с поворотом корпуса', 'Наклоны корпуса в стороны']
     },
     'Кошка-корова': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cat-Cow-Stretch.gif',
+      gif: 'https://media.giphy.com/media/1qfKkY7lY1lWw/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=кошка+корова+упражнение',
       tip: 'Синхронизируй движение с дыханием.',
       steps: ['Встань на четвереньки', 'На вдохе прогни спину вниз', 'На выдохе округли спину вверх', '10 медленных повторов']
     },
     'Растяжка после': {
-      gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hamstring-Stretch.gif',
+      gif: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=растяжка+после+тренировки',
       tip: 'Держи каждое положение 20–30 секунд, дыши глубоко.',
       steps: ['Растяжка квадрицепса по 20 сек', 'Растяжка бицепса бедра по 20 сек', 'Растяжка груди в дверном проёме', 'Растяжка спины в наклоне']
@@ -701,6 +676,11 @@
       var video = g.video || ('https://www.youtube.com/results?search_query=' + encodeURIComponent(n + ' техника'));
       var tip = g.tip || 'Следи за техникой и не гонись за весом в первых подходах.';
       var steps = (g.steps || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
+      var gifHtml = gif
+        ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" referrerpolicy="no-referrer" ' +
+          'onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\';" />' +
+          '<span class="gmc-gif-ph" style="display:none">🏋️</span>'
+        : '<span class="gmc-gif-ph">🏋️</span>';
       return '<li class="gmc-ex" data-gmc-ex="' + i + '">' +
         '<div class="gmc-ex-head" data-gmc-extoggle="' + i + '">' +
           '<span class="gmc-ex-arrow">▶</span>' +
@@ -710,7 +690,7 @@
         '<div class="gmc-ex-body">' +
           '<div class="gmc-ex-media">' +
             '<div class="gmc-ex-gif">' +
-              (gif ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\'" /><span class="gmc-gif-ph" style="display:none">🏋️</span>' : '<span class="gmc-gif-ph">🏋️</span>') +
+              gifHtml +
               '<span class="gmc-gif-lbl">GIF · техника</span>' +
             '</div>' +
             '<a class="gmc-ex-video" href="' + esc(video) + '" target="_blank" rel="noopener">' +
