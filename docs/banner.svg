@@ -26,7 +26,7 @@
   <circle cx="96" cy="86" r="10" fill="#38bdf8"/>
   <text x="118" y="92" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.5">PROJECT SHOWCASE</text>
   <text x="72" y="168" fill="url(#titleGrad)" font-family="Segoe UI, Arial, sans-serif" font-size="54" font-weight="800">123321</text>
-  <text x="72" y="218" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="400">GymMind — умный фитнес-помощник с режимами питания</text>
+  <text x="72" y="218" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="400">GymMind — умный фитнес-трекер в браузере и на телефоне</text>
   <g transform="translate(72, 256)"><rect width="84" height="34" rx="17" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.45)" stroke-width="1.2"/><text x="42" y="22" text-anchor="middle" fill="#e0f2fe" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">HTML5</text></g>
   <g transform="translate(168, 256)"><rect width="128" height="34" rx="17" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.45)" stroke-width="1.2"/><text x="64" y="22" text-anchor="middle" fill="#e0f2fe" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">JavaScript</text></g>
 </svg>
