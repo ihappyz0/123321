@@ -556,6 +556,7 @@
   var EX_GUIDE = {
     'Приседания со штангой': {
       gif: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Squat.gif',
+      gif2: 'https://media.giphy.com/media/l4FGGafcOHXe7wJ4A/giphy.gif',
       video: 'https://www.youtube.com/results?search_query=приседания+со+штангой+техника',
       tip: 'Колени идут по направлению носков, спина прямая, глубина — до параллели бедра с полом.',
       steps: ['Гриф на трапециях, стопы на ширине плеч', 'Вдох, задержка дыхания, таз назад', 'Опускайся до параллели, колени не заваливаются внутрь', 'Мощно встань, выдох в верхней точке']
