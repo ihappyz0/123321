@@ -503,8 +503,8 @@ body.nav-open .nav-overlay{opacity:1}
       <div class="card col-2" style="grid-column:1 / -1">
         <h3><span class="ico">🏋️</span> Тренировка</h3>
         <div class="divider"></div>
-        <div class="plan-split" style="grid-template-columns:1fr 300px">
-          <div>
+        <div class="workout-split">
+          <div class="ws-main">
             <div class="field" style="position:relative">
               <label>Упражнение</label>
               <input id="exSearch" placeholder="Начните вводить: жим, тяга, присед…" autocomplete="off" oninput="exSearchInput(this.value)" onfocus="exSearchInput(this.value)" />
@@ -525,14 +525,15 @@ body.nav-open .nav-overlay{opacity:1}
             </div>
             <p class="kpi-sub" id="activeWorkoutHint">Новая тренировка создаётся автоматически при добавлении упражнения.</p>
           </div>
-          <div>
-            <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">📈 Статистика</h4>
-            <div id="workoutStats"></div>
-            <div class="divider"></div>
-            <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗂 История</h4>
-            <div class="list" id="workoutList"></div>
-          </div>
         </div>
+      </div>
+      <div class="card col-2" style="grid-column:1 / -1">
+        <h3><span class="ico">📈</span> Статистика</h3>
+        <div class="divider"></div>
+        <div id="workoutStats"></div>
+        <div class="divider"></div>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗂 История тренировок</h4>
+        <div class="list" id="workoutList"></div>
       </div>
       <div class="card" style="grid-column:1 / -1">
         <div class="rec-top">
