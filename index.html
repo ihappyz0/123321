@@ -334,7 +334,7 @@ body.nav-open .nav-overlay{opacity:1}
     <button class="tab" data-view="food">Питание и вода</button>
     <button class="tab" data-view="workout">Тренировки</button>
     <button class="tab" data-view="calendar">Календарь</button>
-
+    <button class="tab" data-view="progress">Прогресс</button>
     <button class="tab" data-view="drinks">Добавки</button>
     <button class="tab" data-view="video">Видео-уроки</button>
     <button class="tab" data-view="progress">Прогресс</button>
@@ -842,7 +842,7 @@ function toast(msg) {
   toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2100);
 }
 
-function switchView(name) {
+window.switchView = function (name) {
   if (name === 'water') name = 'food';
   $$('.view').forEach(function (v) { v.classList.toggle('active', v.id === 'view-' + name); });
   $$('.tab').forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
