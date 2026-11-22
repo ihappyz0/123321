@@ -628,7 +628,6 @@ body.nav-open .nav-overlay{opacity:1}
         </div>
 
         <div class="rec-list" id="recList"></div>
-        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Скрыть лишние мышцы ⌃</button>
 
         <div class="rec-legend">
           <span><i class="rec-dot" style="background:#2dd4bf"></i> Целевой диапазон</span>
@@ -1729,7 +1728,7 @@ function renderRecovery() {
   var lbl = document.getElementById('recWeekLabel');
   if (lbl) lbl.textContent = r.mon.getDate() + ' ' + months[r.mon.getMonth()] + '.';
 
-  var rows = REC_GROUPS.slice(0, recMore ? REC_GROUPS.length : 13);
+  var rows = REC_GROUPS;
   list.innerHTML = rows.map(function (g) {
     var v = recSetsFor(g.k);
     var st = recStatus(g.k);
@@ -1744,8 +1743,7 @@ function renderRecovery() {
     '</div>';
   }).join('');
 
-  var more = document.getElementById('recMore');
-  if (more) more.textContent = recMore ? 'Скрыть лишние мышцы ⌃' : 'Показать все мышцы (19)';
+
 
   var t1 = document.getElementById('recTabs');
   if (t1) $$('#recTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.rec === recTab); });
