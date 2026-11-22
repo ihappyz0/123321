@@ -350,6 +350,27 @@
       '.gmc-items{display:flex;flex-direction:column;gap:8px;margin-top:12px}' +
       '.gmc-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:11px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);transition:.15s}' +
       '.gmc-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}' +
+      '.gmc-item.gmc-clickable{cursor:pointer}' +
+      '.gmc-item.gmc-clickable:hover{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.45);transform:translateX(2px)}' +
+      '.gmc-item.gmc-clickable:active{transform:scale(.99)}' +
+      '.gmc-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,8,14,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}' +
+      '.gmc-modal.open{display:flex}' +
+      '.gmc-modal-box{width:min(520px,100%);max-height:90vh;overflow-y:auto;background:linear-gradient(170deg,#141b2d,#0f1728);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:20px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:gmcFade .25s ease}' +
+      '@keyframes gmcFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}' +
+      '.gmc-modal-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}' +
+      '.gmc-modal-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:0 0 auto;background:linear-gradient(135deg,rgba(139,92,246,.5),rgba(45,212,191,.35))}' +
+      '.gmc-modal-head h3{font-size:16px;margin:0 0 4px;line-height:1.3}' +
+      '.gmc-modal-head p{font-size:12px;color:#8b9ab5;line-height:1.5;margin:0}' +
+      '.gmc-modal-close{margin-left:auto;width:32px;height:32px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#e8eefc;font-size:14px;cursor:pointer;font-family:inherit;flex:0 0 auto}' +
+      '.gmc-modal-info{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.26);border-radius:13px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.6;color:#dbe4f5}' +
+      '.gmc-modal-info b{color:#5eead4}' +
+      '.gmc-modal-list{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}' +
+      '.gmc-modal-list li{font-size:12.5px;line-height:1.55;color:#dbe4f5;padding:9px 12px;border-radius:11px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:8px}' +
+      '.gmc-modal-list li::before{content:"▸";color:#8b5cf6;font-weight:800}' +
+      '.gmc-modal-actions{display:flex;gap:9px;flex-wrap:wrap}' +
+      '.gmc-modal-actions button{flex:1 1 auto;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#1a2236;color:#e8eefc;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}' +
+      '.gmc-modal-actions button:hover{transform:translateY(-1px);background:#202b44}' +
+      '.gmc-modal-actions button.primary{background:linear-gradient(135deg,#8b5cf6,#6366f1);border-color:transparent;box-shadow:0 8px 22px rgba(139,92,246,.32)}' +
       '.gmc-item .gmc-dot{width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex:0 0 auto;margin-top:6px}' +
       '.gmc-card.teal .gmc-item .gmc-dot{background:#2dd4bf}' +
       '.gmc-card.amber .gmc-item .gmc-dot{background:#fbbf24}' +
@@ -378,9 +399,11 @@
     });
   }
 
-  function renderCollection(c) {
-    var items = (c.items || []).map(function (it) {
-      return '<div class="gmc-item">' +
+  function renderCollection(c, moduleKey) {
+    var items = (c.items || []).map(function (it, idx) {
+      var clickable = moduleKey === 'workout';
+      return '<div class="gmc-item' + (clickable ? ' gmc-clickable' : '') + '"' +
+        (clickable ? ' data-gmc-workout="' + esc(c.id) + '" data-gmc-idx="' + idx + '"' : '') + '>' +
         '<span class="gmc-dot"></span>' +
         '<div class="gmc-item-body">' +
           '<b>' + esc(it.n) + '</b>' +
@@ -409,7 +432,7 @@
       '<div class="gmc-head">' +
         '<h3><span>📚</span> ' + esc(title || 'Подборки') + ' <span class="gmc-count">' + list.length + '</span></h3>' +
       '</div>' +
-      '<div class="gmc-grid">' + list.map(renderCollection).join('') + '</div>' +
+      '<div class="gmc-grid">' + list.map(function (c) { return renderCollection(c, moduleKey); }).join('') + '</div>' +
     '</div>';
   }
 
@@ -459,6 +482,105 @@
       workoutView.appendChild(rWrap);
     }
   }
+
+  /* ==================== КЛИК ПО ТРЕНИРОВКЕ ==================== */
+  var WORKOUT_PLANS = {
+    '5×5 (Стронга)': { ex: ['Приседания со штангой', 'Жим штанги лёжа', 'Становая тяга', 'Жим стоя (армейский)', 'Тяга штанги в наклоне'], sets: 5, reps: 5, time: '45–60 мин' },
+    'Верх / Низ': { ex: ['Жим штанги лёжа', 'Тяга верхнего блока', 'Жим гантелей сидя', 'Подъём на бицепс штангой', 'Французский жим'], sets: 4, reps: 8, time: '50–60 мин' },
+    'Push / Pull / Legs': { ex: ['Жим штанги лёжа', 'Жим стоя (армейский)', 'Разгибание на блоке', 'Подтягивания', 'Подъём на бицепс штангой', 'Приседания со штангой'], sets: 4, reps: 10, time: '55–70 мин' },
+    'Full Body': { ex: ['Приседания со штангой', 'Жим штанги лёжа', 'Тяга штанги в наклоне', 'Жим стоя (армейский)', 'Планка'], sets: 3, reps: 10, time: '40–50 мин' },
+    'Круговая на всё тело': { ex: ['Отжимания от пола', 'Приседания с гантелью (габлет)', 'Выпады с гантелями', 'Планка', 'Подъём ног лёжа'], sets: 3, reps: 12, time: '25–30 мин' },
+    'Отжимания + приседания': { ex: ['Отжимания от пола', 'Приседания с гантелью (габлет)', 'Планка'], sets: 4, reps: 15, time: '20–25 мин' },
+    'Планка + скручивания': { ex: ['Планка', 'Скручивания на пресс', 'Подъём ног лёжа', 'Боковая планка'], sets: 3, reps: 20, time: '10–15 мин' },
+    'Резинки (band)': { ex: ['Тяга резинки к поясу', 'Разведения резинки', 'Приседания с резинкой', 'Отжимания от пола'], sets: 3, reps: 15, time: '20–25 мин' },
+    'HIIT 20 минут': { ex: ['HIIT на дорожке', 'Бёрпи', 'Скакалка', 'Махи гирей'], sets: 8, reps: 1, time: '20 мин' },
+    'Ходьба 10 000 шагов': { ex: ['Ходьба на дорожке'], sets: 1, reps: 60, time: '60–90 мин' },
+    'Скакалка': { ex: ['Скакалка', 'Прыжки на скакалке двойные'], sets: 3, reps: 60, time: '15 мин' },
+    'Гребля 20 мин': { ex: ['Гребной тренажёр'], sets: 1, reps: 20, time: '20 мин' },
+    'Суставная гимнастика': { ex: ['Вращения плечами', 'Вращения локтями', 'Вращения кистями', 'Вращения тазом'], sets: 2, reps: 10, time: '3–5 мин' },
+    'Динамическая растяжка': { ex: ['Махи ногами', 'Выпады с поворотом', 'Круги руками', 'Наклоны корпуса'], sets: 2, reps: 10, time: '5–7 мин' },
+    'Кошка-корова': { ex: ['Кошка-корова', 'Наклоны корпуса', 'Вращения тазом'], sets: 2, reps: 10, time: '3–5 мин' },
+    'Растяжка после': { ex: ['Растяжка квадрицепса', 'Растяжка бицепса бедра', 'Растяжка груди', 'Растяжка спины'], sets: 1, reps: 30, time: '5 мин' }
+  };
+
+  function openWorkoutModal(collId, idx) {
+    var coll = null;
+    for (var i = 0; i < COLLECTIONS.workout.length; i++) {
+      if (COLLECTIONS.workout[i].id === collId) { coll = COLLECTIONS.workout[i]; break; }
+    }
+    if (!coll || !coll.items[idx]) return;
+    var item = coll.items[idx];
+    var plan = WORKOUT_PLANS[item.n] || { ex: [item.n], sets: 3, reps: 10, time: '30–40 мин' };
+
+    var old = document.getElementById('gmcWorkoutModal');
+    if (old) old.parentNode.removeChild(old);
+
+    var exList = plan.ex.map(function (n) {
+      return '<li>' + esc(n) + ' · ' + plan.sets + '×' + plan.reps + '</li>';
+    }).join('');
+
+    var modal = document.createElement('div');
+    modal.id = 'gmcWorkoutModal';
+    modal.className = 'gmc-modal open';
+    modal.innerHTML =
+      '<div class="gmc-modal-box">' +
+        '<div class="gmc-modal-head">' +
+          '<div class="gmc-modal-ico">' + (coll.ico || '🏋️') + '</div>' +
+          '<div style="flex:1;min-width:0">' +
+            '<h3>' + esc(item.n) + '</h3>' +
+            '<p>' + esc(item.d || '') + '</p>' +
+          '</div>' +
+          '<button class="gmc-modal-close" data-gmc-close="1">✕</button>' +
+        '</div>' +
+        '<div class="gmc-modal-info">' +
+          '⏱ <b>' + plan.time + '</b> · ' + plan.ex.length + ' упражнений · ' + plan.sets + ' подхода × ' + plan.reps + ' повторов' +
+        '</div>' +
+        '<h4 style="font-size:12px;color:#5eead4;margin:0 0 8px;letter-spacing:.3px">📋 План тренировки</h4>' +
+        '<ul class="gmc-modal-list">' + exList + '</ul>' +
+        '<div class="gmc-modal-actions">' +
+          '<button class="primary" data-gmc-start="1">▶ Начать тренировку</button>' +
+          '<button data-gmc-close="1">Отмена</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal || e.target.getAttribute('data-gmc-close')) {
+        modal.classList.remove('open');
+        setTimeout(function () { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 200);
+        return;
+      }
+      if (e.target.getAttribute('data-gmc-start')) {
+        startWorkoutFromPlan(plan);
+        modal.classList.remove('open');
+        setTimeout(function () { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 200);
+      }
+    });
+  }
+
+  function startWorkoutFromPlan(plan) {
+    if (typeof window.switchView === 'function') window.switchView('workout');
+    var rows = document.getElementById('exRows');
+    if (rows) rows.innerHTML = '';
+    if (typeof window.addExRow === 'function') {
+      plan.ex.forEach(function (name) {
+        window.addExRow({ name: name, sets: plan.sets, reps: plan.reps, weight: '' });
+      });
+    }
+    if (typeof window.toast === 'function') window.toast('Тренировка «' + plan.ex[0] + '» загружена');
+    setTimeout(function () {
+      var target = document.getElementById('exRows');
+      if (target && target.scrollIntoView) {
+        try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+      }
+    }, 200);
+  }
+
+  document.addEventListener('click', function (e) {
+    var item = e.target.closest ? e.target.closest('[data-gmc-workout]') : null;
+    if (!item) return;
+    openWorkoutModal(item.getAttribute('data-gmc-workout'), +item.getAttribute('data-gmc-idx'));
+  });
 
   /* ==================== API ==================== */
   window.GymMindCollections = {
