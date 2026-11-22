@@ -261,6 +261,22 @@ body.nav-open .nav-overlay{opacity:1}
 .exf{display:grid;grid-template-columns:1.6fr .6fr .6fr .8fr auto;gap:7px;margin-bottom:8px;align-items:center}
 @media(max-width:560px){.exf{grid-template-columns:1fr 1fr 1fr;gap:6px}.exf .e-name{grid-column:1/-1}}
 .exf input{padding:9px 10px;font-size:12.5px;border-radius:10px}
+.ex-suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:#101828;border:1px solid rgba(139,92,246,.4);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);max-height:340px;overflow:auto;padding:6px}
+.ex-suggest::-webkit-scrollbar{width:6px}
+.ex-suggest::-webkit-scrollbar-thumb{background:#2a3752;border-radius:9px}
+.ex-s-item{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:11px;cursor:pointer;transition:.15s}
+.ex-s-item:hover,.ex-s-item.hl{background:rgba(139,92,246,.16)}
+.ex-s-item .es-ico{font-size:16px;line-height:1.2;flex:0 0 auto}
+.ex-s-item .es-body{flex:1;min-width:0}
+.ex-s-item b{font-size:12.5px;display:block;line-height:1.3}
+.ex-s-item .es-meta{font-size:10.5px;color:var(--muted);margin-top:3px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.ex-s-eff{font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;white-space:nowrap;flex:0 0 auto}
+.ex-s-eff.hi{background:rgba(52,211,153,.16);color:#6ee7b7;border:1px solid rgba(52,211,153,.35)}
+.ex-s-eff.mid{background:rgba(251,191,36,.16);color:#fcd34d;border:1px solid rgba(251,191,36,.35)}
+.ex-s-eff.lo{background:rgba(248,113,113,.14);color:#fca5a5;border:1px solid rgba(248,113,113,.3)}
+.ex-s-empty{padding:14px;text-align:center;font-size:12px;color:var(--muted)}
+.ex-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;background:rgba(139,92,246,.16);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
+.ex-tag.auto{background:rgba(45,212,191,.14);color:#5eead4;border-color:rgba(45,212,191,.3)}
 .del{width:32px;height:32px;border-radius:9px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.3);color:#fca5a5;font-size:14px;cursor:pointer;display:grid;place-items:center;font-family:inherit}
 
 /* --- План дня (обзор) --- */
@@ -894,7 +910,7 @@ window.toggleGroup = function (k) {
   if (el) el.classList.toggle('on', !!pickedGroups[k]);
 };
 
-window.addExRow = function () {
+window.addExRow = function (prefill) {
   var wrap = $('#exRows');
   var row = document.createElement('div');
   row.className = 'exf';
@@ -905,8 +921,169 @@ window.addExRow = function () {
     '<input class="e-w" type="number" inputmode="decimal" placeholder="кг" />' +
     '<button class="del" type="button">×</button>';
   row.querySelector('.del').addEventListener('click', function () { row.remove(); });
+  if (prefill) {
+    row.querySelector('.e-name').value = prefill.name || '';
+    row.querySelector('.e-sets').value = prefill.sets || '';
+    row.querySelector('.e-reps').value = prefill.reps || '';
+    row.querySelector('.e-w').value = prefill.weight || '';
+  }
   wrap.appendChild(row);
+  return row;
 };
+
+/* ---------- Умный поиск упражнений ---------- */
+/* Каталог: ключевые слова для поиска, группы мышц, эффективность 1–5,
+   базовые подходы/повторения и типовой вес (доля от веса тела). */
+var EX_LIB = [
+  { n: 'Жим штанги лёжа', kw: 'жим лежа штанга грудь bench', g: ['chest', 'triceps', 'shoulders'], eff: 5, sets: 4, reps: 8, w: 0.75, ico: '🏋️' },
+  { n: 'Жим гантелей лёжа', kw: 'жим гантели лежа грудь dumbbell', g: ['chest', 'triceps', 'shoulders'], eff: 4, sets: 4, reps: 10, w: 0.3, ico: '💪' },
+  { n: 'Отжимания от пола', kw: 'отжимания push up грудь', g: ['chest', 'triceps', 'abs'], eff: 3, sets: 3, reps: 15, w: 0, ico: '🤸' },
+  { n: 'Разведения гантелей лёжа', kw: 'разведения гантели грудь fly', g: ['chest'], eff: 3, sets: 3, reps: 12, w: 0.12, ico: '🦋' },
+  { n: 'Жим в тренажёре «Хаммер»', kw: 'жим тренажер хаммер грудь', g: ['chest', 'triceps'], eff: 3, sets: 3, reps: 10, w: 0.5, ico: '⚙️' },
+  { n: 'Подтягивания', kw: 'подтягивания турник спина pull up', g: ['back', 'biceps'], eff: 5, sets: 4, reps: 8, w: 0, ico: '🧲' },
+  { n: 'Тяга штанги в наклоне', kw: 'тяга штанга наклон спина row', g: ['back', 'biceps'], eff: 5, sets: 4, reps: 8, w: 0.6, ico: '🚣' },
+  { n: 'Тяга гантели одной рукой', kw: 'тяга гантель рука спина', g: ['back', 'biceps'], eff: 4, sets: 3, reps: 10, w: 0.25, ico: '🛶' },
+  { n: 'Тяга верхнего блока', kw: 'тяга блок верхний спина lat', g: ['back', 'biceps'], eff: 4, sets: 4, reps: 10, w: 0.5, ico: '⬇️' },
+  { n: 'Тяга нижнего блока', kw: 'тяга блок нижний спина row', g: ['back', 'biceps'], eff: 4, sets: 3, reps: 12, w: 0.5, ico: '➡️' },
+  { n: 'Становая тяга', kw: 'становая тяга deadlift спина ноги', g: ['back', 'hams', 'quads'], eff: 5, sets: 4, reps: 5, w: 1.0, ico: '🏋️' },
+  { n: 'Гиперэкстензия', kw: 'гиперэкстензия поясница спина', g: ['back', 'hams'], eff: 3, sets: 3, reps: 15, w: 0, ico: '🌉' },
+  { n: 'Приседания со штангой', kw: 'приседания штанга ноги squat', g: ['quads', 'hams', 'abs'], eff: 5, sets: 4, reps: 8, w: 0.9, ico: '🦵' },
+  { n: 'Приседания с гантелью (габлет)', kw: 'приседания гантель габлет ноги', g: ['quads', 'hams'], eff: 3, sets: 3, reps: 12, w: 0.3, ico: '🦵' },
+  { n: 'Жим ногами', kw: 'жим ногами тренажер ноги leg press', g: ['quads', 'hams'], eff: 4, sets: 4, reps: 12, w: 1.5, ico: '⚙️' },
+  { n: 'Румынская тяга', kw: 'румынская тяга бицепс бедра rdl', g: ['hams', 'back'], eff: 5, sets: 4, reps: 10, w: 0.7, ico: '🧗' },
+  { n: 'Выпады с гантелями', kw: 'выпады гантели ноги lunge', g: ['quads', 'hams'], eff: 4, sets: 3, reps: 12, w: 0.2, ico: '🚶' },
+  { n: 'Болгарский сплит-присед', kw: 'болгарский сплит присед ноги', g: ['quads', 'hams'], eff: 4, sets: 3, reps: 10, w: 0.2, ico: '🦵' },
+  { n: 'Разгибание ног в тренажёре', kw: 'разгибание ног тренажер квадрицепс', g: ['quads'], eff: 3, sets: 3, reps: 15, w: 0.4, ico: '⚙️' },
+  { n: 'Сгибание ног лёжа', kw: 'сгибание ног тренажер бицепс бедра', g: ['hams'], eff: 3, sets: 3, reps: 12, w: 0.35, ico: '⚙️' },
+  { n: 'Подъём на носки', kw: 'подъем носки икры calves', g: ['calves'], eff: 3, sets: 4, reps: 15, w: 0.5, ico: '🦶' },
+  { n: 'Жим стоя (армейский)', kw: 'жим стоя армейский плечи ohp', g: ['shoulders', 'triceps'], eff: 5, sets: 4, reps: 8, w: 0.45, ico: '🙌' },
+  { n: 'Жим гантелей сидя', kw: 'жим гантели сидя плечи', g: ['shoulders', 'triceps'], eff: 4, sets: 3, reps: 10, w: 0.2, ico: '🙌' },
+  { n: 'Махи гантелями в стороны', kw: 'махи гантели стороны плечи lateral', g: ['shoulders'], eff: 3, sets: 3, reps: 15, w: 0.08, ico: '🕊️' },
+  { n: 'Тяга к подбородку', kw: 'тяга подбородок плечи трапеция', g: ['shoulders'], eff: 3, sets: 3, reps: 12, w: 0.4, ico: '⬆️' },
+  { n: 'Подъём на бицепс штангой', kw: 'бицепс штанга curl', g: ['biceps'], eff: 4, sets: 3, reps: 10, w: 0.35, ico: '💪' },
+  { n: 'Подъём гантелей на бицепс', kw: 'бицепс гантели curl', g: ['biceps'], eff: 3, sets: 3, reps: 12, w: 0.12, ico: '💪' },
+  { n: 'Молотковые сгибания', kw: 'молоток бицепс гантели hammer', g: ['biceps'], eff: 3, sets: 3, reps: 12, w: 0.14, ico: '🔨' },
+  { n: 'Французский жим', kw: 'французский жим трицепс', g: ['triceps'], eff: 4, sets: 3, reps: 10, w: 0.25, ico: '🇫🇷' },
+  { n: 'Брусья на трицепс', kw: 'брусья трицепс dips', g: ['triceps', 'chest'], eff: 4, sets: 3, reps: 10, w: 0, ico: '🔽' },
+  { n: 'Разгибание на блоке', kw: 'разгибание блок трицепс pushdown', g: ['triceps'], eff: 3, sets: 3, reps: 15, w: 0.3, ico: '⬇️' },
+  { n: 'Планка', kw: 'планка пресс кор plank', g: ['abs'], eff: 4, sets: 3, reps: 60, w: 0, ico: '🧘' },
+  { n: 'Скручивания на пресс', kw: 'скручивания пресс кор crunch', g: ['abs'], eff: 3, sets: 3, reps: 20, w: 0, ico: '🌀' },
+  { n: 'Подъём ног в висе', kw: 'подъем ног вис пресс', g: ['abs'], eff: 4, sets: 3, reps: 12, w: 0, ico: '🦵' },
+  { n: 'Dead Bug', kw: 'dead bug пресс кор', g: ['abs'], eff: 3, sets: 3, reps: 12, w: 0, ico: '🐞' },
+  { n: 'Бег на дорожке', kw: 'бег дорожка кардио run', g: [], eff: 3, sets: 1, reps: 20, w: 0, ico: '🏃' },
+  { n: 'HIIT на дорожке', kw: 'hiit интервалы кардио дорожка', g: [], eff: 4, sets: 8, reps: 1, w: 0, ico: '🔥' },
+  { n: 'Гребной тренажёр', kw: 'гребля тренажер кардио rowing', g: ['back'], eff: 4, sets: 1, reps: 20, w: 0, ico: '🚣' },
+  { n: 'Скакалка', kw: 'скакалка кардио jump rope', g: ['calves'], eff: 3, sets: 3, reps: 60, w: 0, ico: '🪢' }
+];
+
+var GROUP_NAMES = { chest: 'Грудь', back: 'Спина', shoulders: 'Плечи', biceps: 'Бицепс', triceps: 'Трицепс', abs: 'Пресс', quads: 'Квадрицепс', hams: 'Бицепс бедра', calves: 'Икры' };
+
+function exNorm(s) {
+  return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function exScore(ex, q) {
+  var nq = exNorm(q);
+  if (!nq) return 0;
+  var name = exNorm(ex.n);
+  var kw = exNorm(ex.kw);
+  var score = 0;
+  if (name === nq) score += 100;
+  if (name.indexOf(nq) === 0) score += 60;
+  else if (name.indexOf(nq) >= 0) score += 40;
+  var words = nq.split(' ').filter(function (w) { return w.length > 1; });
+  words.forEach(function (w) {
+    if (name.indexOf(w) >= 0) score += 18;
+    else if (kw.indexOf(w) >= 0) score += 12;
+  });
+  if (!score && kw.indexOf(nq) >= 0) score += 10;
+  return score;
+}
+
+function exEffLabel(eff) {
+  if (eff >= 5) return { cls: 'hi', txt: '★★★★★ топ' };
+  if (eff === 4) return { cls: 'hi', txt: '★★★★ очень эффективно' };
+  if (eff === 3) return { cls: 'mid', txt: '★★★ средне' };
+  return { cls: 'lo', txt: '★★ слабо' };
+}
+
+function exLastUsed(ex) {
+  var best = null;
+  S.workouts.forEach(function (w) {
+    (w.exercises || []).forEach(function (e) {
+      if (exNorm(e.name) === exNorm(ex.n)) {
+        if (!best || w.date > best.date) best = { date: w.date, sets: e.sets, reps: e.reps, weight: e.weight };
+      }
+    });
+  });
+  return best;
+}
+
+function exSuggestList(q) {
+  var scored = EX_LIB.map(function (ex) { return { ex: ex, s: exScore(ex, q) }; })
+    .filter(function (x) { return x.s > 0; })
+    .sort(function (a, b) { return b.s - a.s; });
+  if (!scored.length) return [];
+  return scored.slice(0, 8).map(function (x) { return x.ex; });
+}
+
+window.exSearchInput = function (q) {
+  var box = $('#exSuggest');
+  if (!box) return;
+  var list = exSuggestList(q);
+  if (!q || !q.trim()) {
+    list = EX_LIB.slice(0, 6);
+  }
+  if (!list.length) {
+    box.innerHTML = '<div class="ex-s-empty">Ничего не нашлось — добавьте упражнение вручную кнопкой ниже.</div>';
+    box.hidden = false;
+    return;
+  }
+  box.innerHTML = list.map(function (ex, i) {
+    var eff = exEffLabel(ex.eff);
+    var last = exLastUsed(ex);
+    var lastTxt = last ? ('в прошлый раз: ' + last.sets + '×' + last.reps + (last.weight ? ' · ' + last.weight + ' кг' : '')) : 'ещё не делали';
+    var groups = ex.g.map(function (g) { return GROUP_NAMES[g] || g; }).join(' · ');
+    return '<div class="ex-s-item" data-idx="' + EX_LIB.indexOf(ex) + '" onclick="exPick(' + EX_LIB.indexOf(ex) + ')">' +
+      '<span class="es-ico">' + ex.ico + '</span>' +
+      '<div class="es-body"><b>' + esc(ex.n) + '</b>' +
+        '<div class="es-meta"><span class="ex-tag">' + (groups || 'Кардио') + '</span><span>' + lastTxt + '</span></div>' +
+      '</div>' +
+      '<span class="ex-s-eff ' + eff.cls + '">' + eff.txt + '</span>' +
+    '</div>';
+  }).join('');
+  box.hidden = false;
+};
+
+window.exPick = function (idx) {
+  var ex = EX_LIB[idx];
+  if (!ex) return;
+  var last = exLastUsed(ex);
+  var bw = lastWeight() || S.profile.weight || 75;
+  var prefill = {
+    name: ex.n,
+    sets: last ? last.sets : ex.sets,
+    reps: last ? last.reps : ex.reps,
+    weight: last ? last.weight : (ex.w ? Math.round(ex.w * bw / 2.5) * 2.5 : '')
+  };
+  addExRow(prefill);
+  /* авто-выбор целевых групп */
+  ex.g.forEach(function (g) {
+    if (!pickedGroups[g]) { pickedGroups[g] = true; var el = $('.gchip[data-m="' + g + '"]'); if (el) el.classList.add('on'); }
+  });
+  var box = $('#exSuggest');
+  if (box) { box.hidden = true; box.innerHTML = ''; }
+  var inp = $('#exSearch');
+  if (inp) inp.value = '';
+  toast(ex.n + ' добавлено · ' + exEffLabel(ex.eff).txt);
+};
+
+document.addEventListener('click', function (e) {
+  var box = $('#exSuggest');
+  if (!box || box.hidden) return;
+  if (e.target.closest('#exSuggest') || e.target.id === 'exSearch') return;
+  box.hidden = true;
+});
 
 window.saveWorkout = function () {
   var title = $('#wTitle').value.trim() || 'Тренировка';
