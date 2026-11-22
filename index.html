@@ -1419,6 +1419,8 @@ document.addEventListener('click', function (e) {
   box.hidden = true;
 });
 
+window.finishWorkout = function () { return window.saveWorkout(); };
+
 window.saveWorkout = function () {
   var titleEl = $('#wTitle');
   var durEl = $('#wDur');
