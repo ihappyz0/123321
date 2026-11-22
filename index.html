@@ -334,6 +334,7 @@ body.nav-open .nav-overlay{opacity:1}
     <button class="tab" data-view="food">Питание и вода</button>
     <button class="tab" data-view="workout">Тренировки</button>
     <button class="tab" data-view="calendar">Календарь</button>
+
     <button class="tab" data-view="drinks">Добавки</button>
     <button class="tab" data-view="video">Видео-уроки</button>
     <button class="tab" data-view="progress">Прогресс</button>
@@ -408,6 +409,43 @@ body.nav-open .nav-overlay{opacity:1}
       <div class="card col-2">
         <h3><span class="ico">🗂</span> История</h3>
         <div class="list" id="workoutList"></div>
+      </div>
+      <div class="card">
+        <h3><span class="ico">🧍</span> Карта восстановления</h3>
+        <svg class="body-svg" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
+          <circle class="sil" cx="100" cy="30" r="22"/>
+          <path class="sil" d="M100 54 L128 66 L132 150 L120 210 L80 210 L68 150 L72 66 Z"/>
+          <rect class="sil" x="60" y="200" width="34" height="150" rx="16"/>
+          <rect class="sil" x="106" y="200" width="34" height="150" rx="16"/>
+          <ellipse class="muscle" data-m="shoulders" cx="66" cy="86" rx="15" ry="13"/>
+          <ellipse class="muscle" data-m="shoulders" cx="134" cy="86" rx="15" ry="13"/>
+          <ellipse class="muscle" data-m="chest" cx="86" cy="104" rx="16" ry="15"/>
+          <ellipse class="muscle" data-m="chest" cx="114" cy="104" rx="16" ry="15"/>
+          <ellipse class="muscle" data-m="biceps" cx="55" cy="128" rx="10" ry="20"/>
+          <ellipse class="muscle" data-m="biceps" cx="145" cy="128" rx="10" ry="20"/>
+          <rect class="muscle" data-m="abs" x="86" y="126" width="28" height="72" rx="10"/>
+          <ellipse class="muscle" data-m="quads" cx="84" cy="250" rx="15" ry="42"/>
+          <ellipse class="muscle" data-m="quads" cx="116" cy="250" rx="15" ry="42"/>
+          <ellipse class="muscle" data-m="calves" cx="84" cy="350" rx="11" ry="26"/>
+          <ellipse class="muscle" data-m="calves" cx="116" cy="350" rx="11" ry="26"/>
+        </svg>
+        <div class="legend">
+          <span><i style="background:#f87171"></i> сегодня</span>
+          <span><i style="background:#fbbf24"></i> восстановление</span>
+          <span><i style="background:#34d399"></i> готово</span>
+          <span><i style="background:#2b3a5c"></i> нет данных</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="ico">🦵</span> Группы и статус</h3>
+        <div id="muscleList"></div>
+      </div>
+      <div class="card">
+        <h3><span class="ico">💡</span> Рекомендации</h3>
+        <div class="advice">
+          <h4>Что тренировать дальше</h4>
+          <ul id="muscleTips"></ul>
+        </div>
       </div>
     </div>
   </section>
