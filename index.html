@@ -502,6 +502,9 @@ body.nav-open .nav-overlay{opacity:1}
       <div class="card">
         <h3><span class="ico">📈</span> Статистика</h3>
         <div id="workoutStats"></div>
+        <div class="divider"></div>
+        <h4 style="font-size:13px;color:#5eead4;margin-bottom:8px">🗂 История</h4>
+        <div class="list" id="workoutList"></div>
       </div>
       <div class="card col-2">
         <div class="rec-top">
@@ -520,19 +523,11 @@ body.nav-open .nav-overlay{opacity:1}
         </div>
       </div>
       <div class="card">
-        <h3><span class="ico">🦵</span> Группы и статус</h3>
-        <div id="muscleList"></div>
-      </div>
-      <div class="card">
         <h3><span class="ico">💡</span> Рекомендации</h3>
         <div class="advice">
           <h4>Что тренировать дальше</h4>
           <ul id="muscleTips"></ul>
         </div>
-      </div>
-      <div class="card col-2">
-        <h3><span class="ico">🗂</span> История</h3>
-        <div class="list" id="workoutList"></div>
       </div>
     </div>
   </section>
@@ -1478,6 +1473,7 @@ var REC_GROUPS = [
   { k: 'serratus', n: 'Зубчатая мышца', lo: 0, hi: 0 }
 ];
 var recMore = true; /* список мышц раскрыт по умолчанию */
+var recReady = false;
 var recWeekOffset = 0;
 var recTab = 'sets';
 var recTab2 = 'done';
