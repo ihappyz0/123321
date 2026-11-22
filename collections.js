@@ -529,28 +529,30 @@
   /* ==================== БАЗА ЗНАНИЙ ПО УПРАЖНЕНИЯМ ==================== */
   /* Для каждого упражнения: gif (URL анимации техники), video (ссылка на YouTube),
      tip (главный совет по технике) и steps (пошаговая техника). */
+  /* GIF-анимации техники. Основной источник — fitnessprogramer.com,
+     резерв — musclewiki.com (публичные CDN с анимациями упражнений). */
   var EX_GIF = {
-    'Приседания со штангой': 'https://wger.de/media/exercise-images/192/8d4b5c0e-8c1a-4b0e-9c1e-1a2b3c4d5e6f.gif',
-    'Жим штанги лёжа': 'https://wger.de/media/exercise-images/192/1e2d3c4b-5a6f-7e8d-9c0b-1a2b3c4d5e6f.gif',
-    'Становая тяга': 'https://wger.de/media/exercise-images/192/2f3e4d5c-6b7a-8f9e-0d1c-2b3a4d5e6f7a.gif',
-    'Жим стоя (армейский)': 'https://wger.de/media/exercise-images/192/3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d.gif',
-    'Тяга штанги в наклоне': 'https://wger.de/media/exercise-images/192/4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e.gif',
-    'Подтягивания': 'https://wger.de/media/exercise-images/192/5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f.gif',
-    'Отжимания от пола': 'https://wger.de/media/exercise-images/192/6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a.gif',
-    'Планка': 'https://wger.de/media/exercise-images/192/7e8f9a0b-1c2d-3e4f-5a6b-7c8d9e0f1a2b.gif',
-    'Скручивания на пресс': 'https://wger.de/media/exercise-images/192/8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c.gif',
-    'Подъём ног лёжа': 'https://wger.de/media/exercise-images/192/9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d.gif',
-    'Боковая планка': 'https://wger.de/media/exercise-images/192/0b1c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e.gif',
-    'Выпады с гантелями': 'https://wger.de/media/exercise-images/192/1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f.gif',
-    'Приседания с гантелью (габлет)': 'https://wger.de/media/exercise-images/192/2d3e4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a.gif',
-    'HIIT на дорожке': 'https://wger.de/media/exercise-images/192/3e4f5a6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b.gif',
-    'Бёрпи': 'https://wger.de/media/exercise-images/192/4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c.gif',
-    'Скакалка': 'https://wger.de/media/exercise-images/192/5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d.gif',
-    'Махи гирей': 'https://wger.de/media/exercise-images/192/6b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e.gif',
-    'Суставная гимнастика': 'https://wger.de/media/exercise-images/192/7c8d9e0f-1a2b-3c4d-5e6f-7a8b9c0d1e2f.gif',
-    'Динамическая растяжка': 'https://wger.de/media/exercise-images/192/8d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a.gif',
-    'Кошка-корова': 'https://wger.de/media/exercise-images/192/9e0f1a2b-3c4d-5e6f-7a8b-9c0d1e2f3a4b.gif',
-    'Растяжка после': 'https://wger.de/media/exercise-images/192/0f1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c.gif'
+    'Приседания со штангой': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
+    'Жим штанги лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
+    'Становая тяга': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
+    'Жим стоя (армейский)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Shoulder-Press.gif',
+    'Тяга штанги в наклоне': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
+    'Подтягивания': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-Up.gif',
+    'Отжимания от пола': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+    'Планка': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+    'Скручивания на пресс': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Crunch.gif',
+    'Подъём ног лёжа': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Raise.gif',
+    'Боковая планка': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Side-Plank.gif',
+    'Выпады с гантелями': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif',
+    'Приседания с гантелью (габлет)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Goblet-Squat.gif',
+    'HIIT на дорожке': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Running-on-Treadmill.gif',
+    'Бёрпи': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
+    'Скакалка': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jump-Rope.gif',
+    'Махи гирей': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Kettlebell-Swing.gif',
+    'Суставная гимнастика': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Arm-Circles.gif',
+    'Динамическая растяжка': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Swing.gif',
+    'Кошка-корова': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cat-Cow.gif',
+    'Растяжка после': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Hamstring-Stretch.gif'
   };
 
   var EX_GUIDE = {
