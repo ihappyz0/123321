@@ -1575,6 +1575,7 @@ window.savePlannedWorkout = function () {
   if (!Array.isArray(S.planned)) S.planned = [];
   S.planned.push({ id: uid(), date: date, title: title, groups: groups, exercises: exs });
   save();
+  clearPlanDraft();
 
   $('#planExRows').innerHTML = '';
   planPickedGroups = {};
@@ -2050,6 +2051,38 @@ window.cancelWorkout = function () {
   addExRow();
   toast('Тренировка отменена');
 };
+
+/* ---------- Черновик плана (сохраняется между перезагрузками) ---------- */
+var PLAN_DRAFT_KEY = 'gm_plan_draft';
+function savePlanDraft() {
+  try {
+    var rows = $$('#planExRows .exf').map(function (r) {
+      return {
+        name: r.querySelector('.e-name').value,
+        sets: r.querySelector('.e-sets').value,
+        reps: r.querySelector('.e-reps').value,
+        weight: r.querySelector('.e-w').value
+      };
+    });
+    var dateEl = $('#planDate');
+    var draft = {
+      rows: rows,
+      groups: Object.keys(planPickedGroups).filter(function (k) { return planPickedGroups[k]; }),
+      date: dateEl ? dateEl.value : ''
+    };
+    localStorage.setItem(PLAN_DRAFT_KEY, JSON.stringify(draft));
+  } catch (e) {}
+}
+function loadPlanDraft() {
+  try {
+    var raw = localStorage.getItem(PLAN_DRAFT_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) { return null; }
+}
+function clearPlanDraft() {
+  try { localStorage.removeItem(PLAN_DRAFT_KEY); } catch (e) {}
+}
 
 window.saveWorkout = function () {
   var titleEl = $('#wTitle');
