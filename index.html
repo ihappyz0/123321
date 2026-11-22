@@ -365,11 +365,6 @@ body.nav-open .nav-overlay{opacity:1}
         <div class="kpi-row"><span class="kpi amber" id="waterKpi">0</span><span class="unit" id="waterUnit">/ 2600 мл</span></div>
         <div class="bar amber"><i id="waterBar"></i></div>
         <p class="kpi-sub" id="waterHint">Норма рассчитана по весу: 35 мл на кг.</p>
-        <div class="btn-row">
-          <button class="btn teal" onclick="addWater(250)">+250 мл</button>
-          <button class="btn teal" onclick="addWater(500)">+500 мл</button>
-          <button class="btn ghost" onclick="resetWater()">Сброс</button>
-        </div>
         <div class="divider"></div>
         <div class="chart" id="waterChart"></div>
       </div>
@@ -1388,18 +1383,6 @@ function renderOverview() {
 
   $('#overviewGrid').innerHTML =
     '<div class="card">' +
-      '<h3><span class="ico">🔥</span> Калории сегодня</h3>' +
-      '<div class="kpi-row"><span class="kpi">' + fmt(t.kcal) + '</span><span class="unit">/ ' + fmt(g.kcal) + '</span></div>' +
-      '<div class="bar"><i style="width:' + kcalPct + '%"></i></div>' +
-      '<p class="kpi-sub">' + (t.kcal === 0 ? 'Ничего не записано — начните с завтрака.' : 'Осталось ' + fmt(Math.max(0, g.kcal - t.kcal)) + ' ккал') + '</p>' +
-    '</div>' +
-    '<div class="card">' +
-      '<h3><span class="ico">💧</span> Вода</h3>' +
-      '<div class="kpi-row"><span class="kpi amber">' + fmt(ml) + '</span><span class="unit">/ ' + fmt(wg) + ' мл</span></div>' +
-      '<div class="bar amber"><i style="width:' + waterPct + '%"></i></div>' +
-      '<div class="btn-row"><button class="btn sm teal" onclick="addWater(250)">+250</button><button class="btn sm teal" onclick="addWater(500)">+500</button></div>' +
-    '</div>' +
-    '<div class="card">' +
       '<h3><span class="ico">🏋️</span> Тренировки</h3>' +
       '<div class="kpi-row"><span class="kpi">' + week + '</span><span class="unit">/ ' + plan + ' за неделю</span></div>' +
       '<div class="bar green"><i style="width:' + weekPct + '%"></i></div>' +
@@ -1410,7 +1393,7 @@ function renderOverview() {
       '<div class="kpi-row"><span class="kpi pink">' + cur.toFixed(1) + '</span><span class="unit">кг</span></div>' +
       '<p class="kpi-sub">Цель: ' + S.profile.goal + ' · норма воды ' + fmt(wg) + ' мл</p>' +
     '</div>' +
-    '<div class="card col-2">' +
+    '<div class="card">' +
       '<h3><span class="ico">📅</span> Калории за 7 дней</h3>' + weekFoodChart() +
     '</div>' +
     '<div class="card">' +
