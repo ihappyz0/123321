@@ -1461,9 +1461,13 @@ function recWeekRange() {
 
 function recSetsFor(key) {
   var r = recWeekRange(), total = 0;
+  var aliases = { lats: ['back'], upperback: ['back'], traps: ['back', 'shoulders'], lowerback: ['back'], glutes: ['hams', 'quads'], frontdelt: ['shoulders'], middelt: ['shoulders'], reardelt: ['shoulders'], adductors: ['quads'], forearms: ['biceps', 'triceps'], obliques: ['abs'], serratus: ['chest', 'abs'] };
+  var keys = [key].concat(aliases[key] || []);
   S.workouts.forEach(function (w) {
     if (w.date < r.from || w.date > r.to) return;
-    if ((w.groups || []).indexOf(key) < 0) return;
+    var groups = w.groups || [];
+    var matched = keys.some(function (k) { return groups.indexOf(k) >= 0; });
+    if (!matched) return;
     (w.exercises || []).forEach(function (e) { total += +e.sets || 0; });
   });
   return total;
