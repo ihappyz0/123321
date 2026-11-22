@@ -365,8 +365,31 @@
       '.gmc-modal-info{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.26);border-radius:13px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.6;color:#dbe4f5}' +
       '.gmc-modal-info b{color:#5eead4}' +
       '.gmc-modal-list{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}' +
-      '.gmc-modal-list li{font-size:12.5px;line-height:1.55;color:#dbe4f5;padding:9px 12px;border-radius:11px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:8px}' +
-      '.gmc-modal-list li::before{content:"▸";color:#8b5cf6;font-weight:800}' +
+      '.gmc-modal-list{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}' +
+      '.gmc-modal-list>li{font-size:12.5px;line-height:1.55;color:#dbe4f5;border-radius:11px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden;transition:.2s}' +
+      '.gmc-modal-list>li.gmc-ex.open{border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.07)}' +
+      '.gmc-ex-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer;user-select:none}' +
+      '.gmc-ex-head:hover{background:rgba(255,255,255,.03)}' +
+      '.gmc-ex-arrow{color:#8b5cf6;font-weight:800;font-size:11px;transition:transform .2s;flex:0 0 auto}' +
+      '.gmc-ex.open .gmc-ex-arrow{transform:rotate(90deg)}' +
+      '.gmc-ex-name{flex:1;min-width:0;font-size:12.5px;font-weight:700;line-height:1.3}' +
+      '.gmc-ex-sets{font-size:10.5px;font-weight:800;color:#5eead4;white-space:nowrap;flex:0 0 auto}' +
+      '.gmc-ex-body{display:none;padding:0 12px 13px}' +
+      '.gmc-ex.open .gmc-ex-body{display:block}' +
+      '.gmc-ex-media{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}' +
+      '@media(max-width:480px){.gmc-ex-media{grid-template-columns:1fr}}' +
+      '.gmc-ex-gif{aspect-ratio:4/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(45,212,191,.2));display:grid;place-items:center;position:relative}' +
+      '.gmc-ex-gif img{width:100%;height:100%;object-fit:cover;display:block}' +
+      '.gmc-ex-gif .gmc-gif-ph{font-size:34px;opacity:.85}' +
+      '.gmc-ex-gif .gmc-gif-lbl{position:absolute;left:6px;bottom:6px;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;background:rgba(5,8,14,.8);color:#5eead4;text-transform:uppercase;letter-spacing:.4px}' +
+      '.gmc-ex-video{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid rgba(248,113,113,.35);background:rgba(248,113,113,.1);color:#fca5a5;font-size:11.5px;font-weight:800;text-decoration:none;transition:.2s;padding:10px;text-align:center}' +
+      '.gmc-ex-video:hover{background:rgba(248,113,113,.18);transform:translateY(-1px)}' +
+      '.gmc-ex-video .gmc-v-ico{font-size:22px}' +
+      '.gmc-ex-tip{font-size:11.5px;line-height:1.6;color:#dbe4f5;margin:0 0 8px}' +
+      '.gmc-ex-tip b{color:#5eead4}' +
+      '.gmc-ex-steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}' +
+      '.gmc-ex-steps li{font-size:11px;line-height:1.5;color:#c9d5ec;padding-left:14px;position:relative}' +
+      '.gmc-ex-steps li::before{content:"▸";position:absolute;left:0;color:#8b5cf6;font-weight:800}' +
       '.gmc-ex{border-radius:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden;transition:.2s}' +
       '.gmc-ex.open{border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.07)}' +
       '.gmc-ex-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer;user-select:none}' +
@@ -671,8 +694,32 @@
     var old = document.getElementById('gmcWorkoutModal');
     if (old) old.parentNode.removeChild(old);
 
-    var exList = plan.ex.map(function (n) {
-      return '<li>' + esc(n) + ' · ' + plan.sets + '×' + plan.reps + '</li>';
+    var exList = plan.ex.map(function (n, i) {
+      var g = EX_GUIDE[n] || {};
+      var gif = g.gif || '';
+      var video = g.video || ('https://www.youtube.com/results?search_query=' + encodeURIComponent(n + ' техника'));
+      var tip = g.tip || 'Следи за техникой и не гонись за весом в первых подходах.';
+      var steps = (g.steps || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
+      return '<li class="gmc-ex" data-gmc-ex="' + i + '">' +
+        '<div class="gmc-ex-head" data-gmc-extoggle="' + i + '">' +
+          '<span class="gmc-ex-arrow">▶</span>' +
+          '<span class="gmc-ex-name">' + esc(n) + '</span>' +
+          '<span class="gmc-ex-sets">' + plan.sets + '×' + plan.reps + '</span>' +
+        '</div>' +
+        '<div class="gmc-ex-body">' +
+          '<div class="gmc-ex-media">' +
+            '<div class="gmc-ex-gif">' +
+              (gif ? '<img src="' + esc(gif) + '" alt="' + esc(n) + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.gmc-gif-ph\').style.display=\'grid\'" /><span class="gmc-gif-ph" style="display:none">🏋️</span>' : '<span class="gmc-gif-ph">🏋️</span>') +
+              '<span class="gmc-gif-lbl">GIF · техника</span>' +
+            '</div>' +
+            '<a class="gmc-ex-video" href="' + esc(video) + '" target="_blank" rel="noopener">' +
+              '<span class="gmc-v-ico">▶</span>Смотреть видео' +
+            '</a>' +
+          '</div>' +
+          '<p class="gmc-ex-tip"><b>Совет:</b> ' + esc(tip) + '</p>' +
+          (steps ? '<ul class="gmc-ex-steps">' + steps + '</ul>' : '') +
+        '</div>' +
+      '</li>';
     }).join('');
 
     var modal = document.createElement('div');
@@ -701,6 +748,12 @@
     document.body.appendChild(modal);
 
     modal.addEventListener('click', function (e) {
+      var toggle = e.target.closest ? e.target.closest('[data-gmc-extoggle]') : null;
+      if (toggle) {
+        var li = toggle.parentNode;
+        if (li) li.classList.toggle('open');
+        return;
+      }
       if (e.target === modal || e.target.getAttribute('data-gmc-close')) {
         modal.classList.remove('open');
         setTimeout(function () { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 200);
