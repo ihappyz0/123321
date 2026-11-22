@@ -504,62 +504,20 @@ body.nav-open .nav-overlay{opacity:1}
         <div id="workoutStats"></div>
       </div>
       <div class="card col-2">
-        <h3><span class="ico">🧍</span> Карта восстановления</h3>
-        <div class="rec-tabs" id="recTabs">
-          <button class="on" data-rec="sets">Подходы</button>
-          <button data-rec="fatigue">Усталость</button>
-          <button data-rec="strength">Сила</button>
+        <div class="rec-top">
+          <h3 class="rec-title-clean">Карта восстановления</h3>
+          <span class="rec-sub">За последние 7 дней</span>
         </div>
 
-        <div class="rec-body">
-          <svg class="rec-svg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#2a3a5c"/>
-                <stop offset="1" stop-color="#1b2740"/>
-              </linearGradient>
-              <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#3a4d75"/>
-                <stop offset="1" stop-color="#24314e"/>
-              </linearGradient>
-            </defs>
-            <ellipse class="sil" cx="100" cy="34" rx="20" ry="24" fill="url(#skinGrad)"/>
-            <path class="sil" d="M92 56 L108 56 L110 70 L90 70 Z" fill="url(#skinGrad)"/>
-            <path class="sil" d="M100 68 C82 68 66 74 58 84 C54 92 56 108 60 120 L64 168 L72 200 L128 200 L136 168 L140 120 C144 108 146 92 142 84 C134 74 118 68 100 68 Z" fill="url(#skinGrad)"/>
-            <path class="sil" d="M58 84 C48 92 44 112 42 134 L40 176 C39 186 44 192 50 192 C56 192 60 186 60 176 L62 134 L64 108 Z" fill="url(#skinGrad)"/>
-            <path class="sil" d="M142 84 C152 92 156 112 158 134 L160 176 C161 186 156 192 150 192 C144 192 140 186 140 176 L138 134 L136 108 Z" fill="url(#skinGrad)"/>
-            <path class="sil" d="M72 200 L68 260 L66 320 L64 400 C63 412 70 418 78 418 C86 418 92 412 92 400 L94 320 L96 260 L98 200 Z" fill="url(#skinGrad)"/>
-            <path class="sil" d="M128 200 L132 260 L134 320 L136 400 C137 412 130 418 122 418 C114 418 108 412 108 400 L106 320 L104 260 L102 200 Z" fill="url(#skinGrad)"/>
-            <ellipse class="muscle" data-m="shoulders" cx="62" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="shoulders" cx="138" cy="90" rx="13" ry="15" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="chest" d="M74 100 C80 96 92 96 98 102 L98 122 C92 126 80 126 74 120 Z" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="chest" d="M126 100 C120 96 108 96 102 102 L102 122 C108 126 120 126 126 120 Z" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="biceps" cx="50" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="biceps" cx="150" cy="128" rx="9" ry="20" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="triceps" cx="56" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="triceps" cx="144" cy="150" rx="7" ry="16" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="88" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="102" y="128" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="88" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="102" y="144" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="88" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <rect class="muscle" data-m="abs" x="102" y="160" width="10" height="12" rx="2" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="quads" d="M78 210 C72 230 70 260 72 290 L92 290 C92 260 92 230 90 210 Z" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="quads" d="M122 210 C128 230 130 260 128 290 L108 290 C108 260 108 230 110 210 Z" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="hams" d="M68 300 C66 320 66 340 68 360 L78 360 C80 340 80 320 78 300 Z" fill="url(#muscleGrad)"/>
-            <path class="muscle" data-m="hams" d="M132 300 C134 320 134 340 132 360 L122 360 C120 340 120 320 122 300 Z" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="calves" cx="78" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
-            <ellipse class="muscle" data-m="calves" cx="122" cy="380" rx="10" ry="24" fill="url(#muscleGrad)"/>
-          </svg>
-        </div>
-        <div class="rec-head" id="recHead"><span>Мышца</span><span>Подходы за неделю</span></div>
+        <div class="rec-summary" id="recSummary"></div>
+
         <div class="rec-list" id="recList"></div>
-        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Показать ещё ⌄</button>
+        <button class="rec-more" id="recMore" onclick="toggleRecMore()">Показать все мышцы (19)</button>
+
         <div class="rec-legend">
-          <span><i class="rec-lg"></i> Целевой диапазон</span>
-          <span><i class="rec-lg2"></i> Запланировано</span>
+          <span><i class="rec-dot" style="background:#2dd4bf"></i> Целевой диапазон</span>
+          <span><i class="rec-dot" style="background:#6366f1"></i> Запланировано</span>
         </div>
-        <button class="rec-ranges" onclick="toast('Диапазоны подходов настраиваются в профиле')">⇄ Диапазоны</button>
       </div>
       <div class="card">
         <h3><span class="ico">🦵</span> Группы и статус</h3>
@@ -1615,61 +1573,7 @@ function renderRecovery() {
   });
 }
 
-/* интерактивность карты: тултип при наведении/клике */
-(function () {
-  var body = document.getElementById('recBody');
-  if (!body) return;
-  var tip = document.getElementById('recTooltip');
 
-  function showTip(el, ev) {
-    if (!tip) return;
-    var k = el.dataset.m;
-    var g = REC_GROUPS.filter(function (x) { return x.k === k; })[0];
-    if (!g) return;
-    var v = recSetsFor(k);
-    var st = recStatus(k);
-    var range = g.hi > 0 ? (' / ' + g.lo + '–' + g.hi) : '';
-    tip.innerHTML = '<b>' + g.n + '</b><span class="tt-num">' + v + range + ' · ' + st.txt + '</span>';
-    var rect = body.getBoundingClientRect();
-    var x = (ev.clientX - rect.left) + 12;
-    var y = (ev.clientY - rect.top) - 10;
-    tip.style.left = x + 'px';
-    tip.style.top = y + 'px';
-    tip.classList.add('show');
-    el.classList.add('active');
-  }
-  function hideTip(el) {
-    if (tip) tip.classList.remove('show');
-    if (el) el.classList.remove('active');
-  }
-  body.addEventListener('mouseover', function (e) {
-    var el = e.target.closest('.body-part');
-    if (el) showTip(el, e);
-  });
-  body.addEventListener('mousemove', function (e) {
-    var el = e.target.closest('.body-part');
-    if (el) showTip(el, e);
-  });
-  body.addEventListener('mouseout', function (e) {
-    var el = e.target.closest('.body-part');
-    if (el) hideTip(el);
-  });
-  body.addEventListener('click', function (e) {
-    var el = e.target.closest('.body-part');
-    if (el) showTip(el, e);
-  });
-})();
-
-document.addEventListener('click', function (e) {
-  var b1 = e.target.closest && e.target.closest('#recTabs button');
-  if (b1) { recTab = b1.dataset.rec; renderRecovery(); return; }
-  var b2 = e.target.closest && e.target.closest('#recTabs2 button');
-  if (b2) {
-    if (b2.dataset.rec2 === 'week') { recWeekOffset = 0; }
-    recTab2 = b2.dataset.rec2;
-    renderRecovery();
-  }
-});
 
 /* ---------- Мышцы ---------- */
 function renderMuscles() {
